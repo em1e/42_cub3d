@@ -1,0 +1,12 @@
+# Things to be ignored:
+# the program itself
+cub3D
+
+# objects
+*.o
+
+# libraries
+*.a
+
+# local stash (for personal testing files etc)
+local/*
