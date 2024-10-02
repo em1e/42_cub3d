@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+         #
+#    By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/25 19:49:37 by vkettune          #+#    #+#              #
-#    Updated: 2024/09/25 21:22:55 by vkettune         ###   ########.fr        #
+#    Updated: 2024/10/02 14:04:36 by jajuntti         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,9 +24,11 @@ MLX42_DIR = ./libs/MLX42/
 LIBS = $(LIBFT) $(MLX42) -I include -lglfw \
 		-L"/Users/$(USER)/.brew/opt/glfw/lib/"
 
-FILES = main.c
+FILES = main.c \
+		quit.c \
+		utils.c
 
-PARSING_FILES = main_parser.c
+PARSING_FILES = parse_kissa.c
 
 # IMAGES_FILES = put_images.c
 

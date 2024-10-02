@@ -3,27 +3,86 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 20:38:06 by vkettune          #+#    #+#             */
-/*   Updated: 2024/09/25 23:02:51 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/02 16:00:31 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-
-int	arg_error(int argc)
+void	check_args(int argc)
 {
-	if (argc != 2)
+	if (argc < 2)
+		quit_error(NULL, NULL, "map is required");
+	else if (argc > 2)
+		quit_error(NULL, NULL, "too many arguments");
+}
+
+
+t_map	*new_map(t_cub3d *kissa)
+{
+	t_map	*map;
+
+	map = malloc(sizeof(t_map));
+	if (!map)
+		quit_error(kissa, NULL, "memory allocation failure");
+	map->height = 0;
+	map->width = 0;
+	map->line = NULL;
+	map->file = NULL;
+	return (map);
+}
+
+t_view	*new_view(t_cub3d *kissa)
+{
+	t_view	*view;
+
+	view = malloc(sizeof(t_view));
+	if (!view)
+		quit_error(kissa, NULL, "memory allocation failure");
+
+	view->no = NULL;
+	view->so = NULL;
+	view->ea = NULL;
+	view->we = NULL;
+	view->c[0] = -1;
+	view->f[0] = -1;
+	return (view);
+}
+
+void	init_kissa(t_cub3d *kissa)
+{
+	kissa->fd = -1;
+	kissa->map = NULL;
+	kissa->view = NULL;
+	kissa->map = new_map(kissa);
+	kissa->view = new_view(kissa);
+}
+
+void	clean_kissa(t_cub3d *kissa)
+{
+	if (kissa->fd != -1)
+		close(kissa->fd);
+	if (kissa->map)
 	{
-		if (argc < 2)
-			printf("error: map is required\n");
-		else
-			printf("error: too many arguments\n");
-		return (1);
+		if (kissa->map->line)
+			free(kissa->map->line);
+		free(kissa->map);
 	}
-	return (0);
+	if (kissa->view)
+	{	
+		if (kissa->view->no)
+			free(kissa->view->no);
+		if (kissa->view->so)
+			free(kissa->view->so);
+		if (kissa->view->we)
+			free(kissa->view->we);
+		if (kissa->view->ea)
+			free(kissa->view->ea);
+		free(kissa->view);
+	}
 }
 
 
@@ -56,11 +115,10 @@ int main(int argc, char **argv)
 {
 	t_cub3d kissa;
 
-	if (arg_error(argc))
-		return (1);
-	
-	main_parser(&kissa, argv);
-	kissa.map.file = argv[1];
+	check_args(argc);
+	init_kissa(&kissa);
+	kissa.map->file = argv[1];
+	parse_kissa(&kissa);
 	printf("IT WORKS!!!\n");
 	return (0);
 }
