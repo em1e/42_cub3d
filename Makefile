@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+         #
+#    By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/25 19:49:37 by vkettune          #+#    #+#              #
-#    Updated: 2024/10/02 14:04:36 by jajuntti         ###   ########.fr        #
+#    Updated: 2024/10/03 02:13:03 by vkettune         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@
 # change colors and emojis to be cat themed
 
 NAME = cub3D
-FLAGS = -Wall -Wextra -Werror -g $(HEADERS)
+FLAGS = -Wall -Wextra -Werror -g -fsanitize=address $(HEADERS)
 HEADERS = -I ./incs/ -I ./libs/MLX42/include/MLX42
 
 LIBFT = ./libs/libft/libft.a

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_kissa.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 20:26:56 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/02 15:59:29 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/03 03:56:31 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	is_directory(char *filepath)
 {
 	int	fd;
 
-	fd = open(filepath, O_DIRECTORY);
+	fd = open(filepath, O_RDONLY | O_DIRECTORY);
 	if (fd != -1)
 	{
 		close(fd);
@@ -80,17 +80,17 @@ void	check_file(t_cub3d *kissa, char *file, char *ext)
 	close(fd);
 }
 
-void	get_texture(t_cub3d *kissa, char *texture, char *line)
+void	get_texture(t_cub3d *kissa, char **texture, char *line)
 {
-	if (texture)
+	if (*texture)
 		quit_error(kissa, NULL, "duplicate element in map file");
 	line += 2;
 	skip_space(&line);
 	if (!line)
 		quit_error(kissa, NULL, "element value missing");
 	check_file(kissa, line, NULL);
-	texture = ft_strdup(line);
-	if (!texture)
+	*texture = ft_strdup(line); // these leak, make sure they are being freed properly in clean_kissa
+	if (!*texture)
 		quit_error(kissa, NULL, "memory allocation failure");
 }
 
@@ -105,9 +105,9 @@ void	set_rgb(t_cub3d *kissa, int *rgb, char **rgb_arr, int rgb_i)
 	skip_space(&ptr);
 	if (!*ptr)
 		quit_error(kissa, NULL, "wrong RGB format");
-	while (ptr[i] && ptr[i] != ' ')
+	while (ptr[i]&& ptr[i] != ' ')
 	{
-		if (!ft_isdigit(ptr[i]))
+		if (ptr[i] && !ft_isdigit(ptr[i]))
 			quit_error(kissa, NULL, "wrong RGB format");
 		i++;
 	}
@@ -171,33 +171,56 @@ void	check_line(t_cub3d *kissa, char *line, int *map_start)
 		quit_error(kissa, NULL, "incorrect element order");
 	skip_space(&line);
 	if (*line && !ft_strncmp(line, "NO", 2))
-		get_texture(kissa, kissa->view->no, line);
+		get_texture(kissa, &kissa->view->no, line);
 	else if (*line && !ft_strncmp(line, "SO", 2))
-		get_texture(kissa, kissa->view->so, line);
+		get_texture(kissa, &kissa->view->so, line);
 	else if (*line && !ft_strncmp(line, "WE", 2))
-		get_texture(kissa, kissa->view->we, line);
+		get_texture(kissa, &kissa->view->we, line);
 	else if (*line && !ft_strncmp(line, "EA", 2))
-		get_texture(kissa, kissa->view->ea, line);
+		get_texture(kissa, &kissa->view->ea, line);
 	else if (*line && !ft_strncmp(line, "F", 1))
 		get_rgb(kissa, kissa->view->f, line);
 	else if (*line && !ft_strncmp(line, "C", 1))
 		get_rgb(kissa, kissa->view->c, line);
 }
 
+char *trim_line(t_cub3d *kissa)
+{
+	char	*new_line;
+	int		len;
+	
+	new_line = ft_strdup(kissa->map->line);
+	len = ft_strlen(kissa->map->line);
+	if (ft_strchr(kissa->map->line, '\n') && kissa->map->line[len - 1] == '\n')
+	{
+		free(new_line);
+		new_line = ft_strtrim(kissa->map->line, "\n");
+		printf("line = |%s|\n", new_line);
+	}
+	return (new_line);
+}
+
 void	parse_kissa(t_cub3d *kissa)
 {
 	int		map_start;
+	char	*trimmed_line;
+	int		len;
 
 	map_start = 0;
+	len = 0;
 	check_file(kissa, kissa->map->file, ".cub");
 	kissa->fd = open(kissa->map->file, O_RDONLY);
 	kissa->map->line = ft_get_next_line(kissa->fd);
 	while (kissa->map->line)
 	{
-		if (kissa->map->line[0] == '\n' && map_start)
-			quit_error(kissa, NULL, "space within or after map file");
+		if (map_start && !is_map_line(kissa->map->line)) // added the map char check in here too
+			quit_error(kissa, NULL, "invalid map");
 		else if (kissa->map->line[0] != '\n')
-			check_line(kissa, kissa->map->line, &map_start);
+		{
+			trimmed_line = trim_line(kissa);
+			check_line(kissa, trimmed_line, &map_start);
+			free(trimmed_line);
+		}
 		free(kissa->map->line);
 		kissa->map->line = ft_get_next_line(kissa->fd);
 	}

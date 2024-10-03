@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 20:38:06 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/02 16:00:31 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/03 03:46:07 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ t_view	*new_view(t_cub3d *kissa)
 	view = malloc(sizeof(t_view));
 	if (!view)
 		quit_error(kissa, NULL, "memory allocation failure");
-
 	view->no = NULL;
 	view->so = NULL;
 	view->ea = NULL;
@@ -67,12 +66,14 @@ void	clean_kissa(t_cub3d *kissa)
 		close(kissa->fd);
 	if (kissa->map)
 	{
+		printf("it does clean map\n");
 		if (kissa->map->line)
 			free(kissa->map->line);
 		free(kissa->map);
 	}
 	if (kissa->view)
 	{	
+		printf("it does clean view\n");
 		if (kissa->view->no)
 			free(kissa->view->no);
 		if (kissa->view->so)
@@ -120,5 +121,6 @@ int main(int argc, char **argv)
 	kissa.map->file = argv[1];
 	parse_kissa(&kissa);
 	printf("IT WORKS!!!\n");
+	clean_kissa(&kissa);
 	return (0);
 }
