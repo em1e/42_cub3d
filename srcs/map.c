@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 04:12:10 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/03 05:49:34 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/03 06:30:45 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,8 +140,6 @@ void	init_mlx(t_cub3d *kissa)
 	kissa->mlx = mlx_init(1200, 800, "NOT QUITE VOID", true);
 	if (!kissa->mlx)
 		quit_perror(kissa, NULL, "MLX42 failed");
-	// do we want to switch between png and xpm respectively depending on what
-	// image format we are using? that could be cool
 	kissa->map->mlx_no = convert_png(kissa, kissa->view->no);
 	kissa->map->mlx_we = convert_png(kissa, kissa->view->we);
 	kissa->map->mlx_so = convert_png(kissa, kissa->view->so);

@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 12:20:47 by jajuntti          #+#    #+#             */
-/*   Updated: 2024/10/03 03:07:01 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/03 06:13:26 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,10 @@ void	quit_perror(t_cub3d *kissa, char *file, char *error_message)
 	{
 		extra = ft_strjoin("Error: ", temp_file);
 		free(temp_file);
-		perror_msg = ft_strjoin(extra, error_message);
+		temp_file = ft_strjoin(extra, ": ");
 		free(extra);
+		perror_msg = ft_strjoin(temp_file, error_message);
+		free(temp_file);
 	}
 	else
 		perror_msg =  ft_strjoin("Error: ", error_message);

@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 20:38:06 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/03 05:52:38 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/03 06:15:22 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ void	check_args(int argc)
 	else if (argc > 2)
 		quit_error(NULL, NULL, "too many arguments");
 }
-
 
 t_map	*new_map(t_cub3d *kissa)
 {
@@ -121,7 +120,7 @@ void	clean_kissa(t_cub3d *kissa)
 void	start_game(t_cub3d *kissa)
 {
 	(void)kissa;
-	printf("game satrted\n");
+	printf("game started\n");
 	// draw_map(kissa);
 	// mlx_loop_hook(kissa->mlx, escape_hook, kissa);
 	// mlx_close_hook(kissa->mlx, quit_hook, kissa);
@@ -138,7 +137,7 @@ int	main(int argc, char **argv)
 	kissa.map->file = argv[1];
 	parse_kissa(&kissa);
 	init_map((&kissa)->map->file, &kissa);
-	// init_mlx(&kissa);
+	init_mlx(&kissa);
 	start_game(&kissa);
 	printf("IT WORKS!!!\n"); // testing
 	clean_kissa(&kissa);
