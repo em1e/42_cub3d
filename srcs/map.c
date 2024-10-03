@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 04:12:10 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/03 06:51:52 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/03 10:53:57 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,23 +78,17 @@ void	fill_map(char *file, t_cub3d *kissa)
 		quit_perror(kissa, file, "Error reading map file");
 	kissa->map->array = ft_calloc(kissa->map->height + 1, sizeof(char *));
 	if (!kissa->map)
-	{
-		close(kissa->fd);
 		quit_perror(kissa, NULL, "Memory allocation error");
-	}
 	while (i < kissa->map->height)
 	{
 		kissa->map->array[i] = ft_get_next_line(kissa->fd);
 		if (!kissa->map->array[i])
-		{
-			close(kissa->fd);
 			quit_perror(kissa, NULL, "Error reading file");
-		}
 		if (kissa->map->array[i][ft_strlen(kissa->map->array[i]) - 1] == '\n')
 			kissa->map->array[i][ft_strlen(kissa->map->array[i]) - 1] = 0;
 		i++;
 	}
-	close(kissa->fd);
+	close_fd(kissa);
 }
 
 /*
@@ -124,10 +118,10 @@ void	init_map(char *file, t_cub3d *kissa)
 {
 	// check all variables are found from map file (variables in kissa->view)
 	fill_map(file, kissa);
+	init_visited(kissa);
 	// check walls in map
 	// check players starting location and no duplicates
 	// 
-	init_visited(kissa);
 	// check_access(kissa);
 }
 

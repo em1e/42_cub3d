@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_kissa.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 20:26:56 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/03 05:53:02 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/03 10:54:31 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -224,6 +224,5 @@ void	parse_kissa(t_cub3d *kissa)
 		free(kissa->map->line);
 		kissa->map->line = ft_get_next_line(kissa->fd);
 	}
-	close(kissa->fd);
-	kissa->fd = -1;
+	close_fd(kissa);
 }

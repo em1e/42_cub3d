@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 13:04:19 by jajuntti          #+#    #+#             */
-/*   Updated: 2024/10/03 03:48:24 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/03 10:53:01 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-char	*clean_string(char *string)
+static char	*clean_string(char *string)
 {
 	if (string != NULL)
 		free(string);
@@ -33,18 +33,6 @@ void	clean_array(char **array)
 	}
 	free(array);
 	array = NULL;
-	// this was segfaulting ---------------
-	// if (!array)
-	// 	return ;
-	// while (*array != NULL)
-	// {
-	// 	free(*array);
-	// 	*array = NULL;
-	// 	(*array)++;
-	// }
-	// free(array);
-	// array = NULL;
-	// -------------------------------------
 }
 
 void	skip_space(char **str)
@@ -53,3 +41,10 @@ void	skip_space(char **str)
 		(*str)++;
 }
 
+void	close_fd(t_cub3d *kissa)
+{
+	if (!kissa || kissa->fd == -1)
+		return ;
+	close(kissa->fd);
+	kissa->fd = -1;	
+}

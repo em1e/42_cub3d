@@ -10,3 +10,6 @@ cub3D
 
 # local stash (for personal testing files etc)
 local/*
+
+# vscode settings
+.vscode/settings.json

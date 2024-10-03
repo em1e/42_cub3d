@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 20:38:06 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/03 06:15:22 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/03 10:52:22 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,8 +89,7 @@ void	init_kissa(t_cub3d *kissa)
 
 void	clean_kissa(t_cub3d *kissa)
 {
-	if (kissa->fd != -1)
-		close(kissa->fd);
+	close_fd(kissa);
 	if (kissa->map)
 	{
 		printf("it does clean map\n"); // testing

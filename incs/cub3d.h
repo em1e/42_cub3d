@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 20:28:20 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/03 05:17:17 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/03 10:53:26 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ void	quit_error(t_cub3d *kissa, char *file, char *error_message);
 // utils.c
 void	clean_array(char **array);
 void	skip_space(char **str);
+void	close_fd(t_cub3d *kissa);
 
 // img_convert.c
 mlx_image_t	*convert_png(t_cub3d *kissa, char *file);
