@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 04:12:10 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/03 19:45:05 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/03 19:51:26 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ void	check_start(t_cub3d *kissa)
 		j = 0;
 		while (j < kissa->map->width)
 		{
-			if (kissa->map->array[i][j] && ft_strchr("NESW", kissa->map->array[i][j]))
+			if (ft_strchr("NESW", kissa->map->array[i][j]))
 			{
 				if (start_flag)
 					quit_error(kissa, NULL, "map element has more than one start");
@@ -148,14 +148,10 @@ void	init_map(t_cub3d *kissa)
 	if (!kissa->map->array)
 		quit_perror(kissa, NULL, "memory allocation error");
 	fill_map(kissa);
-	print_map(kissa);
-	check_start(kissa);
+	check_start(kissa); // TODO: should also set starting position
 	init_visited(kissa);
 	//check_walls(kissa);
-	// check walls in map
-	// check players starting location and no duplicates
-	// 
-	// check_access(kissa);
+	print_map(kissa);
 }
 
 /*
