@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 04:40:55 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/03 06:40:54 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/03 07:01:36 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ mlx_image_t	*convert_png(t_cub3d *kissa, char *file)
 	mlx_image_t		*img;
 
 	printf("\tfile = |%s|\n", file); // testing
+	if (file == NULL)
+		quit_error(kissa, NULL, "no image path given"); // move this check into init_map()
 	texture = mlx_load_png(file);
 	if (!texture)
 		quit_perror(kissa, file, "MLX42 failed A");

@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 12:20:47 by jajuntti          #+#    #+#             */
-/*   Updated: 2024/10/03 06:13:26 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/03 06:59:15 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,11 @@ void	quit_perror(t_cub3d *kissa, char *file, char *error_message)
 	char	*extra;
 	char	*perror_msg;
 
-	temp_file = ft_strdup(file);
+	temp_file = NULL;
 	perror_msg = NULL;
 	extra = NULL;
+	if (file)
+		temp_file = ft_strdup(file);
 	if (kissa)
 		clean_kissa(kissa);
 	if (temp_file)

@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 04:12:10 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/03 06:30:45 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/03 06:51:52 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,10 +122,11 @@ Checks the mapfile, fills the map and performs checks to ensure map is valid.
 */
 void	init_map(char *file, t_cub3d *kissa)
 {
+	// check all variables are found from map file (variables in kissa->view)
 	fill_map(file, kissa);
-	// check_cols(kissa);
-	// check_walls(kissa);
-	// check_chars(kissa);
+	// check walls in map
+	// check players starting location and no duplicates
+	// 
 	init_visited(kissa);
 	// check_access(kissa);
 }
