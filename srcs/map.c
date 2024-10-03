@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 04:12:10 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/03 19:51:26 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/03 21:54:06 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ Draws all tiles of the map.
 Opens the map file, callocs for the map array, and stores each row from the 
 file into the array using ft_get_next_line.
 */
-void	fill_map(t_cub3d *kissa)
+static void	fill_map(t_cub3d *kissa)
 {
 	int		i;
 	char	*line;
@@ -96,7 +96,7 @@ void	fill_map(t_cub3d *kissa)
 
 /*
 Initializes the visited array for flood fill using calloc.
-*/
+Might not be needed...
 void	init_visited(t_cub3d *kissa)
 {
 	int	i;
@@ -113,12 +113,49 @@ void	init_visited(t_cub3d *kissa)
 		i++;
 	}
 }
+*/
 
-void	check_start(t_cub3d *kissa)
+/*
+Gives an error if:
+- the map tile is a player start and one has already been found
+- the map tile is '0' or a player start, and is located on the edge of the map
+- the tile up, right, down, or left of the given tile is not defined ' '.
+*/
+static void	check_tile(t_cub3d *kissa, int i, int j, int *start_flag)
 {
-	int	i;
-	int	j;
-	int	start_flag;
+	char	this;
+	char	up;
+	char	right;
+	char	down;
+	char	left;
+	
+	this = kissa->map->array[i][j];
+	if (this != '0' && *start_flag)
+		quit_error(kissa, NULL, "map element has more than one start");
+	if (this != '0') 
+		*start_flag = 1;
+	if (i == 0 || i == kissa->map->height -1 \
+		|| j == 0 || j == kissa->map->width -1)
+		quit_error(kissa, NULL, "map is not surrounded by walls");
+	up = kissa->map->array[i - 1][j];
+	right = kissa->map->array[i][j + 1];
+	down = kissa->map->array[i + 1][j];
+	left = kissa->map->array[i][j - 1];
+	if (up == ' ' || right == ' ' || down == ' '|| left == ' ')
+		quit_error(kissa, NULL, "map is not surrounded by walls");
+}
+
+/*
+Checks that the map only has one starting point for the player and that the 
+map is surrounded by walls. The latter is done my making sure that empty (0) 
+or player start (NESW) tiles are not on the edges of the map and that they are 
+not next to undefined tiles (' ').
+*/
+static void	check_map(t_cub3d *kissa)
+{
+	int		i;
+	int		j;
+	int		start_flag;
 
 	i = 0;
 	start_flag = 0;
@@ -127,12 +164,8 @@ void	check_start(t_cub3d *kissa)
 		j = 0;
 		while (j < kissa->map->width)
 		{
-			if (ft_strchr("NESW", kissa->map->array[i][j]))
-			{
-				if (start_flag)
-					quit_error(kissa, NULL, "map element has more than one start");
-				start_flag = 1;
-			}
+			if (ft_strchr("0NESW", kissa->map->array[i][j]))
+				check_tile(kissa, i, j, &start_flag);
 			j++;
 		}
 		i++;
@@ -148,9 +181,8 @@ void	init_map(t_cub3d *kissa)
 	if (!kissa->map->array)
 		quit_perror(kissa, NULL, "memory allocation error");
 	fill_map(kissa);
-	check_start(kissa); // TODO: should also set starting position
-	init_visited(kissa);
-	//check_walls(kissa);
+	check_map(kissa); // TODO: should also set player starting position
+	//init_visited(kissa);
 	print_map(kissa);
 }
 
