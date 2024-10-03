@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   img_convert.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 04:40:55 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/03 07:01:36 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/03 18:28:07 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,10 @@ mlx_image_t	*convert_png(t_cub3d *kissa, char *file)
 		quit_error(kissa, NULL, "no image path given"); // move this check into init_map()
 	texture = mlx_load_png(file);
 	if (!texture)
-		quit_perror(kissa, file, "MLX42 failed A");
+		quit_perror(kissa, file, "mlx_load_png failed");
 	img = mlx_texture_to_image(kissa->mlx, texture);
 	if (!img)
-		quit_perror(kissa, NULL, "MLX42 failed B");
+		quit_perror(kissa, NULL, "mlx_texture_to_image failed");
 	mlx_delete_texture(texture);
 	return (img);
 }

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+         #
+#    By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/25 19:49:37 by vkettune          #+#    #+#              #
-#    Updated: 2024/10/03 05:04:59 by vkettune         ###   ########.fr        #
+#    Updated: 2024/10/03 19:13:08 by jajuntti         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@
 # change colors and emojis to be cat themed
 
 NAME = cub3D
-FLAGS = -Wall -Wextra -Werror -g -fsanitize=address $(HEADERS)
+FLAGS = -Wall -Wextra -Werror $(HEADERS) -g -fsanitize=address 
 HEADERS = -I ./incs/ -I ./libs/MLX42/include/MLX42
 
 LIBFT = ./libs/libft/libft.a
@@ -28,29 +28,26 @@ FILES = main.c \
 		quit.c \
 		utils.c \
 		img_convert.c \
-		map.c
-
-PARSING_FILES = parse_kissa.c
+		map.c \
+		parser.c \
+		parser_utils.c
 
 # IMAGES_FILES = put_images.c
 
 # RAY_FILES = ray_tracing.c
 
-PAR = $(addprefix parsing/, $(PARSING_FILES))
 # IMG = $(addprefix images/, $(IMAGES_FILES))
 # RAY = $(addprefix ray/, $(RAY_FILES))
 
-SOURCES = $(addprefix srcs/, $(FILES)) \
-		$(addprefix srcs/, $(PAR)) \
-		# $(addprefix srcs/, $(IMG)) \
-		# $(addprefix srcs/, $(RAY)) \
+SOURCES = $(addprefix srcs/, $(FILES))
+# $(addprefix srcs/, $(IMG))
+# $(addprefix srcs/, $(RAY))
 
 OBJ = $(addprefix objs/, $(FILES:.c=.o))
-PAR_OBJ = $(addprefix objs/, $(PAR:.c=.o))
 # IMG_OBJ = $(addprefix objs/, $(IMG:.c=.o))
 # RAY_OBJ = $(addprefix objs/, $(RAY:.c=.o))
 
-OBJECTS = $(OBJ) $(PAR_OBJ) # $(IMG_OBJ) $(RAY_OBJ)
+OBJECTS = $(OBJ) # $(IMG_OBJ) $(RAY_OBJ)
 
 all: folders libft mlx42 $(NAME)
 	@echo "$(GREEN)- - - - - - - - - - - - - - - - - - - - - - -$(X)"
@@ -64,7 +61,7 @@ $(NAME): $(OBJECTS)
 	@echo "$(DARK_MAGENTA)- - ✨✨✨✨ $(NAME) compiled! ✨✨✨✨ - -$(X)"
 
 folders: # objs/images objs/ray
-	@mkdir -p objs/parsing
+	@mkdir -p objs/
 	@mkdir -p libs/libft/objs/
 	@echo "$(DARK_MAGENTA)- - - - - 📁 Created all folders! 📁 - - - - -$(X)"
 

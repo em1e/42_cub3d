@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 13:04:19 by jajuntti          #+#    #+#             */
-/*   Updated: 2024/10/03 11:12:10 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/03 19:12:51 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,18 +35,54 @@ void	clean_array(char **array)
 	array = NULL;
 }
 
-void	skip_space(char **str)
-{
-	while (*str && **str == ' ')
-		(*str)++;
-}
-
 void	close_fd(t_cub3d *kissa)
 {
 	if (!kissa || kissa->fd == -1)
 		return ;
 	close(kissa->fd);
 	kissa->fd = -1;	
+}
+
+/*
+Returns 1 if given path is a directory and 0 if it's not.
+*/
+int	is_directory(char *filepath)
+{
+	int	fd;
+
+	fd = open(filepath, O_RDONLY | O_DIRECTORY);
+	if (fd != -1)
+	{
+		close(fd);
+		return (1);
+	}
+	return (0);
+}
+
+void	check_file(t_cub3d *kissa, char *file, char *ext)
+{
+	int	len;
+	int	ext_len;
+	int	fd;
+
+	len = ft_strlen(file);
+	if (ext)
+	{
+		ext_len = ft_strlen(ext);
+		while (ext_len)
+		{
+			if (file[len - ext_len] != *ext)
+				quit_error(kissa, NULL, "map file missing \".cub\" extension");
+			ext_len--;
+			ext++;
+		}
+	}
+	if (is_directory(file))
+		quit_error(kissa, file, "file is a directory");
+	fd = open(file, O_RDONLY);
+	if (fd == -1)
+		quit_perror(kissa, file, "unable to open file");
+	close(fd);
 }
 
 

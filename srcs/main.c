@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 20:38:06 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/03 10:52:22 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/03 19:31:30 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ t_map	*new_map(t_cub3d *kissa)
 		quit_error(kissa, NULL, "memory allocation failure");
 	map->height = 0;
 	map->width = 0;
+	map->first_map_line = 0;
 	map->line = NULL;
 	map->file = NULL;
 	map->array = NULL;
@@ -135,7 +136,7 @@ int	main(int argc, char **argv)
 	init_kissa(&kissa);
 	kissa.map->file = argv[1];
 	parse_kissa(&kissa);
-	init_map((&kissa)->map->file, &kissa);
+	init_map(&kissa);
 	init_mlx(&kissa);
 	start_game(&kissa);
 	printf("IT WORKS!!!\n"); // testing

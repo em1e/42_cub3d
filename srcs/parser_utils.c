@@ -1,0 +1,84 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser_utils.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/03 18:13:48 by jajuntti          #+#    #+#             */
+/*   Updated: 2024/10/03 18:28:52 by jajuntti         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "cub3d.h"
+
+void	skip_space(char **str)
+{
+	while (*str && **str == ' ')
+		(*str)++;
+}
+
+void	get_texture(t_cub3d *kissa, char **texture, char *line)
+{
+	if (*texture)
+		quit_error(kissa, NULL, "duplicate element in scene file");
+	line += 2;
+	skip_space(&line);
+	if (!line)
+		quit_error(kissa, NULL, "scene element value missing");
+	check_file(kissa, line, NULL);
+	*texture = ft_strdup(line); // these leak, make sure they are being freed properly in clean_kissa
+	if (!*texture)
+		quit_perror(kissa, NULL, "memory allocation failure");
+}
+
+void	set_rgb(t_cub3d *kissa, int *rgb, char **rgb_arr, int rgb_i)
+{
+	char	*ptr;
+	int		i;
+	int		value;
+
+	i = 0;
+	ptr = rgb_arr[rgb_i];
+	skip_space(&ptr);
+	if (!*ptr)
+		quit_error(kissa, NULL, "wrong RGB format");
+	while (ptr[i]&& ptr[i] != ' ')
+	{
+		if (ptr[i] && !ft_isdigit(ptr[i]))
+			quit_error(kissa, NULL, "wrong RGB format");
+		i++;
+	}
+	value = ft_atoi(ptr);
+	if (value < 0 || value > 255)
+		quit_error(kissa, NULL, "RGB value out of range");
+	rgb[rgb_i] = value;
+}
+
+void	get_rgb(t_cub3d *kissa, int *rgb, char *line)
+{
+	char	**rgb_arr;
+	int		i;
+
+	i = 0;
+	if (*rgb >= 0)
+		quit_error(kissa, NULL, "duplicate element in scene file");
+	line++;
+	skip_space(&line);
+	if (!ft_isdigit(*line))
+		quit_error(kissa, NULL, "wrong RGB format");
+	rgb_arr = ft_split(line, ",");
+	if (!rgb_arr)
+		quit_perror(kissa, NULL, "memory allocation failure");
+	while (rgb_arr[i])
+	{
+		if (i > 2)
+		{
+			clean_array(rgb_arr);
+			quit_error(kissa, NULL, "too many values in RGB element");
+		}
+		set_rgb(kissa, rgb, rgb_arr, i);
+		i++;
+	}
+	clean_array(rgb_arr);
+}

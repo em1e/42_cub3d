@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 04:12:10 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/03 11:46:22 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/03 19:45:05 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,33 +66,30 @@ Draws all tiles of the map.
 Opens the map file, callocs for the map array, and stores each row from the 
 file into the array using ft_get_next_line.
 */
-void	fill_map(char *file, t_cub3d *kissa)
+void	fill_map(t_cub3d *kissa)
 {
 	int		i;
 	char	*line;
 
 	i = 0;
-	kissa->fd = open(file, O_RDONLY);
+	kissa->fd = open(kissa->map->file, O_RDONLY);
 	if (kissa->fd == -1)
-		quit_perror(kissa, file, "Error reading map file");
-	kissa->map->array = ft_calloc(kissa->map->height + 1, sizeof(char *));
-	if (!kissa->map)
-		quit_perror(kissa, NULL, "Memory allocation error");
-	while (i < kissa->map->height)
+		quit_perror(kissa, kissa->map->file, "error opening scene file");
+	line = ft_get_next_line(kissa->fd);
+	while (line)
 	{
-		line = ft_get_next_line(kissa->fd);
 		if (!line)
-			quit_perror(kissa, NULL, "Error reading file");
-		if (line[ft_strlen(line) - 1] == '\n')
-			line[ft_strlen(line) - 1] = 0;
-		if (!is_map_line(line))
+			quit_perror(kissa, NULL, "error reading scene file");
+		if (i >= kissa->map->first_map_line)
 		{
-			free(line);
-			continue ;
+			if (line[ft_strlen(line) - 1] == '\n')
+				line[ft_strlen(line) - 1] = 0;
+			kissa->map->array[i - kissa->map->first_map_line] = line;
 		}
-		kissa->map->array[i] = line;
-		
+		else
+			free(line);
 		i++;
+		line = ft_get_next_line(kissa->fd);
 	}
 	close_fd(kissa);
 }
@@ -107,12 +104,12 @@ void	init_visited(t_cub3d *kissa)
 	i = 0;
 	kissa->map->visited = calloc(kissa->map->height + 1, sizeof(char *));
 	if (!kissa->map->visited)
-		quit_perror(kissa, NULL, "Memory allocation error");
+		quit_perror(kissa, NULL, "memory allocation failure");
 	while (i < kissa->map->height)
 	{
 		kissa->map->visited[i] = ft_strdup(kissa->map->array[i]);
 		if (!kissa->map->visited[i])
-			quit_perror(kissa, NULL, "Memory allocation error");
+			quit_perror(kissa, NULL, "memory allocation failure");
 		i++;
 	}
 }
@@ -130,11 +127,10 @@ void	check_start(t_cub3d *kissa)
 		j = 0;
 		while (j < kissa->map->width)
 		{
-			printf("The char being hecked is: %c\n", kissa->map->array[i][j]);
-			if (ft_strchr("NSEW", kissa->map->array[i][j]))
+			if (kissa->map->array[i][j] && ft_strchr("NESW", kissa->map->array[i][j]))
 			{
 				if (start_flag)
-					quit_error(kissa, NULL, "map has more than one start");
+					quit_error(kissa, NULL, "map element has more than one start");
 				start_flag = 1;
 			}
 			j++;
@@ -146,14 +142,14 @@ void	check_start(t_cub3d *kissa)
 /*
 Checks the mapfile, fills the map and performs checks to ensure map is valid.
 */
-void	init_map(char *file, t_cub3d *kissa)
+void	init_map(t_cub3d *kissa)
 {
-	// check all variables are found from map file (variables in kissa->view)
-	fill_map(file, kissa);
-	printf("%s\n", *kissa->map->array);
-	printf("height %d\n", kissa->map->height);
-	check_start(kissa);
+	kissa->map->array = ft_calloc(kissa->map->height + 1, sizeof(char *));
+	if (!kissa->map->array)
+		quit_perror(kissa, NULL, "memory allocation error");
+	fill_map(kissa);
 	print_map(kissa);
+	check_start(kissa);
 	init_visited(kissa);
 	//check_walls(kissa);
 	// check walls in map
@@ -171,7 +167,7 @@ void	init_mlx(t_cub3d *kissa)
 	mlx_set_setting(MLX_STRETCH_IMAGE, 1);
 	kissa->mlx = mlx_init(1200, 800, "NOT QUITE VOID", true);
 	if (!kissa->mlx)
-		quit_perror(kissa, NULL, "MLX42 failed");
+		quit_perror(kissa, NULL, "mlx_init failed");
 	kissa->map->mlx_no = convert_png(kissa, kissa->view->no);
 	kissa->map->mlx_we = convert_png(kissa, kissa->view->we);
 	kissa->map->mlx_so = convert_png(kissa, kissa->view->so);
