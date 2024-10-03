@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 20:26:56 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/03 03:56:31 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/03 05:53:02 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,7 +195,7 @@ char *trim_line(t_cub3d *kissa)
 	{
 		free(new_line);
 		new_line = ft_strtrim(kissa->map->line, "\n");
-		printf("line = |%s|\n", new_line);
+		printf("line = |%s|\n", new_line); // testing
 	}
 	return (new_line);
 }

@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 20:28:20 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/03 02:11:13 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/03 05:17:17 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <fcntl.h>
 # include <sys/stat.h>
 # include <stdlib.h>
+# include "../libs/MLX42/include/MLX42/MLX42.h"
 
 typedef struct	s_point
 {
@@ -34,7 +35,6 @@ typedef struct	s_view
 	char	*ea;
 	int		f[3];
 	int		c[3];
-
 } t_view;
 
 
@@ -42,8 +42,15 @@ typedef struct	s_map
 {
 	int		width;
 	int		height;
+	int		tile_size;
+	char	**array;
+	char	**visited;
 	char	*file;
 	char	*line;
+	mlx_image_t	*mlx_no;
+	mlx_image_t	*mlx_we;
+	mlx_image_t	*mlx_so;
+	mlx_image_t	*mlx_ea;
 	// add more stuff when needed
 } t_map;
 
@@ -56,7 +63,7 @@ typedef struct	s_ray
 
 typedef struct	s_cub3d
 {
-	
+	mlx_t	*mlx;
 	t_ray	ray;
 	t_map	*map;
 	t_view	*view;
@@ -77,5 +84,13 @@ void	quit_error(t_cub3d *kissa, char *file, char *error_message);
 // utils.c
 void	clean_array(char **array);
 void	skip_space(char **str);
+
+// img_convert.c
+mlx_image_t	*convert_png(t_cub3d *kissa, char *file);
+mlx_image_t	*convert_xpm(t_cub3d *kissa, char *file);
+
+// map.c
+void	init_map(char *file, t_cub3d *kissa);
+void	init_mlx(t_cub3d *kissa);
 
 #endif

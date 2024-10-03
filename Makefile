@@ -6,7 +6,7 @@
 #    By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/25 19:49:37 by vkettune          #+#    #+#              #
-#    Updated: 2024/10/03 02:13:03 by vkettune         ###   ########.fr        #
+#    Updated: 2024/10/03 05:04:59 by vkettune         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,9 @@ LIBS = $(LIBFT) $(MLX42) -I include -lglfw \
 
 FILES = main.c \
 		quit.c \
-		utils.c
+		utils.c \
+		img_convert.c \
+		map.c
 
 PARSING_FILES = parse_kissa.c
 
