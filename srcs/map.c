@@ -6,12 +6,11 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 04:12:10 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/03 10:53:57 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/03 11:46:22 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-#include "libft.h"
 
 /*
 Draws the image for the provided character at the given coordinate, which is 
@@ -69,8 +68,8 @@ file into the array using ft_get_next_line.
 */
 void	fill_map(char *file, t_cub3d *kissa)
 {
-	// make sure it starts reading the file in the correct place
-	int	i;
+	int		i;
+	char	*line;
 
 	i = 0;
 	kissa->fd = open(file, O_RDONLY);
@@ -81,11 +80,18 @@ void	fill_map(char *file, t_cub3d *kissa)
 		quit_perror(kissa, NULL, "Memory allocation error");
 	while (i < kissa->map->height)
 	{
-		kissa->map->array[i] = ft_get_next_line(kissa->fd);
-		if (!kissa->map->array[i])
+		line = ft_get_next_line(kissa->fd);
+		if (!line)
 			quit_perror(kissa, NULL, "Error reading file");
-		if (kissa->map->array[i][ft_strlen(kissa->map->array[i]) - 1] == '\n')
-			kissa->map->array[i][ft_strlen(kissa->map->array[i]) - 1] = 0;
+		if (line[ft_strlen(line) - 1] == '\n')
+			line[ft_strlen(line) - 1] = 0;
+		if (!is_map_line(line))
+		{
+			free(line);
+			continue ;
+		}
+		kissa->map->array[i] = line;
+		
 		i++;
 	}
 	close_fd(kissa);
@@ -104,9 +110,35 @@ void	init_visited(t_cub3d *kissa)
 		quit_perror(kissa, NULL, "Memory allocation error");
 	while (i < kissa->map->height)
 	{
-		kissa->map->visited[i] = calloc(kissa->map->height, sizeof(char));
+		kissa->map->visited[i] = ft_strdup(kissa->map->array[i]);
 		if (!kissa->map->visited[i])
 			quit_perror(kissa, NULL, "Memory allocation error");
+		i++;
+	}
+}
+
+void	check_start(t_cub3d *kissa)
+{
+	int	i;
+	int	j;
+	int	start_flag;
+
+	i = 0;
+	start_flag = 0;
+	while (i < kissa->map->height)
+	{
+		j = 0;
+		while (j < kissa->map->width)
+		{
+			printf("The char being hecked is: %c\n", kissa->map->array[i][j]);
+			if (ft_strchr("NSEW", kissa->map->array[i][j]))
+			{
+				if (start_flag)
+					quit_error(kissa, NULL, "map has more than one start");
+				start_flag = 1;
+			}
+			j++;
+		}
 		i++;
 	}
 }
@@ -118,7 +150,12 @@ void	init_map(char *file, t_cub3d *kissa)
 {
 	// check all variables are found from map file (variables in kissa->view)
 	fill_map(file, kissa);
+	printf("%s\n", *kissa->map->array);
+	printf("height %d\n", kissa->map->height);
+	check_start(kissa);
+	print_map(kissa);
 	init_visited(kissa);
+	//check_walls(kissa);
 	// check walls in map
 	// check players starting location and no duplicates
 	// 

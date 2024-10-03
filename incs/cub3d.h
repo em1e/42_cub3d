@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 20:28:20 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/03 10:53:26 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/03 11:12:25 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <fcntl.h>
 # include <sys/stat.h>
 # include <stdlib.h>
+# include "libft.h"
 # include "../libs/MLX42/include/MLX42/MLX42.h"
 
 typedef struct	s_point
@@ -72,10 +73,13 @@ typedef struct	s_cub3d
 } t_cub3d;
 
 
-void	parse_kissa(t_cub3d *kissa);
 
 // main.c
 void	clean_kissa(t_cub3d *kissa);
+
+// parse_kissa.c
+int		is_map_line(char *line);
+void	parse_kissa(t_cub3d *kissa);
 
 // quit.c
 void	quit_perror(t_cub3d *kissa, char *file, char *error_message);
@@ -85,6 +89,8 @@ void	quit_error(t_cub3d *kissa, char *file, char *error_message);
 void	clean_array(char **array);
 void	skip_space(char **str);
 void	close_fd(t_cub3d *kissa);
+void	print_map(t_cub3d *kissa);
+void	print_floodfill(t_cub3d *kissa);
 
 // img_convert.c
 mlx_image_t	*convert_png(t_cub3d *kissa, char *file);

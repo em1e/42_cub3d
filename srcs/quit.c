@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   quit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 12:20:47 by jajuntti          #+#    #+#             */
-/*   Updated: 2024/10/03 06:59:15 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/03 11:13:00 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-#include "libft.h"
 
 /*
 Cleans all allocated memory and quits with provided error message using perror.

@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 20:26:56 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/03 10:54:31 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/03 11:54:11 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,6 @@ map checks for:
 	- etc.
 */
 #include "cub3d.h"
-#include "libft.h"
-
 /*
 Returns 1 if given path is a directory and 0 if it's not.
 */
@@ -147,12 +145,14 @@ void	get_rgb(t_cub3d *kissa, int *rgb, char *line)
 
 int	is_map_line(char *line)
 {
+	printf("%s\n", line);
 	while (*line)
 	{
-		if (!ft_strchr(" 01NOESW\n", *line))
+		if (!ft_strchr(" 01NOESW", *line))
 			return (0);
 		line++;
 	}
+	printf("Is a map line\n");
 	return (1);
 }
 
@@ -203,7 +203,6 @@ char *trim_line(t_cub3d *kissa)
 void	parse_kissa(t_cub3d *kissa)
 {
 	int		map_start;
-	char	*trimmed_line;
 	int		len;
 
 	map_start = 0;
@@ -213,14 +212,12 @@ void	parse_kissa(t_cub3d *kissa)
 	kissa->map->line = ft_get_next_line(kissa->fd);
 	while (kissa->map->line)
 	{
+		if (kissa->map->line[ft_strlen(kissa->map->line) - 1] == '\n')
+			kissa->map->line[ft_strlen(kissa->map->line) - 1] = 0;
 		if (map_start && !is_map_line(kissa->map->line)) // added the map char check in here too
 			quit_error(kissa, NULL, "invalid map");
 		else if (kissa->map->line[0] != '\n')
-		{
-			trimmed_line = trim_line(kissa);
-			check_line(kissa, trimmed_line, &map_start);
-			free(trimmed_line);
-		}
+			check_line(kissa, kissa->map->line, &map_start);
 		free(kissa->map->line);
 		kissa->map->line = ft_get_next_line(kissa->fd);
 	}
