@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:25:48 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/04 16:12:23 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/04 18:15:25 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,8 @@ t_view	*new_view(t_cub3d *kissa)
 	view = malloc(sizeof(t_view));
 	if (!view)
 		quit_error(kissa, NULL, "memory allocation failure");
-	view->scene = new_vec(kissa);
+	// view->scene = new_vec(kissa);
+	view->player_inst = 0;
 	return (view);
 }
 

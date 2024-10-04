@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:48:49 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/04 15:47:11 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/04 19:26:06 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,12 @@ void	move(t_cub3d *kissa, t_obj *obj, int dir_x, int dir_y)
 	float	new_y;
 	
 	new_x = obj->x + dir_x * MOVE_SPEED * sin(obj->dir);
-	new_y = obj->y + dir_y * MOVE_SPEED * cos(obj->dir);
-	
-	printf("Want to move to = (%f, %f)\n", new_x, new_y);
+	new_y = obj->y + dir_y * MOVE_SPEED * sin(obj->dir);
 	if (is_wall(kissa, new_x, new_y))
 		return ; // add bounceback
 	obj->x = new_x;
 	obj->y = new_y;
+	move_player_texture(kissa, new_x, new_y);
 	printf("Player pos = (%f, %f)\n", obj->x, obj->y);
 }
 
@@ -61,6 +60,7 @@ void	rotate(t_obj *obj, int dir)
 		if (obj->dir < 0)
 			obj->dir += 2 * M_PI;
 	}
+	// add rotation of minimap player
 	printf("Player dir = %f\n", obj->dir);
 }
 

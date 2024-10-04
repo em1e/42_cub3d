@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:35:39 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/04 15:38:10 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/04 19:24:37 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,15 +54,15 @@ void	move_keyhook(mlx_key_data_t keydata, void *param)
 	{
 		if (keydata.key == MLX_KEY_W) // up
 			move(kissa, kissa->player, 0, 1);
-		else if (keydata.key == MLX_KEY_S) // down
+		if (keydata.key == MLX_KEY_S) // down
 			move(kissa, kissa->player, 0, -1);
-		else if (keydata.key == MLX_KEY_A) // left
-			move(kissa, kissa->player, -1, 0);
-		else if (keydata.key == MLX_KEY_D) // right
+		if (keydata.key == MLX_KEY_A) // left
 			move(kissa, kissa->player, 1, 0);
-		else if (keydata.key == MLX_KEY_LEFT)
+		if (keydata.key == MLX_KEY_D) // right
+			move(kissa, kissa->player, -1, 0);
+		if (keydata.key == MLX_KEY_LEFT)
 			rotate(kissa->player, 0);
-		else if (keydata.key == MLX_KEY_RIGHT)
+		if (keydata.key == MLX_KEY_RIGHT)
 			rotate(kissa->player, 1);
 	}
 }

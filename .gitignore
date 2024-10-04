@@ -11,5 +11,8 @@ cub3D
 # local stash (for personal testing files etc)
 local/*
 
+# mLX42 library
+libs/MLX42
+
 # vscode settings
 .vscode/settings.json

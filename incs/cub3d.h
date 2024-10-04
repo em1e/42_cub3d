@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 20:28:20 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/04 16:01:35 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/04 19:23:29 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 # include <math.h>
 
 # define ROT_SPEED 0.2
-# define MOVE_SPEED 0.2
+# define MOVE_SPEED 0.1
 
 # define NORTH M_PI * 0.5
 # define EAST 0
@@ -46,6 +46,7 @@ typedef struct	s_view
 	mlx_image_t	*mlx_wall;
 	mlx_image_t	*mlx_floor; // maybe not needed
 	mlx_image_t	*mlx_player;
+	int					player_inst;
 	t_vec				*scene;
 } t_view;
 
@@ -125,6 +126,7 @@ void	play_game(t_cub3d *kissa);
 
 // draw.c
 void	draw_mini_map(t_cub3d *kissa);
+void	move_player_texture(t_cub3d *kissa, float new_x, float new_y);
 
 // utils.c
 void	clean_array(char **array);

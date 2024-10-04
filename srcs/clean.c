@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 12:07:09 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/04 16:11:11 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/04 18:15:33 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ void	clean_map(t_map *map)
 
 void	clean_view(t_view *view)
 {
-	if (view->scene)
-		free(view->scene);
+	// if (view->scene)
+	// 	free(view->scene);
 	free(view);
 }
 
