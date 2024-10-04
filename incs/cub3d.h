@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 20:28:20 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/03 19:28:18 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/04 16:01:35 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,29 +21,41 @@
 # include <stdlib.h>
 # include "libft.h"
 # include "../libs/MLX42/include/MLX42/MLX42.h"
+# include <math.h>
 
-typedef struct	s_point
+# define ROT_SPEED 0.2
+# define MOVE_SPEED 0.2
+
+# define NORTH M_PI * 0.5
+# define EAST 0
+# define SOUTH M_PI * 1.5
+# define WEST M_PI
+
+typedef struct	s_vec
 {
-	int	x;
-	int	y;
-} t_point;
+	float	x;
+	float	y;
+} t_vec;
 
 typedef struct	s_view
 {
-	char	*no;
-	char	*so;
-	char	*we;
-	char	*ea;
-	int		f[3];
-	int		c[3];
+	mlx_image_t	*mlx_no;
+	mlx_image_t	*mlx_we;
+	mlx_image_t	*mlx_so;
+	mlx_image_t	*mlx_ea;
+	mlx_image_t	*mlx_wall;
+	mlx_image_t	*mlx_floor; // maybe not needed
+	mlx_image_t	*mlx_player;
+	t_vec				*scene;
 } t_view;
 
-typedef struct s_object
+typedef struct s_obj
 {
 	char	start_dir;
-	t_point	*start_tile;
-} t_object;
-
+	float	x;
+	float	y;
+	float	dir;
+} t_obj;
 
 typedef struct	s_map
 {
@@ -55,18 +67,12 @@ typedef struct	s_map
 	char	*file;
 	char	*line;
 	int		first_map_line;
-	mlx_image_t	*mlx_no;
-	mlx_image_t	*mlx_we;
-	mlx_image_t	*mlx_so;
-	mlx_image_t	*mlx_ea;
-	// add more stuff when needed
 } t_map;
 
 typedef struct	s_ray
 {
 	int	i;
 	int	length;
-	// add more stuff when needed
 }	t_ray;
 
 typedef struct	s_cub3d
@@ -74,16 +80,28 @@ typedef struct	s_cub3d
 	mlx_t		*mlx;
 	t_ray		ray;
 	t_map		*map;
-	t_object	*player;
+	t_obj	*player;
 	t_view		*view;
 	int			fd;
-	// add more stuff when needed
+	char		*no;
+	char		*so;
+	char		*we;
+	char		*ea;
+	char		*wall_tex;
+	char		*floor_tex;
+	char		*player_tex;
+	int			f[3];
+	int			c[3];
 } t_cub3d;
-
-
 
 // main.c
 void	clean_kissa(t_cub3d *kissa);
+
+// init.c
+t_map	*new_map(t_cub3d *kissa);
+t_view	*new_view(t_cub3d *kissa);
+void	init_kissa(t_cub3d *kissa);
+void	init_mlx(t_cub3d *kissa);
 
 // parser.c
 void	parse_kissa(t_cub3d *kissa);
@@ -94,10 +112,19 @@ void	get_texture(t_cub3d *kissa, char **texture, char *line);
 void	set_rgb(t_cub3d *kissa, int *rgb, char **rgb_arr, int rgb_i);
 void	get_rgb(t_cub3d *kissa, int *rgb, char *line);
 
+// hooks.c
+void	escape_hook(void *param);
+void	quit_hook(void *param);
+void	move_keyhook(mlx_key_data_t keykissa, void *param);
 
-// quit.c
-void	quit_perror(t_cub3d *kissa, char *file, char *error_message);
-void	quit_error(t_cub3d *kissa, char *file, char *error_message);
+// game.c
+void	set_dir(t_obj *obj, char dir_char);
+void	move(t_cub3d *kissa, t_obj *obj, int dir_x, int dir_y);
+void	rotate(t_obj *obj, int dir);
+void	play_game(t_cub3d *kissa);
+
+// draw.c
+void	draw_mini_map(t_cub3d *kissa);
 
 // utils.c
 void	clean_array(char **array);
@@ -114,5 +141,16 @@ mlx_image_t	*convert_xpm(t_cub3d *kissa, char *file);
 // map.c
 void	init_map(t_cub3d *kissa);
 void	init_mlx(t_cub3d *kissa);
+
+// clean.c
+void	clean_map(t_map *map);
+void	clean_view(t_view *view);
+void	clean_obj(t_obj *obj);
+void	clean_kissa(t_cub3d *kissa);
+
+// quit.c
+void	quit_perror(t_cub3d *kissa, char *file, char *error_message);
+void	quit_error(t_cub3d *kissa, char *file, char *error_message);
+void	quit_success(t_cub3d *kissa, char *message);
 
 #endif

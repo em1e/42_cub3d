@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 12:20:47 by jajuntti          #+#    #+#             */
-/*   Updated: 2024/10/03 11:13:00 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/04 09:45:59 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,5 +65,16 @@ void	quit_error(t_cub3d *kissa, char *temp, char *error_message)
 	free(file);
 	ft_putendl_fd(error_message, 2);
 	exit(1);
+}
+
+/*
+Quits with a provided message.
+*/
+void	quit_success(t_cub3d *kissa, char *message)
+{
+	if (kissa)
+		clean_kissa(kissa);
+	ft_putendl_fd(message, 2);
+	exit(0);
 }
 

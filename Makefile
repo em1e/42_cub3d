@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+         #
+#    By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/25 19:49:37 by vkettune          #+#    #+#              #
-#    Updated: 2024/10/03 19:13:08 by jajuntti         ###   ########.fr        #
+#    Updated: 2024/10/04 12:20:13 by vkettune         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,9 +30,14 @@ FILES = main.c \
 		img_convert.c \
 		map.c \
 		parser.c \
-		parser_utils.c
+		parser_utils.c \
+		init.c \
+		hooks.c \
+		game.c \
+		draw.c \
+		clean.c
 
-# IMAGES_FILES = put_images.c
+#_FILES = put_images.c
 
 # RAY_FILES = ray_tracing.c
 
