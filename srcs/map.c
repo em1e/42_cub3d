@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 04:12:10 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/04 16:08:27 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/05 11:39:59 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,8 @@ static void	fill_map(t_cub3d *kissa)
 		{
 			if (line[ft_strlen(line) - 1] == '\n')
 				line[ft_strlen(line) - 1] = 0;
-			kissa->map->array[kissa->map->height - (i - kissa->map->first_map_line) - 1] = line;
+			kissa->map->array[i - kissa->map->first_map_line] = line;
+			// kissa->map->array[kissa->map->height - (i - kissa->map->first_map_line) - 1] = line;
 		}
 		else
 			free(line);
@@ -63,7 +64,8 @@ static void	check_tile(t_cub3d *kissa, int i, int j)
 		kissa->player->start_dir = this;
 		set_dir(kissa->player, this);
 		kissa->player->x = (float)j;
-		kissa->player->y = (float)(kissa->map->height - 1 - i);
+		kissa->player->y = (float)i;
+		// kissa->player->y = (float)(kissa->map->height - 1 - i);
 		kissa->map->array[i][j] = '0';
 	}
 	if (i == 0 || i == kissa->map->height -1 \

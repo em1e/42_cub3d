@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:49:02 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/04 19:23:04 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/05 11:30:15 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,16 +40,18 @@ void	draw_mini_map(t_cub3d *kissa)
 	int	i;
 	int	j;
 	
-	i = kissa->map->height - 1;
-	while (i >= 0)
+	i = 0;
+	while (i < kissa->map->height)
 	{
 		j = 0;
-		while (j <= kissa->map->width && i >= 0)
+		while (j <= kissa->map->width)
 		{
+			printf("%c", kissa->map->array[i][j]);
 			draw_tile(kissa, kissa->map->array[i][j], i, j);
 			j++;
 		}
-		i--;
+		printf("\n");
+		i++;
 	}
 	kissa->view->player_inst = mlx_image_to_window(kissa->mlx, kissa->view->mlx_player,
 		(int)kissa->player->x * kissa->map->tile_size,
@@ -72,6 +74,6 @@ mlx_instance_t	*get_player(t_view *view)
 
 void	move_player_texture(t_cub3d *kissa, float new_x, float new_y)
 {
-	get_player(kissa->view)->y = (int)new_y * kissa->map->tile_size;
-	get_player(kissa->view)->x = (int)new_x * kissa->map->tile_size;
+	get_player(kissa->view)->y = new_y * kissa->map->tile_size;
+	get_player(kissa->view)->x = new_x * kissa->map->tile_size;
 }

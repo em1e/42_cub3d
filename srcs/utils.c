@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 13:04:19 by jajuntti          #+#    #+#             */
-/*   Updated: 2024/10/04 15:29:55 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/05 11:29:42 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,9 +93,9 @@ void	print_map(t_cub3d *kissa)
 {
 	int	i;
 
-	i = kissa->map->height - 1;
-	while (i >= 0)
-		ft_putendl_fd(kissa->map->array[i--], 1);
+	i = 0;
+	while (i < kissa->map->height)
+		ft_putendl_fd(kissa->map->array[i++], 1);
 	ft_putchar_fd('\n', 1);
 }
 
