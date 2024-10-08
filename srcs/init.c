@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:25:48 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/05 16:55:11 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/08 16:01:54 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void	init_kissa(t_cub3d *kissa)
 	kissa->player_tex = NULL;
 	kissa->wall_tex = ft_strdup("./textures/png/21black.png");
 	kissa->floor_tex = ft_strdup("./textures/png/21white.png");
-	kissa->player_tex = ft_strdup("./textures/png/21player_line.png");
+	kissa->player_tex = ft_strdup("./textures/png/21player.png");
 	if (!kissa->wall_tex || !kissa->floor_tex || !kissa->player_tex)
 		quit_error(kissa, NULL, "memory allocation failure");
 	kissa->c[0] = -1;
@@ -106,6 +106,11 @@ void	init_mlx(t_cub3d *kissa)
 	kissa->view->mlx_we = convert_png(kissa, kissa->we);
 	kissa->view->mlx_so = convert_png(kissa, kissa->so);
 	kissa->view->mlx_ea = convert_png(kissa, kissa->ea);
+
+	// kissa->view->mlx_wall = mlx_new_image(kissa->mlx, 21 * kissa->map->tile_size, 21 * kissa->map->tile_size);
+	// kissa->view->mlx_floor = mlx_new_image(kissa->mlx, 21 * kissa->map->tile_size, 21 * kissa->map->tile_size);
+	// kissa->view->mlx_player = mlx_new_image(kissa->mlx, 10 * kissa->map->tile_size, 10 * kissa->map->tile_size);
+	
 	kissa->view->mlx_wall = convert_png(kissa, kissa->wall_tex);
 	kissa->view->mlx_floor = convert_png(kissa, kissa->floor_tex); // maybe not needed
 	kissa->view->mlx_player = convert_png(kissa, kissa->player_tex); 

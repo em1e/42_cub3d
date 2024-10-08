@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:48:49 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/08 09:11:32 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/08 15:16:03 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,29 +47,24 @@ void	move(t_cub3d *kissa, t_obj *obj, int dir_x, int dir_y)
 	new_y = obj->y
 	+ (dir_y * MOVE_SPEED * kissa->player->dir->y)
 	+ (dir_x * MOVE_SPEED * kissa->player->dir->x);
-	
+
 	if (new_x < 0 || new_x >= kissa->map->width
 		|| new_y < 0 || new_y >= kissa->map->height)
 		return ;
-	
+
 	old_pos->x = obj->x;
 	old_pos->y = obj->y;
 	
 	if (old_pos)
 		free(old_pos);
-	
-	// this is old code --------------------------
-	// float	new_x;
-	// float	new_y;
-	
-	// new_x = obj->x + dir_x * MOVE_SPEED * sin(obj->rot);
-	// new_y = obj->y + dir_y * MOVE_SPEED * -cos(obj->rot);
+
 	if (is_wall(kissa, new_x, new_y))
 		return ; // add bounceback
-	
+
 	obj->x = new_x;
 	obj->y = new_y;
 	move_player_texture(kissa, new_x, new_y);
+	shoot_ray(kissa, obj);
 	printf("Player pos = (%f, %f)\n", obj->x, obj->y);
 	// ----------------------------------------------
 }
@@ -93,8 +88,6 @@ void	rotate(t_cub3d *kissa, t_obj *obj, int rot)
 	}
 	obj->dir->x = sin(obj->rot);
 	obj->dir->y = cos(obj->rot);
-	
-	// tilt_player_texture(kissa); // tries to add rotation to minimap
 	printf("Player dir = %f\n", obj->rot);
 }
 

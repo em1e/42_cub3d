@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 20:28:20 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/08 09:03:03 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/08 15:10:06 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 
 # define ROT_SPEED 0.5
 # define MOVE_SPEED 0.2
+# define STEP_SIZE 0.2
 
 # define NORTH M_PI * 0.5
 # define EAST 0
@@ -39,6 +40,7 @@ typedef struct	s_vec
 
 typedef struct	s_view
 {
+	mlx_image_t	*ray;
 	mlx_image_t	*mlx_no;
 	mlx_image_t	*mlx_we;
 	mlx_image_t	*mlx_so;
@@ -134,6 +136,7 @@ mlx_instance_t	*get_player(t_view *view);
 
 // draw.c
 void	draw_tile(t_cub3d *kissa, char c, int i, int j);
+void shoot_ray(t_cub3d *kissa, t_obj *obj);
 
 // utils.c
 void	clean_array(char **array);

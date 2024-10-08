@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 04:40:55 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/04 09:12:35 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/08 15:33:59 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ mlx_image_t	*convert_png(t_cub3d *kissa, char *file)
 	img = mlx_texture_to_image(kissa->mlx, texture);
 	if (!img)
 		quit_perror(kissa, NULL, "mlx_texture_to_image failed");
+	// mlx_set_instance_depth(img->instances, 0);
 	mlx_delete_texture(texture);
 	return (img);
 }
