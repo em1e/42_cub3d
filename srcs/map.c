@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 04:12:10 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/05 11:39:59 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/08 09:05:30 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,12 @@ static void	check_tile(t_cub3d *kissa, int i, int j)
 	if (this != '0')
 	{
 		kissa->player->start_dir = this;
-		set_dir(kissa->player, this);
+		set_rot(kissa->player, this);
 		kissa->player->x = (float)j;
 		kissa->player->y = (float)i;
 		// kissa->player->y = (float)(kissa->map->height - 1 - i);
+		kissa->player->dir->x = sin(this);
+		kissa->player->dir->y = cos(this);
 		kissa->map->array[i][j] = '0';
 	}
 	if (i == 0 || i == kissa->map->height -1 \
@@ -110,7 +112,7 @@ void	init_map(t_cub3d *kissa)
 	if (!kissa->map->array)
 		quit_perror(kissa, NULL, "memory allocation error");
 	fill_map(kissa);
-	check_map(kissa); // TODO: should also set player starting position
+	check_map(kissa);
 	//init_visited(kissa);
 	print_map(kissa);
 }

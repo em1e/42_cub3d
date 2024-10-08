@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:35:39 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/04 19:24:37 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/08 08:58:12 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,25 +44,49 @@ Directs the appropriate landing coordinate to move_to function.
 void	move_keyhook(mlx_key_data_t keydata, void *param)
 {
 	t_cub3d	*kissa;
-	float		x;
-	float		y;
-
+	float		dir_x;
+	float		dir_y;
+	int			rotate_flag;
+	
 	kissa = param;
-	x = kissa->player->x;
-	y = kissa->player->y;
+	rotate_flag = 0;
+	dir_x = 0;
+	dir_y = 0;
 	if (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT)
 	{
 		if (keydata.key == MLX_KEY_W) // up
-			move(kissa, kissa->player, 0, 1);
+			dir_y += 1;
 		if (keydata.key == MLX_KEY_S) // down
-			move(kissa, kissa->player, 0, -1);
+			dir_y -= 1;
 		if (keydata.key == MLX_KEY_A) // left
-			move(kissa, kissa->player, 1, 0);
+			dir_x -= 1;
 		if (keydata.key == MLX_KEY_D) // right
-			move(kissa, kissa->player, -1, 0);
+			dir_x += 1;
 		if (keydata.key == MLX_KEY_LEFT)
-			rotate(kissa->player, 0);
+			rotate_flag -= 1;
 		if (keydata.key == MLX_KEY_RIGHT)
-			rotate(kissa->player, 1);
+			rotate_flag += 1;
+		move(kissa, kissa->player, dir_x, dir_y);
+		rotate(kissa, kissa->player, rotate_flag);
 	}
+}
+
+void	update_hook(void *param)
+{
+	t_cub3d			*kissa;
+	static t_vec	old_loc;
+	static double	old_rot;
+
+	kissa = (t_cub3d *) param;
+	if (kissa->player->x == old_loc.x && kissa->player->y == old_loc.y
+		&& kissa->player->rot == old_rot)
+		return ;
+	// updates view?
+	// update_surrounding(kissa);
+	// update_minimap(kissa);
+	// makes sure we aren't updating without reason 
+	// e.g. when continuesly walking towards a wall
+	old_loc.x = kissa->player->x;
+	old_loc.y = kissa->player->y;
+	old_rot = kissa->player->rot;
 }

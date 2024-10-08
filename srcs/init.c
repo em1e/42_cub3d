@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:25:48 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/04 18:15:25 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/05 16:55:11 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,9 @@ t_obj	*init_player(t_cub3d *kissa)
 		quit_error(kissa, NULL, "memory allocation failure");
 	player->x = 0;
 	player->y = 0;
+	player->rot = 0;
 	player->start_dir = 0;
+	player->dir = new_vec(kissa);
 	return (player);
 }
 
@@ -80,7 +82,7 @@ void	init_kissa(t_cub3d *kissa)
 	kissa->player_tex = NULL;
 	kissa->wall_tex = ft_strdup("./textures/png/21black.png");
 	kissa->floor_tex = ft_strdup("./textures/png/21white.png");
-	kissa->player_tex = ft_strdup("./textures/png/21player.png");
+	kissa->player_tex = ft_strdup("./textures/png/21player_line.png");
 	if (!kissa->wall_tex || !kissa->floor_tex || !kissa->player_tex)
 		quit_error(kissa, NULL, "memory allocation failure");
 	kissa->c[0] = -1;

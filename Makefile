@@ -6,7 +6,7 @@
 #    By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/25 19:49:37 by vkettune          #+#    #+#              #
-#    Updated: 2024/10/04 12:20:13 by vkettune         ###   ########.fr        #
+#    Updated: 2024/10/08 09:01:51 by vkettune         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,7 +35,8 @@ FILES = main.c \
 		hooks.c \
 		game.c \
 		draw.c \
-		clean.c
+		clean.c \
+		minimap.c
 
 #_FILES = put_images.c
 

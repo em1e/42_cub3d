@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 12:07:09 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/04 18:15:33 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/05 16:57:24 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ void	clean_view(t_view *view)
 
 void	clean_obj(t_obj *obj)
 {
+	if (obj->dir)
+		free(obj->dir);
 	free(obj);
 }
 

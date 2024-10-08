@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 20:28:20 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/04 19:36:25 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/08 09:03:03 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 # include "../libs/MLX42/include/MLX42/MLX42.h"
 # include <math.h>
 
-# define ROT_SPEED 0.2
+# define ROT_SPEED 0.5
 # define MOVE_SPEED 0.2
 
 # define NORTH M_PI * 0.5
@@ -55,7 +55,8 @@ typedef struct s_obj
 	char	start_dir;
 	float	x;
 	float	y;
-	float	dir;
+	t_vec	*dir;
+	float	rot;
 } t_obj;
 
 typedef struct	s_map
@@ -101,6 +102,7 @@ void	clean_kissa(t_cub3d *kissa);
 // init.c
 t_map	*new_map(t_cub3d *kissa);
 t_view	*new_view(t_cub3d *kissa);
+t_vec	*new_vec(t_cub3d *kissa);
 void	init_kissa(t_cub3d *kissa);
 void	init_mlx(t_cub3d *kissa);
 
@@ -117,16 +119,21 @@ void	get_rgb(t_cub3d *kissa, int *rgb, char *line);
 void	escape_hook(void *param);
 void	quit_hook(void *param);
 void	move_keyhook(mlx_key_data_t keykissa, void *param);
+void	update_hook(void *param);
 
 // game.c
-void	set_dir(t_obj *obj, char dir_char);
+void	set_rot(t_obj *obj, char rot_char);
 void	move(t_cub3d *kissa, t_obj *obj, int dir_x, int dir_y);
-void	rotate(t_obj *obj, int dir);
+void	rotate(t_cub3d *kissa, t_obj *obj, int dir);
 void	play_game(t_cub3d *kissa);
 
-// draw.c
+// minimap.c
 void	draw_mini_map(t_cub3d *kissa);
 void	move_player_texture(t_cub3d *kissa, float new_x, float new_y);
+mlx_instance_t	*get_player(t_view *view);
+
+// draw.c
+void	draw_tile(t_cub3d *kissa, char c, int i, int j);
 
 // utils.c
 void	clean_array(char **array);
