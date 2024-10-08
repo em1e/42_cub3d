@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:48:49 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/08 09:04:28 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/08 09:11:32 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ void	move(t_cub3d *kissa, t_obj *obj, int dir_x, int dir_y)
 	t_vec	*old_pos;
 	
 	old_pos = new_vec(kissa);
+	// using the delta time was recommended for performance reasns by others,
+	// lets look into that at some point
 	// * kissa->mlx->delta_time
 	new_x = obj->x
 	+ (dir_y * MOVE_SPEED * kissa->player->dir->x)
@@ -52,9 +54,6 @@ void	move(t_cub3d *kissa, t_obj *obj, int dir_x, int dir_y)
 	
 	old_pos->x = obj->x;
 	old_pos->y = obj->y;
-	
-	// obj->dir->x = new_x - old_pos->x;
-	// obj->dir->y = new_y - old_pos->y;
 	
 	if (old_pos)
 		free(old_pos);
@@ -74,26 +73,6 @@ void	move(t_cub3d *kissa, t_obj *obj, int dir_x, int dir_y)
 	printf("Player pos = (%f, %f)\n", obj->x, obj->y);
 	// ----------------------------------------------
 }
-
-// void tilt_player_texture(t_cub3d *kissa)
-// {
-// 	// these calculations are wrong
-// 	// and we don't need this
-// 	double cos_theta = cos(kissa->player->dir);
-// 	double sin_theta = sin(kissa->player->dir);
-// 	float x = kissa->player->x;
-// 	float y = kissa->player->y;
-
-// 	int new_x = (int)(x * cos_theta - y * sin_theta);
-// 	int new_y = (int)(x * sin_theta + y * cos_theta);
-
-// 	printf("old = (%d, %d)\n", (int)x, (int)y);
-// 	printf("new = (%d, %d)\n", new_x, new_y);
-// 	get_player(kissa->view)->x = new_x;
-// 	get_player(kissa->view)->y = new_y;
-// 	// get_player(kissa->view)->x = new_x * kissa->map->tile_size;
-// 	// get_player(kissa->view)->y = new_y * kissa->map->tile_size;
-// }
 
 void	rotate(t_cub3d *kissa, t_obj *obj, int rot)
 {
