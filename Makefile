@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+         #
+#    By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/25 19:49:37 by vkettune          #+#    #+#              #
-#    Updated: 2024/10/08 09:01:51 by vkettune         ###   ########.fr        #
+#    Updated: 2024/10/09 14:35:06 by jajuntti         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,6 +23,7 @@ MLX42_DIR = ./libs/MLX42/
 
 LIBS = $(LIBFT) $(MLX42) -I include -lglfw \
 		-L"/Users/$(USER)/.brew/opt/glfw/lib/"
+#-L"/home/linuxbrew/.linuxbrew/Cellar/glfw/3.4/lib/" -lm
 
 FILES = main.c \
 		quit.c \
