@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   game.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:48:49 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/08 15:16:03 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/09 14:33:06 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	rotate(t_cub3d *kissa, t_obj *obj, int rot)
 	(void)kissa;
 	if (!rot)
 		return ;
-	if (rot)
+	if (rot < 0)
 	{
 		obj->rot += ROT_SPEED;
 		if (obj->rot > 2 * M_PI)
