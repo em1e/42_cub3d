@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:49:02 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/08 16:16:35 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/09 14:47:23 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	draw_tile(t_cub3d *kissa, char c, int i, int j)
 
 	x = j * kissa->map->tile_size;
 	y = i * kissa->map->tile_size;
-	// (void)c;
+	(void)c;
 	// something like this should use --------------------------
 	// if (c == '1')
 	// {
@@ -39,6 +39,7 @@ void	draw_tile(t_cub3d *kissa, char c, int i, int j)
 	// }
 	//----------------------------------------------------------------
 
+	// if array is upside down ----------------------
 	// y = abs((i - kissa->map->height + 1) * kissa->map->tile_size);
 	
 	if (c == '1' \
@@ -49,21 +50,126 @@ void	draw_tile(t_cub3d *kissa, char c, int i, int j)
 		quit_perror(kissa, NULL, "MLX42 failed");
 }
 
-void shoot_ray(t_cub3d *kissa, t_obj *obj)
-{
-	double x = obj->x;
-	double y = obj->y;
-	double dx = cos(obj->rot);
-	double dy = sin(obj->rot);
+/*
+	flag = 0 checks for y rotation
+	flag = 1 checks for x rotation
+	rot is kissa->player->rot
 
-	kissa->view->ray = mlx_new_image(kissa->mlx, 1 * kissa->map->tile_size, 1 * kissa->map->tile_size);
-	while (kissa->map->array[(int)y][(int)x] != '1')
+	this function checks if the current rotation going in a
+	positive or negative direction, in either the x or y axis
+*/
+int check_dir(float rot, int flag)
+{
+	if (flag == 0) // y -------------------------------
 	{
-		mlx_put_pixel(kissa->view->ray, (int)x, (int)y, 0xFF0000); // Draw the pixel
-		if (mlx_image_to_window(kissa->mlx, kissa->view->ray, 0, 0) < 0)
-			quit_perror(kissa, NULL, "MLX42 failed");
-		x += dx * STEP_SIZE;
-		y += dy * STEP_SIZE;
-		printf("AAAAAAAAA\n");
+		// if (rot >= EAST && rot <= WEST)
+		// 	return (1); // y is positive
+		if (rot > (float)WEST)
+			return (-1); // y is negative
+		else 
+			return (1); // y is positive or 0
 	}
+	else if (flag == 1) // x ---------------------------
+	{
+		// if (rot <= NORTH || rot >= SOUTH)
+		// 	return (1); // x is positive
+		if (rot > (float)NORTH && rot < (float)SOUTH)
+			return (-1); // x is negative
+		else 
+			return (1); // x is positive or 0
+	}
+	return (-10);
+}
+
+// THIS IS OLD CODE FROM YESTERDAY ---------------------------------
+// void	shoot_ray(t_cub3d *kissa, t_obj *obj)
+// {
+// 	double	ray_x = obj->x;
+// 	double	ray_y = obj->y;
+
+// 	kissa->view->ray = mlx_new_image(kissa->mlx, 10 * kissa->map->tile_size, 10 * kissa->map->tile_size);
+// 	while (kissa->map->array[(int)ray_y][(int)ray_x] != '1')
+// 	{
+// 		mlx_put_pixel(kissa->view->ray, (int)ray_x * kissa->map->tile_size, (int)ray_y * kissa->map->tile_size, 0xFF0000FF); // Draw the pixel
+// 		printf("AAAAAAAAA ( %d, %d ) \n", (int)ray_x, (int)ray_y);
+// 		ray_x += obj->dir->x * STEP_SIZE;
+// 		ray_y += obj->dir->y * STEP_SIZE;
+// 	}
+// 	mlx_image_to_window(kissa->mlx, kissa->view->ray, 0, 0);
+// }
+// -------------------------------------------------------------------
+
+void	shoot_ray(t_cub3d *kissa, t_obj *obj)
+{
+	double	x = obj->x;
+	double	y = obj->y;
+	
+	printf("AAAAAAAAAAAAAAAAAAAAAAA\n");
+	float step_x = check_dir(obj->rot, 1);
+	printf("BBBBBBBBBBBBBBBBBBBBBBB\n");
+	float step_y = check_dir(obj->rot, 0);
+	
+	float	ray_len_x;
+	float	ray_len_y;
+	
+	float	step_size_x = sqrt(1 + (obj->dir->y / obj->dir->x) * (obj->dir->y / obj->dir->x));
+	float	step_size_y = sqrt(1 + (obj->dir->x / obj->dir->y) * (obj->dir->x / obj->dir->y));
+	
+	float	map_check_x = x;
+	float	map_check_y = y;
+
+	float	line_len;
+
+	printf("\t---------------------\n");
+	printf("\tNORTH = %f\n", NORTH);
+	printf("\tEAST = %d\n", EAST);
+	printf("\tSOUTH = %f\n", SOUTH);
+	printf("\tWEST = %f\n", WEST);
+	printf("\t---------------------\n");
+	// error check for check_dir()
+	if (step_x == -10 || step_y == -10)
+	{
+		printf("something wrong\n");
+		return ;
+	}
+
+	printf("rot = %f\n", obj->rot);
+	kissa->view->ray = mlx_new_image(kissa->mlx, 10 * kissa->map->tile_size, 10 * kissa->map->tile_size);
+	// get ray_len_x --------------------
+	printf("step_x = %f\n", step_x);
+	if (step_x < 0)
+		ray_len_x = (x - map_check_x) * step_size_x;
+	else
+		ray_len_x = ((map_check_x + 1) - x) * step_size_x;
+
+	// get ray_len_y --------------------
+	printf("step_y = %f\n", step_y);
+	if (step_y < 0)
+		ray_len_y = (y - map_check_y) * step_size_y;
+	else
+		ray_len_y = ((map_check_y + 1) - y) * step_size_y;
+	
+	while (kissa->map->array[(int)map_check_y][(int)map_check_x] != '1')
+	{
+		// put this in a while loop that loops each pixel through tiles
+		mlx_put_pixel(kissa->view->ray, (int)map_check_x, (int)map_check_y, 0xFF0000FF);
+		if (ray_len_x < ray_len_y)
+		{
+			printf("walking on x ( %f, %f)\n", map_check_x, map_check_y);
+			map_check_x += step_x;
+			line_len = ray_len_x;
+			ray_len_x += step_size_x;
+		}
+		else
+		{
+			printf("walking on y ( %f, %f)\n", map_check_x, map_check_y);
+			map_check_y += step_y;
+			line_len = ray_len_y;
+			ray_len_y += step_size_y;
+		}
+	}
+
+	printf("line len = %f\n", line_len);
+	
+	mlx_image_to_window(kissa->mlx, kissa->view->ray, 0, 0);
 }
