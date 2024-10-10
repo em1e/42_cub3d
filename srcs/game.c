@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:48:49 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/10 05:42:40 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/10 11:14:45 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,10 +85,6 @@ void	move(t_cub3d *kissa, t_obj *obj, int dir_x, int dir_y)
 		return ; // add bounceback
 	obj->x = new_x;
 	obj->y = new_y;
-	move_player_texture(kissa, new_x, new_y);
-	mlx_delete_image(kissa->mlx, kissa->view->ray);
-	shoot_ray(kissa, obj);
-	// dda_shoot_ray(kissa, obj, kissa->ray);
 	printf("Player pos = (%f, %f)\n", obj->x, obj->y);
 }
 
@@ -104,7 +100,7 @@ void	rotate(t_cub3d *kissa, t_obj *obj, int rot)
 	(void)kissa;
 	if (!rot)
 		return ;
-	if (rot < 0)
+	if (rot > 0)
 	{
 		obj->rot += ROT_SPEED;
 		if (obj->rot > 2 * M_PI)
@@ -116,7 +112,7 @@ void	rotate(t_cub3d *kissa, t_obj *obj, int rot)
 		if (obj->rot < 0)
 			obj->rot += 2 * M_PI;
 	}
-	obj->dir->x = -cos(obj->rot);
+	obj->dir->x = cos(obj->rot);
 	obj->dir->y = sin(obj->rot);
 	printf("Player dir = %f\n", obj->rot);
 }

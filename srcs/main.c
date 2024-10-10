@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 20:38:06 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/10 05:36:50 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/10 10:00:51 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,9 @@ TASKS:
 @ use dda to draw walls:
 	--> the ray logic is there (lines and calculated), just need to make the cone
 	of rays and calculate wall heights
-	--> jaakko?
 	
 @ draw ceiling and floor planes using colors in struct:
 	--> this might require us to put the pixel by pixel, I hope not tho
-	--> jaakko?
 	
 @ fix minimap:
 	--> keep player static and update surroundings according to the movement

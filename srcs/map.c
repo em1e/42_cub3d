@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 04:12:10 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/10 05:07:08 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/10 11:00:41 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	init_player_pos(t_cub3d *kissa, char this, int i, int j)
 	set_rot(kissa->player, this);
 	kissa->player->x = (float)j;
 	kissa->player->y = (float)i;
-	kissa->player->dir->x = -cos(kissa->player->rot);
+	kissa->player->dir->x = cos(kissa->player->rot);
 	kissa->player->dir->y = sin(kissa->player->rot);
 	kissa->map->array[i][j] = '0';
 }

@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 20:28:20 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/10 04:22:37 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/10 11:05:58 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@
 # define MOVE_SPEED 0.2
 // # define STEP_SIZE 0.2
 
-# define NORTH M_PI * 0.5
+# define NORTH M_PI * 1.5
 # define EAST 0
-# define SOUTH M_PI * 1.5
+# define SOUTH M_PI * 0.5
 # define WEST M_PI
 
 typedef struct	s_vec

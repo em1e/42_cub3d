@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:35:39 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/10 04:55:52 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/10 11:16:30 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,4 +104,8 @@ void	update_hook(void *param)
 	old_loc.x = kissa->player->x;
 	old_loc.y = kissa->player->y;
 	old_rot = kissa->player->rot;
+	move_player_texture(kissa, kissa->player->x, kissa->player->y);
+	mlx_delete_image(kissa->mlx, kissa->view->ray);
+	shoot_ray(kissa, kissa->player);
+	dda_shoot_ray(kissa, kissa->player, kissa->ray);
 }

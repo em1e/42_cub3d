@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:49:02 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/10 05:24:35 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/10 11:20:31 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ void	set_ray_len(float *ray_len_q, float step_q, t_ray *ray, int flag)
 {
 	if (step_q < 0)
 		*ray_len_q = 0;
-	else if (flag == 0)
+	else if (flag == 1)
 		*ray_len_q = ray->step_size->x;
 	else
 		*ray_len_q = ray->step_size->y;
@@ -127,8 +127,21 @@ void	init_dda(t_ray *ray, t_obj *obj)
 	ray->line_len = 0;
 	ray->step->x = check_dir(obj->rot, 1);
 	ray->step->y = check_dir(obj->rot, 0);
-	ray->step_size->x = sqrt(1 + (obj->dir->y / obj->dir->x) * (obj->dir->y / obj->dir->x));
-	ray->step_size->y = sqrt(1 + (obj->dir->x / obj->dir->y) * (obj->dir->x / obj->dir->y));
+	if (obj->dir->x == 0)
+	{
+		ray->step_size->x = 1;
+		ray->step_size->y = HUGE_VAL;
+	}
+	else if (obj->dir->y == 0)
+	{
+		ray->step_size->y = 1;
+		ray->step_size->x = HUGE_VAL;
+	}
+	else
+	{
+		ray->step_size->x = sqrt(1 + (obj->dir->y / obj->dir->x) * (obj->dir->y / obj->dir->x));
+		ray->step_size->y = sqrt(1 + (obj->dir->x / obj->dir->y) * (obj->dir->x / obj->dir->y));
+	}
 }
 
 /*
@@ -159,5 +172,5 @@ void	dda_shoot_ray(t_cub3d *kissa, t_obj *obj, t_ray *ray)
 			ray->ray_len->y += ray->step_size->y;
 		}
 	}
-	printf("line len = %f\n", ray->line_len);
+	printf("\nline len = %f\n", ray->line_len);
 }
