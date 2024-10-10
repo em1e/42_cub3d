@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 12:07:09 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/10 04:56:46 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/10 14:40:40 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ void	clean_ray(t_ray *ray)
 		free(ray->step);
 	if (ray->step_size)
 		free(ray->step_size);
+	if (ray->dir)
+		free(ray->dir);
 	free(ray);
 }
 

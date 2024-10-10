@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:49:02 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/10 12:53:14 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/10 14:30:15 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,27 +120,29 @@ void	set_ray_len(float *ray_len_q, float step_q, t_ray *ray, int flag)
 /*
 	Initializes the DDA algorithm by setting the starting coordinates and step sizes
 */
-void	init_dda(t_ray *ray, t_obj *obj)
+void	init_dda(t_cub3d *kissa, t_ray *ray, float rot)
 {
-	ray->x = obj->x;
-	ray->y = obj->y;
+	ray->x = kissa->player->x;
+	ray->y = kissa->player->y;
+	ray->dir->x = cos(rot);
+	ray->dir->y = sin(rot);
 	ray->line_len = 0;
-	ray->step->x = check_dir(obj->rot, 1);
-	ray->step->y = check_dir(obj->rot, 0);
-	if (obj->dir->x == 0)
+	ray->step->x = check_dir(rot, 1);
+	ray->step->y = check_dir(rot, 0);
+	if (ray->dir->x == 0)
 	{
 		ray->step_size->x = 1;
 		ray->step_size->y = HUGE_VAL;
 	}
-	else if (obj->dir->y == 0)
+	else if (ray->dir->y == 0)
 	{
 		ray->step_size->y = 1;
 		ray->step_size->x = HUGE_VAL;
 	}
 	else
 	{
-		ray->step_size->x = sqrt(1 + (obj->dir->y / obj->dir->x) * (obj->dir->y / obj->dir->x));
-		ray->step_size->y = sqrt(1 + (obj->dir->x / obj->dir->y) * (obj->dir->x / obj->dir->y));
+		ray->step_size->x = sqrt(1 + (ray->dir->y / ray->dir->x) * (ray->dir->y / ray->dir->x));
+		ray->step_size->y = sqrt(1 + (ray->dir->x / ray->dir->y) * (ray->dir->x / ray->dir->y));
 	}
 }
 
@@ -150,9 +152,9 @@ void	init_dda(t_ray *ray, t_obj *obj)
 
 	This code works, is more optimized, bur is not as readable as function above
 */
-void	dda_shoot_ray(t_cub3d *kissa, t_obj *obj, t_ray *ray)
+void	dda_shoot_ray(t_cub3d *kissa, float rot, t_ray *ray)
 {
-	init_dda(ray, obj);
+	init_dda(kissa, ray, rot);
 	if (ray->step->x == -10 || ray->step->y == -10)
 		return ;
 	set_ray_len(&ray->ray_len->x, ray->step->x, ray, 1);
@@ -172,5 +174,4 @@ void	dda_shoot_ray(t_cub3d *kissa, t_obj *obj, t_ray *ray)
 			ray->ray_len->y += ray->step_size->y;
 		}
 	}
-	printf("\tline len = %f\n", ray->line_len);
 }

@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 20:28:20 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/10 13:00:14 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/10 14:35:15 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@
 # define MOVE_SPEED 0.2
 
 # define MM_RADIUS 5
+
+# define RAYC 240 
 
 # define NORTH M_PI * 1.5
 # define EAST 0
@@ -50,6 +52,7 @@ typedef struct	s_view
 	mlx_image_t	*mlx_floor; // maybe not needed
 	mlx_image_t	*mlx_player;
 	int					player_inst;
+	float				*ray_array;
 	t_vec				*scene;
 } t_view;
 
@@ -79,7 +82,9 @@ typedef struct	s_ray
 {
 	float	x;
 	float	y;
+	float	rot;
 	float	line_len;
+	t_vec	*dir;
 	t_vec	*ray_len;
 	t_vec	*step;
 	t_vec	*step_size;
@@ -144,8 +149,11 @@ mlx_instance_t	*get_player(t_view *view);
 
 // draw.c
 void	draw_tile(t_cub3d *kissa, char c, int i, int j);
-void shoot_ray(t_cub3d *kissa, t_obj *obj);
-void	dda_shoot_ray(t_cub3d *kissa, t_obj *obj, t_ray *ray);
+void	shoot_ray(t_cub3d *kissa, t_obj *obj);
+void	dda_shoot_ray(t_cub3d *kissa, float rot, t_ray *ray);
+
+// draw_scene.c
+void	draw_scene(t_cub3d *kissa);
 
 // utils.c
 void	clean_array(char **array);

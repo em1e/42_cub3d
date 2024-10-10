@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 16:33:57 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/10 13:01:02 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/10 13:48:38 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,11 @@ void	draw_mini_map(t_cub3d *kissa)
 	int line_i;
 
 	line_i = 0;
+	mlx_delete_image(kissa->mlx, kissa->view->ray);
+	mlx_delete_image(kissa->mlx, kissa->view->mlx_floor);
+	mlx_delete_image(kissa->mlx, kissa->view->mlx_wall);
+	kissa->view->mlx_wall = convert_png(kissa, kissa->wall_tex);
+	kissa->view->mlx_floor = convert_png(kissa, kissa->floor_tex);
 	while (line_i <= MM_RADIUS * 2)
 	{
 		if (line_i == 0 || line_i == MM_RADIUS * 2)

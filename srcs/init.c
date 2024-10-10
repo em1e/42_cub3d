@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:25:48 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/10 13:01:39 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/10 14:37:50 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ t_ray	*new_ray(t_cub3d *kissa)
 	ray->ray_len = new_vec(kissa);
 	ray->step = new_vec(kissa);
 	ray->step_size = new_vec(kissa);
+	ray->dir = new_vec(kissa);
 	return (ray);
 }
 
@@ -73,11 +74,13 @@ t_ray	*new_ray(t_cub3d *kissa)
 t_view	*new_view(t_cub3d *kissa)
 {
 	t_view	*view;
+	float		ray_array[RAYC];
 
 	view = malloc(sizeof(t_view));
 	if (!view)
 		quit_error(kissa, NULL, "memory allocation failure");
 	// view->scene = new_vec(kissa);
+	view->ray_array = ray_array;
 	view->player_inst = 0;
 	return (view);
 }

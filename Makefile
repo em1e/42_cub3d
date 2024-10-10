@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+         #
+#    By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/25 19:49:37 by vkettune          #+#    #+#              #
-#    Updated: 2024/10/09 14:35:06 by jajuntti         ###   ########.fr        #
+#    Updated: 2024/10/10 14:34:21 by vkettune         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,6 +36,7 @@ FILES = main.c \
 		hooks.c \
 		game.c \
 		draw.c \
+		draw_scene.c \
 		clean.c \
 		minimap.c
 
