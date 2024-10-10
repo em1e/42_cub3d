@@ -6,37 +6,60 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 20:26:56 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/04 11:53:58 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/10 05:22:37 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/* .cub maps have many rules and edge cases, here's the basic info on it:
-
-These can be in any order, separated by x amount of spaces, etc.
-
-NO = north facing wall texture path
-SO = south facing wall texture path
-WE = west facing wall texture path
-EA = east facing wall texture path
-
-F = floor color RBG code
-C = ceiling color RBG code
-
-map's has the be last in the file.
-
-1 = walls
-0 = space
-N, S, E, W = player for that map, and in what direction
-is the player looking at in the beginning
-
-map checks for:
-	- space or player on the map edge
-	- multiple players (combination of the 4 letters)
-	- no space or player in map
-	- etc.
-*/
 #include "cub3d.h"
 
+/*
+	Checks that the given file has the correct extension.
+
+	NOTE:
+	We are not checking for if the map has islands, a couple people brought that
+	to my attention and we should probably add that check.
+
+	e.g.
+
+	111111111
+	100000001
+	100000001
+	111111111
+
+	1111111111111111111
+	1000000000000000001
+	1111000000000000001
+	1000000000000000001
+	1000000000000000011
+	100000000N000000001
+	1000000000000000001
+	1000000000000001111
+	1000000101010000001
+	1111111111111111111
+
+	in this case apparently only the lower map would be considered? I'm not sure
+	if that's correct or out of scope for this project.
+
+	or
+
+	111111111
+	100000001
+	10000N001
+	111111111
+
+	1111111111111111111
+	1000000000000000001
+	1111000000000000001
+	1000000000000000001
+	1000000000000000011
+	1000000000000000001
+	1000000000000000001
+	1000000000000001111
+	1000000101010000001
+	1111111111111111111
+
+	while in this case only the upper map would be considered I guess
+*/
 void	handle_map_line(t_cub3d *kissa, char *line)
 {
 	int	i;
@@ -61,6 +84,9 @@ void	handle_map_line(t_cub3d *kissa, char *line)
 	kissa->map->height++;
 }
 
+/*
+	Checks that all view elements are defined before the map element.
+*/
 static void	check_view_elements(t_cub3d *kissa)
 {
 	if (!kissa->no)
@@ -77,6 +103,13 @@ static void	check_view_elements(t_cub3d *kissa)
 		quit_error(kissa, NULL, "floor color not defined before map element");
 }
 
+/*
+	Handles the given line by checking if it's an element or a map line.
+	
+	It handles the elements by calling the appropriate function. When it gets to
+	the first map line, it checks that all other content is there before
+	handling the map.
+*/
 void	handle_element(t_cub3d *kissa, char *line, int line_i)
 {
 	skip_space(&line);
@@ -101,6 +134,9 @@ void	handle_element(t_cub3d *kissa, char *line, int line_i)
 	}
 }
 
+/*
+	Parses the given file so that it can be utilized later.
+*/
 void	parse_kissa(t_cub3d *kissa)
 {
 	int	line_i;

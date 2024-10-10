@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 20:28:20 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/09 16:48:21 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/10 04:22:37 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,16 +73,21 @@ typedef struct	s_map
 	int		first_map_line;
 } t_map;
 
+// remove if dda func is not needed
 typedef struct	s_ray
 {
-	int	i;
-	int	length;
+	float	x;
+	float	y;
+	float	line_len;
+	t_vec	*ray_len;
+	t_vec	*step;
+	t_vec	*step_size;
 }	t_ray;
 
 typedef struct	s_cub3d
 {
 	mlx_t		*mlx;
-	t_ray		ray;
+	t_ray		*ray;
 	t_map		*map;
 	t_obj	*player;
 	t_view		*view;
@@ -105,6 +110,7 @@ void	clean_kissa(t_cub3d *kissa);
 t_map	*new_map(t_cub3d *kissa);
 t_view	*new_view(t_cub3d *kissa);
 t_vec	*new_vec(t_cub3d *kissa);
+t_ray	*new_ray(t_cub3d *kissa);
 void	init_kissa(t_cub3d *kissa);
 void	init_mlx(t_cub3d *kissa);
 
@@ -125,6 +131,7 @@ void	update_hook(void *param);
 
 // game.c
 void	set_rot(t_obj *obj, char rot_char);
+int	is_wall(t_cub3d *kissa, float x, float y);
 void	move(t_cub3d *kissa, t_obj *obj, int dir_x, int dir_y);
 void	rotate(t_cub3d *kissa, t_obj *obj, int dir);
 void	play_game(t_cub3d *kissa);
@@ -137,6 +144,7 @@ mlx_instance_t	*get_player(t_view *view);
 // draw.c
 void	draw_tile(t_cub3d *kissa, char c, int i, int j);
 void shoot_ray(t_cub3d *kissa, t_obj *obj);
+void	dda_shoot_ray(t_cub3d *kissa, t_obj *obj, t_ray *ray);
 
 // utils.c
 void	clean_array(char **array);

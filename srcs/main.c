@@ -6,38 +6,35 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 20:38:06 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/04 15:47:29 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/10 05:36:50 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/* initial ideas on how the structure of
-		what this project could look like:
------------------------------------------
-	
-	init
-		- init variables
-		- parse map
-		 	- parse .cub file
-				- split values into struct
-			- handle possible map errors
-		- create minimap
-		- raycasting
-	start game
-		- calculate and scale screen
-		- handle images
-			- image error handling
-		- put images onto the screen
-		- ongoing 
-			- calculate and scale images onto the screen when moving
-			- keys being pressed
-			- tracking of the mouse
-			- movement updates (minimap and 3d space)
-	end game
-		- free everything
-*/
-
 #include "cub3d.h"
 
+/*
+
+TASKS:
+
+@ use dda to draw walls:
+	--> the ray logic is there (lines and calculated), just need to make the cone
+	of rays and calculate wall heights
+	--> jaakko?
+	
+@ draw ceiling and floor planes using colors in struct:
+	--> this might require us to put the pixel by pixel, I hope not tho
+	--> jaakko?
+	
+@ fix minimap:
+	--> keep player static and update surroundings according to the movement
+	--> make it a sphere shape
+	--> center ray in the middle of the player
+
+*/
+
+/*
+	Checks that the correct number of arguments are given.
+*/
 void	check_args(int argc)
 {
 	if (argc < 2)
@@ -48,7 +45,7 @@ void	check_args(int argc)
 
 int	main(int argc, char **argv)
 {
-	t_cub3d *kissa;
+	t_cub3d	*kissa;
 
 	check_args(argc);
 	kissa = malloc(sizeof(t_cub3d));
@@ -60,7 +57,7 @@ int	main(int argc, char **argv)
 	init_map(kissa);
 	init_mlx(kissa);
 	play_game(kissa);
-	printf("IT WORKS!!!\n"); // testing
+	printf("IT WORKS!!!\n");
 	clean_kissa(kissa);
 	return (0);
 }

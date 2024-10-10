@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 18:13:48 by jajuntti          #+#    #+#             */
-/*   Updated: 2024/10/04 16:08:44 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/10 05:10:38 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	get_texture(t_cub3d *kissa, char **texture, char *line)
 	if (!line)
 		quit_error(kissa, NULL, "scene element value missing");
 	check_file(kissa, line, NULL);
-	*texture = ft_strdup(line); // these leak, make sure they are being freed properly in clean_kissa
+	*texture = ft_strdup(line);
 	if (!*texture)
 		quit_perror(kissa, NULL, "memory allocation failure");
 }
@@ -43,7 +43,7 @@ void	set_rgb(t_cub3d *kissa, int *rgb, char **rgb_arr, int rgb_i)
 	skip_space(&ptr);
 	if (!*ptr)
 		quit_error(kissa, NULL, "wrong RGB format");
-	while (ptr[i]&& ptr[i] != ' ')
+	while (ptr[i] && ptr[i] != ' ')
 	{
 		if (ptr[i] && !ft_isdigit(ptr[i]))
 			quit_error(kissa, NULL, "wrong RGB format");

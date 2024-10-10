@@ -6,19 +6,15 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 13:04:19 by jajuntti          #+#    #+#             */
-/*   Updated: 2024/10/05 11:29:42 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/10 05:13:44 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-static char	*clean_string(char *string)
-{
-	if (string != NULL)
-		free(string);
-	return (NULL);
-}
-
+/*
+	Cleans the given array of strings and sets it to NULL.
+*/
 void	clean_array(char **array)
 {
 	int	i;
@@ -28,23 +24,27 @@ void	clean_array(char **array)
 		return ;
 	while (array[i] != NULL)
 	{
-		array[i] = clean_string(array[i]);
+		free(array[i]);
+		array[i] = NULL;
 		i++;
 	}
 	free(array);
 	array = NULL;
 }
 
+/*
+	Closes the kissa->fd if it's open and sets it to -1.
+*/
 void	close_fd(t_cub3d *kissa)
 {
 	if (!kissa || kissa->fd == -1)
 		return ;
 	close(kissa->fd);
-	kissa->fd = -1;	
+	kissa->fd = -1;
 }
 
 /*
-Returns 1 if given path is a directory and 0 if it's not.
+	Returns 1 if given path is a directory and 0 if it's not.
 */
 int	is_directory(char *filepath)
 {
@@ -59,6 +59,9 @@ int	is_directory(char *filepath)
 	return (0);
 }
 
+/*
+	Checks if the given file is a valid file and not a directory.
+*/
 void	check_file(t_cub3d *kissa, char *file, char *ext)
 {
 	int	len;
@@ -85,9 +88,8 @@ void	check_file(t_cub3d *kissa, char *file, char *ext)
 	close(fd);
 }
 
-
 /*
-Prints the map array of given kissa struct into standard output.
+	Prints the map array of given kissa struct into standard output.
 */
 void	print_map(t_cub3d *kissa)
 {
@@ -100,7 +102,7 @@ void	print_map(t_cub3d *kissa)
 }
 
 /*
-Prints the visited  array of given kissa struct into standard output.
+	Prints the visited  array of given kissa struct into standard output.
 */
 void	print_floodfill(t_cub3d *kissa)
 {
