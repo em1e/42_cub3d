@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:49:02 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/10 11:20:31 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/10 12:53:14 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,5 +172,5 @@ void	dda_shoot_ray(t_cub3d *kissa, t_obj *obj, t_ray *ray)
 			ray->ray_len->y += ray->step_size->y;
 		}
 	}
-	printf("\nline len = %f\n", ray->line_len);
+	printf("\tline len = %f\n", ray->line_len);
 }

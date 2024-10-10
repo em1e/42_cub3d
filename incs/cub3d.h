@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 20:28:20 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/10 11:05:58 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/10 13:00:14 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@
 
 # define ROT_SPEED 0.1
 # define MOVE_SPEED 0.2
-// # define STEP_SIZE 0.2
+
+# define MM_RADIUS 5
 
 # define NORTH M_PI * 1.5
 # define EAST 0

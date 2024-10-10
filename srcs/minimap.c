@@ -6,11 +6,33 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 16:33:57 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/10 05:09:39 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/10 13:01:02 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+
+void	draw_map_line(t_cub3d *kissa, int line_i, int to_skip)
+{
+	int	column_i;
+	int	x;
+	int	y;
+
+	column_i = to_skip;
+	y = kissa->player->y + line_i - MM_RADIUS;
+	while (column_i <= MM_RADIUS * 2 - to_skip)
+	{
+		if (line_i == MM_RADIUS && column_i == MM_RADIUS)
+			column_i++;
+		x = kissa->player->x + column_i - MM_RADIUS;
+		if (y < 0 || y >= kissa->map->height || x < 0 || x >= kissa->map->width)
+			draw_tile(kissa, '1', line_i, column_i);
+		else
+			draw_tile(kissa, kissa->map->array[y][x], line_i, column_i);
+		column_i++;
+	}
+}
 
 /*
 	Draws the image for the provided character at the given coordinate, which is 
@@ -18,28 +40,31 @@
 */
 void	draw_mini_map(t_cub3d *kissa)
 {
-	int	i;
-	int	j;
+	int line_i;
 
-	i = 0;
-	while (i < kissa->map->height)
+	line_i = 0;
+	while (line_i <= MM_RADIUS * 2)
 	{
-		j = 0;
-		while (j <= kissa->map->width)
-		{
-			printf("%c", kissa->map->array[i][j]);
-			draw_tile(kissa, kissa->map->array[i][j], i, j);
-			j++;
-		}
-		printf("\n");
-		i++;
-	}
-	kissa->view->player_inst = mlx_image_to_window(kissa->mlx,
-			kissa->view->mlx_player,
-			(int)kissa->player->x * kissa->map->tile_size,
-			(int)kissa->player->y * kissa->map->tile_size);
-	if (kissa->view->player_inst < 0)
-		quit_perror(kissa, NULL, "MLX42 failed");
+		if (line_i == 0 || line_i == MM_RADIUS * 2)
+			draw_map_line(kissa, line_i, 3);
+		else if (line_i < 3 || line_i > MM_RADIUS * 2 - 3)
+			draw_map_line(kissa, line_i, 1);
+		else
+			draw_map_line(kissa, line_i, 0);
+		line_i++;
+	}	
+	// while (i <= MM_RADIUS * 2)
+	// {
+	// 	j = kissa->player->x - MM_RADIUS;
+	// 	while (j <= kissa->map->width)
+	// 	{
+	// 		printf("%c", kissa->map->array[i][j]);
+	// 		draw_tile(kissa, kissa->map->array[i][j], i, j);
+	// 		j++;
+	// 	}
+	// 	printf("\n");
+	// 	i++;
+	// }
 }
 
 /*

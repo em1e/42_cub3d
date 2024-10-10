@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 04:12:10 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/10 11:00:41 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/10 13:12:18 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,29 @@ static void	check_map(t_cub3d *kissa)
 }
 
 /*
+	Replaces all spaces in the map with '1' to make sure the map is surrounded by
+	walls.
+*/
+void	replace_spaces(t_cub3d *kissa)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (i < kissa->map->height)
+	{
+		j = 0;
+		while (j < kissa->map->width)
+		{
+			if (kissa->map->array[i][j] == ' ')
+				kissa->map->array[i][j] = '1';
+			j++;
+		}
+		i++;
+	}
+}
+
+/*
 	Checks the mapfile, fills the map and performs checks to ensure map is valid.
 */
 void	init_map(t_cub3d *kissa)
@@ -123,6 +146,7 @@ void	init_map(t_cub3d *kissa)
 		quit_perror(kissa, NULL, "memory allocation error");
 	fill_map(kissa);
 	check_map(kissa);
+	replace_spaces(kissa);
 	//init_visited(kissa);
 	print_map(kissa);
 }

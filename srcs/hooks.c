@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:35:39 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/10 11:16:30 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/10 13:14:18 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ void	update_hook(void *param)
 		&& kissa->player->rot == old_rot)
 		return ;
 	// update_surrounding(kissa);
-	// update_minimap(kissa);
+	draw_mini_map(kissa);
 	// makes sure we aren't updating without reason
 	// e.g. when continuesly walking towards a wall
 	old_loc.x = kissa->player->x;
@@ -106,6 +106,12 @@ void	update_hook(void *param)
 	old_rot = kissa->player->rot;
 	move_player_texture(kissa, kissa->player->x, kissa->player->y);
 	mlx_delete_image(kissa->mlx, kissa->view->ray);
+	// mlx_delete_image(kissa->mlx, kissa->view->mlx_floor);
+	// mlx_delete_image(kissa->mlx, kissa->view->mlx_wall);
+	// kissa->view->mlx_floor = mlx_new_image(kissa->mlx, 100 * kissa->map->tile_size,
+	// 	100 * kissa->map->tile_size);
+	// kissa->view->mlx_wall = mlx_new_image(kissa->mlx, 100 * kissa->map->tile_size,
+	// 	100 * kissa->map->tile_size);
 	shoot_ray(kissa, kissa->player);
 	dda_shoot_ray(kissa, kissa->player, kissa->ray);
 }

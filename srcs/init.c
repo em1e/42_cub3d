@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:25:48 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/10 05:04:15 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/10 13:01:39 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,4 +154,10 @@ void	init_mlx(t_cub3d *kissa)
 	kissa->view->mlx_wall = convert_png(kissa, kissa->wall_tex);
 	kissa->view->mlx_floor = convert_png(kissa, kissa->floor_tex);
 	kissa->view->mlx_player = convert_png(kissa, kissa->player_tex);
+	kissa->view->player_inst = mlx_image_to_window(kissa->mlx,
+			kissa->view->mlx_player,
+			MM_RADIUS * kissa->map->tile_size,
+			MM_RADIUS * kissa->map->tile_size);
+	if (kissa->view->player_inst < 0)
+		quit_perror(kissa, NULL, "MLX42 failed");
 }
