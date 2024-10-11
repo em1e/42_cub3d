@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:49:02 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/11 11:35:23 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/11 12:16:49 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ void	draw_all_tiles(t_cub3d *kissa)
 		j = 0;
 		while (j <= MMRAD * 2)
 		{
-			printf("Drawing tile %d %d\n", i, j);
 			kissa->view->wall_inst[i][j] = mlx_image_to_window(kissa->mlx,
 				kissa->view->mlx_wall, j * kissa->map->tile_size, i * kissa->map->tile_size);
 			if (kissa->view->wall_inst[i][j] < 0)
