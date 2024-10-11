@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw_scene.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 13:43:44 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/11 08:48:26 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/11 12:47:29 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static void	get_ray_lens(t_cub3d *kissa)
 		rot = start_rot + i * rot_change;
 		if (rot > 2 * M_PI)
 			rot -= 2 * M_PI;
-		dda_shoot_ray(kissa, rot, kissa->ray);
+		cast_ray(kissa, rot, kissa->ray);
 		kissa->view->ray_array[i] = kissa->ray->line_len;
 		
 		// if we want to calculate it through start and end point,

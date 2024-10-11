@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:25:48 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/11 12:16:35 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/11 12:45:41 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,5 +193,5 @@ void	init_mlx(t_cub3d *kissa)
 			kissa->view->mlx_player, MMRAD * kissa->map->tile_size, MMRAD * kissa->map->tile_size);
 	if (kissa->view->player_inst < 0)
 		quit_perror(kissa, NULL, "MLX42 failed");
-	draw_all_tiles(kissa);
+	setup_minimap(kissa);
 }

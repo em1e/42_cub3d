@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 20:28:20 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/11 11:34:38 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/11 12:52:35 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,11 @@ typedef struct	s_view
 	mlx_image_t	*mlx_wall;
 	mlx_image_t	*mlx_floor;
 	mlx_image_t	*mlx_player;
-	int					player_inst;
-	int					**wall_inst;
-	int					**floor_inst;
-	float				*ray_array;
-	t_vec				*scene;
+	int			player_inst;
+	int			**wall_inst;
+	int			**floor_inst;
+	float		*ray_array;
+	t_vec		*scene;
 } t_view;
 
 typedef struct s_obj
@@ -145,13 +145,12 @@ void	rotate(t_cub3d *kissa, t_obj *obj, int dir);
 void	play_game(t_cub3d *kissa);
 
 // minimap.c
-void	draw_mini_map(t_cub3d *kissa);
-
-// draw.c
-void	draw_tile(t_cub3d *kissa, char c, int i, int j);
-void	draw_all_tiles(t_cub3d *kissa);
 void	shoot_ray(t_cub3d *kissa, t_obj *obj);
-void	dda_shoot_ray(t_cub3d *kissa, float rot, t_ray *ray);
+void	refresh_minimap(t_cub3d *kissa);
+void	setup_minimap(t_cub3d *kissa);
+
+// dda.c
+void	cast_ray(t_cub3d *kissa, float rot, t_ray *ray);
 
 // draw_scene.c
 void	draw_scene(t_cub3d *kissa);

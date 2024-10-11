@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hooks.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:35:39 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/11 06:27:50 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/11 12:55:19 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,6 @@ void	update_hook(void *param)
 	old_loc.y = kissa->player->y;
 	old_rot = kissa->player->rot;
 	draw_scene(kissa);
-	draw_mini_map(kissa);
-	shoot_ray(kissa, kissa->player);
-	dda_shoot_ray(kissa, kissa->player->rot, kissa->ray);
+	refresh_minimap(kissa);
+	//cast_ray(kissa, kissa->player->rot, kissa->ray);
 }
