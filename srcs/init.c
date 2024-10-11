@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:25:48 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/11 11:36:00 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/11 11:42:05 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,7 +185,7 @@ void	init_mlx(t_cub3d *kissa)
 	i = 0;
 	kissa->map->tile_size = 21;
 	mlx_set_setting(MLX_STRETCH_IMAGE, 1);
-	kissa->mlx = mlx_init(1200, 800, "NOT QUITE VOID", true);
+	kissa->mlx = mlx_init(1200, 800, "KISSA^3", true);
 	if (!kissa->mlx)
 		quit_perror(kissa, NULL, "mlx_init failed");
 	populate_minimap_instances(kissa);
