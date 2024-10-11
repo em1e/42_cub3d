@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 20:28:20 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/11 12:58:48 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/11 15:09:28 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,17 +23,27 @@
 # include "../libs/MLX42/include/MLX42/MLX42.h"
 # include <math.h>
 
+// speeds for moving and rotating
 # define ROT_SPEED 0.1
 # define MOVE_SPEED 0.2
 
+// number of rays to be cast
 # define RAYC 240
 
+// minimap radius
 # define MMRAD 5
 
+// radians for directions (north & south reverted due to how minimap initialized)
 # define NORTH M_PI * 1.5
 # define EAST 0
 # define SOUTH M_PI * 0.5
 # define WEST M_PI
+
+// depth values for rendering images
+# define Z_HIDDEN 0
+# define Z_BACKGROUND 1
+# define Z_SCENE 2
+# define Z_MINIMAP 3
 
 typedef struct	s_vec
 {
@@ -51,7 +61,7 @@ typedef struct	s_view
 	mlx_image_t	*mlx_wall;
 	mlx_image_t	*mlx_floor;
 	mlx_image_t	*mlx_player;
-	int			player_inst;
+	mlx_image_t	*mlx_bg;
 	int			**wall_inst;
 	int			**floor_inst;
 	float		*ray_array;
@@ -97,7 +107,7 @@ typedef struct	s_cub3d
 	mlx_t		*mlx;
 	t_ray		*ray;
 	t_map		*map;
-	t_obj	*player;
+	t_obj		*player;
 	t_view		*view;
 	int			fd;
 	char		*no;
@@ -139,19 +149,20 @@ void	update_hook(void *param);
 
 // game.c
 void	set_rot(t_obj *obj, char rot_char);
-int	is_wall(t_cub3d *kissa, float x, float y);
+int		is_wall(t_cub3d *kissa, float x, float y);
 void	move(t_cub3d *kissa, t_obj *obj, int dir_x, int dir_y);
 void	rotate(t_cub3d *kissa, t_obj *obj, int dir);
 void	play_game(t_cub3d *kissa);
 
 // minimap.c
 void	refresh_minimap(t_cub3d *kissa);
-void	setup_minimap(t_cub3d *kissa);
+void	setup_minimap(t_cub3d *kissa, int i, int j);
 
 // dda.c
 void	cast_ray(t_cub3d *kissa, float rot, t_ray *ray);
 
-// draw_scene.c
+// draw.c
+void	draw_background(t_cub3d *kissa);
 void	draw_scene(t_cub3d *kissa);
 
 // utils.c

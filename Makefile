@@ -6,7 +6,7 @@
 #    By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/25 19:49:37 by vkettune          #+#    #+#              #
-#    Updated: 2024/10/11 12:42:50 by jajuntti         ###   ########.fr        #
+#    Updated: 2024/10/11 13:45:18 by jajuntti         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,7 @@ FILES = main.c \
 		hooks.c \
 		game.c \
 		dda.c \
-		draw_scene.c \
+		draw.c \
 		clean.c \
 		minimap.c
 

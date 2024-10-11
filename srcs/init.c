@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:25:48 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/11 12:45:41 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/11 15:14:30 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,6 @@ t_view	*new_view(t_cub3d *kissa)
 	// view->scene = new_vec(kissa);
 	ray_array = malloc(sizeof(float) * RAYC);
 	view->ray_array = ray_array;
-	view->player_inst = 0;
 	return (view);
 }
 
@@ -143,28 +142,6 @@ void convert_textures(t_cub3d *kissa)
 	kissa->view->mlx_player = convert_png(kissa, kissa->player_tex);
 }
 
-void	populate_minimap_instances(t_cub3d *kissa)
-{
-	int			i;
-	t_view	*view;
-
-	view = kissa->view;
-
-	i = 0;
-	view->wall_inst = ft_calloc(sizeof(int*), MMRAD * 2 + 1);
-	view->floor_inst = ft_calloc(sizeof(int*), MMRAD * 2 + 1);
-	if (!view->wall_inst || !view->floor_inst)
-		quit_error(kissa, NULL, "memory allocation failure");
-	while (i <= MMRAD * 2)
-	{
-		view->wall_inst[i] = ft_calloc(sizeof(int), MMRAD * 2 + 1);
-		view->floor_inst[i] = ft_calloc(sizeof(int), MMRAD * 2 + 1);
-		if (!view->wall_inst[i] || !view->floor_inst[i])
-			quit_error(kissa, NULL, "memory allocation failure");
-		i++;
-	}
-}
-
 /*
 Initializes MLX and stores the required images.
 
@@ -187,11 +164,8 @@ void	init_mlx(t_cub3d *kissa)
 	kissa->mlx = mlx_init(1200, 800, "KISSA^3", true);
 	if (!kissa->mlx)
 		quit_perror(kissa, NULL, "mlx_init failed");
-	populate_minimap_instances(kissa);
 	convert_textures(kissa);
-	kissa->view->player_inst = mlx_image_to_window(kissa->mlx,
-			kissa->view->mlx_player, MMRAD * kissa->map->tile_size, MMRAD * kissa->map->tile_size);
-	if (kissa->view->player_inst < 0)
+	kissa->view->mlx_bg = mlx_new_image(kissa->mlx, kissa->mlx->width, kissa->mlx->height);
+	if (!kissa->view->mlx_bg)
 		quit_perror(kissa, NULL, "MLX42 failed");
-	setup_minimap(kissa);
 }

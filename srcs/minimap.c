@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 16:33:57 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/11 12:56:02 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/11 15:14:33 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,12 +140,31 @@ void	refresh_minimap(t_cub3d *kissa)
 	shoot_ray(kissa, kissa->player);
 }
 
-void	setup_minimap(t_cub3d *kissa)
+void	populate_minimap_instances(t_cub3d *kissa)
 {
-	int	i;
-	int	j;
+	int		i;
+	t_view	*view;
+
+	view = kissa->view;
 
 	i = 0;
+	view->wall_inst = ft_calloc(sizeof(int*), MMRAD * 2 + 1);
+	view->floor_inst = ft_calloc(sizeof(int*), MMRAD * 2 + 1);
+	if (!view->wall_inst || !view->floor_inst)
+		quit_error(kissa, NULL, "memory allocation failure");
+	while (i <= MMRAD * 2)
+	{
+		view->wall_inst[i] = ft_calloc(sizeof(int), MMRAD * 2 + 1);
+		view->floor_inst[i] = ft_calloc(sizeof(int), MMRAD * 2 + 1);
+		if (!view->wall_inst[i] || !view->floor_inst[i])
+			quit_error(kissa, NULL, "memory allocation failure");
+		i++;
+	}
+}
+
+void	setup_minimap(t_cub3d *kissa, int i, int j)
+{
+	populate_minimap_instances(kissa);
 	while (i <= MMRAD * 2)
 	{
 		j = 0;
@@ -155,16 +174,20 @@ void	setup_minimap(t_cub3d *kissa)
 				kissa->view->mlx_wall, j * kissa->map->tile_size, i * kissa->map->tile_size);
 			if (kissa->view->wall_inst[i][j] < 0)
 				quit_perror(kissa, NULL, "MLX42 failed");
-			mlx_set_instance_depth(get_tile(kissa->view, j, i, '1'), 1);
+			mlx_set_instance_depth(get_tile(kissa->view, j, i, '1'), Z_MINIMAP);
 			kissa->view->floor_inst[i][j] = mlx_image_to_window(kissa->mlx,
 				kissa->view->mlx_floor, j * kissa->map->tile_size, i * kissa->map->tile_size);
 			if (kissa->view->floor_inst[i][j] < 0)
 				quit_perror(kissa, NULL, "MLX42 failed");
-			mlx_set_instance_depth(get_tile(kissa->view, j, i, '0'), 0);
+			mlx_set_instance_depth(get_tile(kissa->view, j, i, '0'), Z_MINIMAP);
 			get_tile(kissa->view, j, i, '0')->enabled = 0;
 			get_tile(kissa->view, j, i, '1')->enabled = 0;
 			j++;
 		}
 		i++;
 	}
+	if (mlx_image_to_window(kissa->mlx, kissa->view->mlx_player, 
+		MMRAD * kissa->map->tile_size, MMRAD * kissa->map->tile_size) < 0)
+		quit_perror(kissa, NULL, "MLX42 failed");
+	mlx_set_instance_depth(kissa->view->mlx_player->instances, Z_MINIMAP);
 }

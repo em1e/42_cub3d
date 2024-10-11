@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   draw_scene.c                                       :+:      :+:    :+:   */
+/*   draw.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 13:43:44 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/11 12:47:29 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/11 14:55:20 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,37 @@ static void	get_ray_lens(t_cub3d *kissa)
 		// printf("B Ray %d rot %f and len %f\n", i, rot, kissa->view->ray_array[i]);
 		i++;
 	}
+}
+
+int32_t	rgb_to_pixel(int *rgb)
+{
+	return (rgb[0] << 24 | rgb[1] << 16 | rgb[2] << 8 | 255);
+}
+
+void	draw_background(t_cub3d *kissa)
+{
+	mlx_image_t	*bg;
+	uint32_t	i;
+	uint32_t	j;
+
+	bg = kissa->view->mlx_bg;
+	//printf("Image height %d and width %d\n", bg->height, bg->width);
+	i = 0;
+	while (i < bg->height / 2)
+	{
+		j = 0;
+		while (j < bg->width)
+		{
+			//printf("Setting pixels %d and %d\n", i, j);
+			mlx_put_pixel(bg, j, i, rgb_to_pixel(kissa->c));
+			mlx_put_pixel(bg, j, i + bg->height / 2, rgb_to_pixel(kissa->f));
+			j++;
+		}
+		i++;
+	}
+	if (mlx_image_to_window(kissa->mlx, bg, 0, 0) < 0)
+		quit_perror(kissa, NULL, "MLX42 failed");
+	mlx_set_instance_depth(bg->instances, Z_BACKGROUND);
 }
 
 void	draw_scene(t_cub3d *kissa)
