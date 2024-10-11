@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 16:33:57 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/11 08:22:19 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/11 08:48:40 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,15 +27,9 @@ void	draw_map_line(t_cub3d *kissa, int line_i, int to_skip)
 			column_i++;
 		x = kissa->player->x + column_i - MM_RADIUS;
 		if (y < 0 || y >= kissa->map->height || x < 0 || x >= kissa->map->width)
-		{
-			// printf("toggling WALL at (%d, %d)\n", column_i, line_i);
 			draw_tile(kissa, '1', line_i, column_i);
-		}
 		else
-		{
-			// printf("toggling FLOOR at (%d, %d)\n", column_i, line_i);
 			draw_tile(kissa, kissa->map->array[y][x], line_i, column_i);
-		}
 		column_i++;
 	}
 }

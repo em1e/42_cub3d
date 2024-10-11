@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:49:02 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/11 08:43:15 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/11 08:47:55 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,6 @@
 */
 void	draw_tile(t_cub3d *kissa, char c, int x, int y)
 {
-	// (void)c;
-	// (void)kissa;
-	// (void)y;
-	// (void)x;
 	if (c == '1' && get_tile(kissa->view, y, x, c)->enabled == 0)
 	{
 		get_tile(kissa->view, y, x, '1')->enabled = 1;
@@ -32,13 +28,6 @@ void	draw_tile(t_cub3d *kissa, char c, int x, int y)
 		get_tile(kissa->view, y, x, '0')->enabled = 1;
 		get_tile(kissa->view, y, x, '1')->enabled = 0;
 	}
-
-	// if (c == '1' && mlx_image_to_window(kissa->mlx, kissa->view->mlx_wall,
-	// 	x, y) < 0)
-	// 	quit_perror(kissa, NULL, "MLX42 failed");
-	// else if (c == '0' && mlx_image_to_window(kissa->mlx, kissa->view->mlx_floor,
-	// 	x, y) < 0)
-	// 	quit_perror(kissa, NULL, "MLX42 failed");
 }
 
 void	draw_all_tiles(t_cub3d *kissa)
@@ -64,34 +53,11 @@ void	draw_all_tiles(t_cub3d *kissa)
 			mlx_set_instance_depth(get_tile(kissa->view, j, i, '0'), 0);
 			get_tile(kissa->view, j, i, '0')->enabled = 0;
 			get_tile(kissa->view, j, i, '1')->enabled = 0;
-			// printf("Drawing tiles at (%d, %d)\n", j, i);
 			j++;
 		}
 		i++;
 	}
 }
-
-/*
-	THIS IS THE OLD SHOOT_RAY FUNCTION
-*/
-// void	shoot_ray(t_cub3d *kissa, t_obj *obj)
-// {
-// 	double	px_x;
-// 	double	px_y;
-
-// 	px_x = obj->x * kissa->map->tile_size;
-// 	px_y = obj->y * kissa->map->tile_size;
-// 	kissa->view->ray = mlx_new_image(kissa->mlx, 100 * kissa->map->tile_size, 100 * kissa->map->tile_size);
-// 	while (is_wall(kissa, px_x / kissa->map->tile_size, px_y / kissa->map->tile_size) == 0
-// 		&& !(px_x / kissa->map->tile_size < 0 || px_x / kissa->map->tile_size >= kissa->map->width
-// 		|| px_y / kissa->map->tile_size < 0 || px_y / kissa->map->tile_size >= kissa->map->height))
-// 	{
-// 		mlx_put_pixel(kissa->view->ray, (int)px_x, (int)px_y, 0xFF0000FF);
-// 		px_x += 1 * obj->dir->x;
-// 		px_y += 1 * obj->dir->y;
-// 	}
-// 	mlx_image_to_window(kissa->mlx, kissa->view->ray, 0, 0);
-// }
 
 /*
 	Returns 1 if coordinate ray_x and ray_y are within the minimap radius
@@ -148,24 +114,12 @@ void	shoot_ray(t_cub3d *kissa, t_obj *obj)
 	{
 		if (ray_x < 0 || ray_x >= kissa->map->width * tile || ray_y < 0 || ray_y >= kissa->map->height * tile)
 				break;
-		// printf("ray_x - center_x + radius = %f\n", ray_x - center_x + radius);
-		// printf("ray_y - center_y + radius = %f\n", ray_y - center_y + radius);
 		mlx_put_pixel(kissa->view->ray, (ray_x - center_x + radius * tile / 2) + tile / 2,
 			(ray_y - center_y + radius * tile / 2) + tile / 2, 0xFF0000FF);
 		ray_x += obj->dir->x;
 		ray_y += obj->dir->y;
 		player_x += obj->dir->x;
 		player_y += obj->dir->y;
-
-		// if (is_wall(kissa, player_x / kissa->map->tile_size, player_y / kissa->map->tile_size) == 1)
-		// 	printf("\tIS A WALL ( %f, %f )\n", player_x, player_y);
-		// else if ((ray_y - center_y) + radius / 2 * kissa->map->tile_size <= 0)
-		// 	printf("\ty is 0\n");
-		// else if ((ray_x - center_x) + radius / 2 * kissa->map->tile_size <= 0)
-		// 	printf("\tx is 0\n");
-		// else if (sqrt(pow((ray_x - center_x), 2) + pow((ray_y - center_y), 2))
-		// 	>= (radius - 6) * kissa->map->tile_size)
-		// 	printf("\tRadius is finished\n");
 	}
 	if (mlx_image_to_window(kissa->mlx, kissa->view->ray, 0, 0) < 0)
 		quit_perror(kissa, NULL, "MLX42 image to window failed");
