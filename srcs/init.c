@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:25:48 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/11 15:14:30 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/11 15:53:13 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,8 @@ t_view	*new_view(t_cub3d *kissa)
 	// view->scene = new_vec(kissa);
 	ray_array = malloc(sizeof(float) * RAYC);
 	view->ray_array = ray_array;
+	view->floor_inst = NULL;
+	view->wall_inst = NULL;
 	return (view);
 }
 
