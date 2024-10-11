@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 16:33:57 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/11 04:57:22 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/11 08:22:19 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,15 @@ void	draw_map_line(t_cub3d *kissa, int line_i, int to_skip)
 			column_i++;
 		x = kissa->player->x + column_i - MM_RADIUS;
 		if (y < 0 || y >= kissa->map->height || x < 0 || x >= kissa->map->width)
+		{
+			// printf("toggling WALL at (%d, %d)\n", column_i, line_i);
 			draw_tile(kissa, '1', line_i, column_i);
+		}
 		else
+		{
+			// printf("toggling FLOOR at (%d, %d)\n", column_i, line_i);
 			draw_tile(kissa, kissa->map->array[y][x], line_i, column_i);
+		}
 		column_i++;
 	}
 }
@@ -44,10 +50,6 @@ void	draw_mini_map(t_cub3d *kissa)
 
 	line_i = 0;
 	mlx_delete_image(kissa->mlx, kissa->view->ray);
-	mlx_delete_image(kissa->mlx, kissa->view->mlx_floor);
-	mlx_delete_image(kissa->mlx, kissa->view->mlx_wall);
-	kissa->view->mlx_wall = convert_png(kissa, kissa->wall_tex);
-	kissa->view->mlx_floor = convert_png(kissa, kissa->floor_tex);
 	while (line_i <= MM_RADIUS * 2)
 	{
 		if (line_i == 0 || line_i == MM_RADIUS * 2)
@@ -58,30 +60,4 @@ void	draw_mini_map(t_cub3d *kissa)
 			draw_map_line(kissa, line_i, 0);
 		line_i++;
 	}
-}
-
-/*
-	Gets the player instance from the view struct.
-*/
-mlx_instance_t	*get_player(t_view *view)
-{
-	mlx_image_t	*image;
-	int			inst;
-
-	image = view->mlx_player;
-	if (image == 0)
-		return (0);
-	inst = view->player_inst;
-	return (&image->instances[inst]);
-}
-
-/*
-	Moves the player texture to the new coordinates.
-*/
-void	move_player_texture(t_cub3d *kissa, float new_x, float new_y)
-{
-	(void)new_x;
-	(void)new_y;
-	get_player(kissa->view)->y = MM_RADIUS * kissa->map->tile_size;
-	get_player(kissa->view)->x = MM_RADIUS  * kissa->map->tile_size;
 }

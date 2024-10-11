@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:48:49 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/11 05:38:46 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/11 08:23:40 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,7 @@ void	play_game(t_cub3d *kissa)
 {
 	(void)kissa;
 	printf("game started\n");
-	draw_mini_map(kissa);
+	// draw_mini_map(kissa);
 	mlx_loop_hook(kissa->mlx, escape_hook, kissa);
 	mlx_close_hook(kissa->mlx, quit_hook, kissa);
 	mlx_key_hook(kissa->mlx, (mlx_keyfunc)move_keyhook, kissa);

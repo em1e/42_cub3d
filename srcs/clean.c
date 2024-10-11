@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 12:07:09 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/11 06:26:18 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/11 07:54:13 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,24 @@ void	clean_map(t_map *map)
 /*
 	Cleans the view struct.
 */
-void	clean_view(t_view *view)
+void	clean_view(t_map *map, t_view *view)
 {
+	int	i;
+
+	i = 0;
 	// if (view->scene)
 	// 	free(view->scene);
-	free(view->ray_array);
+	if (view->ray_array)
+		free(view->ray_array);
+	while (i < map->height)
+	{
+		free(view->floor_inst[i]);
+		free(view->wall_inst[i]);
+		view->wall_inst[i] = NULL;
+		i++;
+	}
+	free(view->wall_inst);
+	free(view->floor_inst);
 	free(view);
 }
 
@@ -92,10 +105,10 @@ void	clean_kissa(t_cub3d *kissa)
 	close_fd(kissa);
 	if (kissa)
 	{
+		if (kissa->view)
+			clean_view(kissa->map, kissa->view);
 		if (kissa->map)
 			clean_map(kissa->map);
-		if (kissa->view)
-			clean_view(kissa->view);
 		if (kissa->player)
 			clean_obj(kissa->player);
 		if (kissa->ray)

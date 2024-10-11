@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:25:48 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/11 06:16:44 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/11 07:43:54 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,8 @@ t_view	*new_view(t_cub3d *kissa)
 		quit_error(kissa, NULL, "memory allocation failure");
 	// view->scene = new_vec(kissa);
 	ray_array = malloc(sizeof(float) * RAYC);
-	
+	view->wall_inst = NULL;
+	view->floor_inst = NULL;
 	view->ray_array = ray_array;
 	view->player_inst = 0;
 	return (view);
@@ -163,4 +164,5 @@ void	init_mlx(t_cub3d *kissa)
 			kissa->view->mlx_player, MM_RADIUS * kissa->map->tile_size, MM_RADIUS * kissa->map->tile_size);
 	if (kissa->view->player_inst < 0)
 		quit_perror(kissa, NULL, "MLX42 failed");
+	draw_all_tiles(kissa);
 }

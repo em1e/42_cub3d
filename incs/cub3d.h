@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 20:28:20 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/11 06:27:11 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/11 08:41:24 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ typedef struct	s_view
 	mlx_image_t	*mlx_floor;
 	mlx_image_t	*mlx_player;
 	int					player_inst;
+	int					**wall_inst;
+	int					**floor_inst;
 	float				*ray_array;
 	t_vec				*scene;
 } t_view;
@@ -144,11 +146,10 @@ void	play_game(t_cub3d *kissa);
 
 // minimap.c
 void	draw_mini_map(t_cub3d *kissa);
-void	move_player_texture(t_cub3d *kissa, float new_x, float new_y);
-mlx_instance_t	*get_player(t_view *view);
 
 // draw.c
 void	draw_tile(t_cub3d *kissa, char c, int i, int j);
+void	draw_all_tiles(t_cub3d *kissa);
 void	shoot_ray(t_cub3d *kissa, t_obj *obj);
 void	dda_shoot_ray(t_cub3d *kissa, float rot, t_ray *ray);
 
@@ -162,10 +163,10 @@ int		is_directory(char *filepath);
 void	check_file(t_cub3d *kissa, char *file, char *ext);
 void	print_map(t_cub3d *kissa);
 void	print_floodfill(t_cub3d *kissa);
+mlx_instance_t	*get_tile(t_view *view, int x, int y, char tile);
 
 // img_convert.c
 mlx_image_t	*convert_png(t_cub3d *kissa, char *file);
-mlx_image_t	*convert_xpm(t_cub3d *kissa, char *file);
 
 // map.c
 void	init_map(t_cub3d *kissa);
@@ -173,7 +174,7 @@ void	init_mlx(t_cub3d *kissa);
 
 // clean.c
 void	clean_map(t_map *map);
-void	clean_view(t_view *view);
+void	clean_view(t_map *map, t_view *view);
 void	clean_obj(t_obj *obj);
 void	clean_kissa(t_cub3d *kissa);
 

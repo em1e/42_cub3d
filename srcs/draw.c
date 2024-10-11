@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:49:02 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/11 06:24:57 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/11 08:43:15 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,20 +16,59 @@
 	Draws the image for the provided character at the given coordinate, which is 
 	calculated using provided indexes and the tile size used.
 */
-void	draw_tile(t_cub3d *kissa, char c, int i, int j)
+void	draw_tile(t_cub3d *kissa, char c, int x, int y)
 {
-	int	x;
-	int	y;
+	// (void)c;
+	// (void)kissa;
+	// (void)y;
+	// (void)x;
+	if (c == '1' && get_tile(kissa->view, y, x, c)->enabled == 0)
+	{
+		get_tile(kissa->view, y, x, '1')->enabled = 1;
+		get_tile(kissa->view, y, x, '0')->enabled = 0;
+	}
+	else if (c == '0' && get_tile(kissa->view, y, x, c)->enabled == 0)
+	{
+		get_tile(kissa->view, y, x, '0')->enabled = 1;
+		get_tile(kissa->view, y, x, '1')->enabled = 0;
+	}
 
-	x = j * kissa->map->tile_size;
-	y = i * kissa->map->tile_size;
+	// if (c == '1' && mlx_image_to_window(kissa->mlx, kissa->view->mlx_wall,
+	// 	x, y) < 0)
+	// 	quit_perror(kissa, NULL, "MLX42 failed");
+	// else if (c == '0' && mlx_image_to_window(kissa->mlx, kissa->view->mlx_floor,
+	// 	x, y) < 0)
+	// 	quit_perror(kissa, NULL, "MLX42 failed");
+}
 
-	if (c == '1' && mlx_image_to_window(kissa->mlx, kissa->view->mlx_wall,
-		x, y) < 0)
-		quit_perror(kissa, NULL, "MLX42 failed");
-	else if (c == '0' && mlx_image_to_window(kissa->mlx, kissa->view->mlx_floor,
-		x, y) < 0)
-		quit_perror(kissa, NULL, "MLX42 failed");
+void	draw_all_tiles(t_cub3d *kissa)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (i <= MM_RADIUS * 2)
+	{
+		j = 0;
+		while (j <= MM_RADIUS * 2)
+		{
+			kissa->view->wall_inst[i][j] = mlx_image_to_window(kissa->mlx,
+				kissa->view->mlx_wall, j * kissa->map->tile_size, i * kissa->map->tile_size);
+			if (kissa->view->wall_inst[i][j] < 0)
+				quit_perror(kissa, NULL, "MLX42 failed");
+			mlx_set_instance_depth(get_tile(kissa->view, j, i, '1'), 1);
+			kissa->view->floor_inst[i][j] = mlx_image_to_window(kissa->mlx,
+				kissa->view->mlx_floor, j * kissa->map->tile_size, i * kissa->map->tile_size);
+			if (kissa->view->floor_inst[i][j] < 0)
+				quit_perror(kissa, NULL, "MLX42 failed");
+			mlx_set_instance_depth(get_tile(kissa->view, j, i, '0'), 0);
+			get_tile(kissa->view, j, i, '0')->enabled = 0;
+			get_tile(kissa->view, j, i, '1')->enabled = 0;
+			// printf("Drawing tiles at (%d, %d)\n", j, i);
+			j++;
+		}
+		i++;
+	}
 }
 
 /*
