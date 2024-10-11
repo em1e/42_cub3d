@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:48:49 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/11 08:23:40 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/11 08:48:15 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,10 @@ void	set_rot(t_obj *obj, char rot_char)
 
 /*
 	Checks if the given coordinates are a wall.
-	
 	Returns 1 if the coordinates are a wall, 0 if not.
 */
 int	is_wall(t_cub3d *kissa, float x, float y)
 {
-	// printf("\n\t\tCHECKING IF WALL AT (%f, %f)\n", x, y);
 	if (kissa->map->array[(int)y][(int)x] == '1')
 		return (1);
 	return (0);
