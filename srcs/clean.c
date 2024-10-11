@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 12:07:09 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/10 14:40:40 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/11 06:26:18 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ void	clean_view(t_view *view)
 {
 	// if (view->scene)
 	// 	free(view->scene);
+	free(view->ray_array);
 	free(view);
 }
 

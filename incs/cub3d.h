@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 20:28:20 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/11 06:12:22 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/11 06:27:11 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 
 # define MM_RADIUS 5
 
-# define RAYC 220
+# define RAYC 240
 
 # define NORTH M_PI * 1.5
 # define EAST 0

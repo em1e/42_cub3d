@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 13:43:44 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/11 06:21:27 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/11 06:26:44 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static void	get_ray_lens(t_cub3d *kissa)
 		// end_y[i] = kissa->ray->y;
 		printf("A Ray %d rot %f and len %f\n", i, rot, kissa->ray->line_len);
 		printf("B Ray %d rot %f and len %f\n", i, rot, kissa->view->ray_array[i]);
-		i++; 
+		i++;
 	}
 }
 
