@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 20:28:20 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/11 08:41:24 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/11 11:34:38 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@
 # define ROT_SPEED 0.1
 # define MOVE_SPEED 0.2
 
-# define MM_RADIUS 5
-
 # define RAYC 240
+
+# define MMRAD 5
 
 # define NORTH M_PI * 1.5
 # define EAST 0

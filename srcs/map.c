@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 04:12:10 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/11 08:36:23 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/11 11:35:23 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,24 +123,19 @@ void	replace_spaces(t_cub3d *kissa)
 	int	j;
 
 	i = 0;
-	printf("height %d, depth %d\n", kissa->map->height, kissa->map->width);
-	kissa->view->wall_inst = malloc(sizeof(int) * kissa->map->height * 2);
-	kissa->view->floor_inst = malloc(sizeof(int) * kissa->map->height * 2);
-	if (!kissa->view->wall_inst || !kissa->view->floor_inst)
-		quit_error(kissa, NULL, "memory allocation failure");
 	while (i < kissa->map->height)
 	{
 		// printf("i = %d\n", i);
-		kissa->view->wall_inst[i] = malloc(sizeof(int) * kissa->map->width * 2);
-		kissa->view->floor_inst[i] = malloc(sizeof(int) * kissa->map->width * 2);
-		if (!kissa->view->wall_inst[i] || !kissa->view->floor_inst[i])
-			quit_error(kissa, NULL, "memory allocation failure");
 		j = 0;
-		while (j < kissa->map->width)
+		if (i < kissa->map->height)
 		{
-			if (kissa->map->array[i][j] == ' ')
-				kissa->map->array[i][j] = '1';
-			j++;
+			while (j < kissa->map->width)
+			{
+				// printf("j = %d\n", j);
+				if (kissa->map->array[i][j] == ' ')
+					kissa->map->array[i][j] = '1';
+				j++;
+			}
 		}
 		i++;
 	}
@@ -160,6 +155,12 @@ void	init_map(t_cub3d *kissa)
 	fill_map(kissa);
 	check_map(kissa);
 	replace_spaces(kissa);
+	// if (kissa->map->height < MMRAD
+	// 	&& kissa->map->height < kissa->map->width)
+	// 	MMRAD = kissa->map->height;
+	// if (kissa->map->width < kissa->map->height 
+	// 	&& kissa->map->width < MMRAD)
+	// 	MMRAD = kissa->map->width;
 	//init_visited(kissa);
 	print_map(kissa);
 }

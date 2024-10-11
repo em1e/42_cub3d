@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 12:07:09 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/11 07:54:13 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/11 11:35:30 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,20 +33,24 @@ void	clean_view(t_map *map, t_view *view)
 {
 	int	i;
 
+	(void)map;
 	i = 0;
 	// if (view->scene)
 	// 	free(view->scene);
 	if (view->ray_array)
 		free(view->ray_array);
-	while (i < map->height)
+	while (i <= MMRAD * 2)
 	{
-		free(view->floor_inst[i]);
-		free(view->wall_inst[i]);
-		view->wall_inst[i] = NULL;
+		if (view->floor_inst && view->floor_inst[i])
+			free(view->floor_inst[i]);
+		if (view->wall_inst && view->wall_inst[i])
+			free(view->wall_inst[i]);
 		i++;
 	}
-	free(view->wall_inst);
-	free(view->floor_inst);
+	if (view->wall_inst)
+		free(view->wall_inst);
+	if (view->floor_inst)
+		free(view->floor_inst);
 	free(view);
 }
 

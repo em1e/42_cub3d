@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:25:48 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/11 07:43:54 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/11 11:36:00 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,6 @@ t_view	*new_view(t_cub3d *kissa)
 		quit_error(kissa, NULL, "memory allocation failure");
 	// view->scene = new_vec(kissa);
 	ray_array = malloc(sizeof(float) * RAYC);
-	view->wall_inst = NULL;
-	view->floor_inst = NULL;
 	view->ray_array = ray_array;
 	view->player_inst = 0;
 	return (view);
@@ -134,6 +132,40 @@ void	init_kissa(t_cub3d *kissa)
 	kissa->ray = new_ray(kissa);
 }
 
+void convert_textures(t_cub3d *kissa)
+{
+	kissa->view->mlx_no = convert_png(kissa, kissa->no);
+	kissa->view->mlx_we = convert_png(kissa, kissa->we);
+	kissa->view->mlx_so = convert_png(kissa, kissa->so);
+	kissa->view->mlx_ea = convert_png(kissa, kissa->ea);
+	kissa->view->mlx_wall = convert_png(kissa, kissa->wall_tex);
+	kissa->view->mlx_floor = convert_png(kissa, kissa->floor_tex);
+	kissa->view->mlx_player = convert_png(kissa, kissa->player_tex);
+}
+
+void	populate_minimap_instances(t_cub3d *kissa)
+{
+	int			i;
+	t_view	*view;
+
+	view = kissa->view;
+
+	i = 0;
+	view->wall_inst = ft_calloc(sizeof(int*), MMRAD * 2 + 1);
+	view->floor_inst = ft_calloc(sizeof(int*), MMRAD * 2 + 1);
+	if (!view->wall_inst || !view->floor_inst)
+		quit_error(kissa, NULL, "memory allocation failure");
+	while (i <= MMRAD * 2)
+	{
+		printf("i = %d\n", i);
+		view->wall_inst[i] = ft_calloc(sizeof(int), MMRAD * 2 + 1);
+		view->floor_inst[i] = ft_calloc(sizeof(int), MMRAD * 2 + 1);
+		if (!view->wall_inst[i] || !view->floor_inst[i])
+			quit_error(kissa, NULL, "memory allocation failure");
+		i++;
+	}
+}
+
 /*
 Initializes MLX and stores the required images.
 
@@ -148,20 +180,18 @@ for later if we want to use pixels instead of images in minimap:
 */
 void	init_mlx(t_cub3d *kissa)
 {
+	int i;
+
+	i = 0;
 	kissa->map->tile_size = 21;
 	mlx_set_setting(MLX_STRETCH_IMAGE, 1);
 	kissa->mlx = mlx_init(1200, 800, "NOT QUITE VOID", true);
 	if (!kissa->mlx)
 		quit_perror(kissa, NULL, "mlx_init failed");
-	kissa->view->mlx_no = convert_png(kissa, kissa->no);
-	kissa->view->mlx_we = convert_png(kissa, kissa->we);
-	kissa->view->mlx_so = convert_png(kissa, kissa->so);
-	kissa->view->mlx_ea = convert_png(kissa, kissa->ea);
-	kissa->view->mlx_wall = convert_png(kissa, kissa->wall_tex);
-	kissa->view->mlx_floor = convert_png(kissa, kissa->floor_tex);
-	kissa->view->mlx_player = convert_png(kissa, kissa->player_tex);
+	populate_minimap_instances(kissa);
+	convert_textures(kissa);
 	kissa->view->player_inst = mlx_image_to_window(kissa->mlx,
-			kissa->view->mlx_player, MM_RADIUS * kissa->map->tile_size, MM_RADIUS * kissa->map->tile_size);
+			kissa->view->mlx_player, MMRAD * kissa->map->tile_size, MMRAD * kissa->map->tile_size);
 	if (kissa->view->player_inst < 0)
 		quit_perror(kissa, NULL, "MLX42 failed");
 	draw_all_tiles(kissa);

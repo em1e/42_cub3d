@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:49:02 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/11 08:47:55 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/11 11:35:23 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,12 @@ void	draw_all_tiles(t_cub3d *kissa)
 	int	j;
 
 	i = 0;
-	while (i <= MM_RADIUS * 2)
+	while (i <= MMRAD * 2)
 	{
 		j = 0;
-		while (j <= MM_RADIUS * 2)
+		while (j <= MMRAD * 2)
 		{
+			printf("Drawing tile %d %d\n", i, j);
 			kissa->view->wall_inst[i][j] = mlx_image_to_window(kissa->mlx,
 				kissa->view->mlx_wall, j * kissa->map->tile_size, i * kissa->map->tile_size);
 			if (kissa->view->wall_inst[i][j] < 0)
@@ -70,7 +71,7 @@ int	check_radius(t_cub3d *kissa, float ray_x, float ray_y)
 
 	center_x = 6 * kissa->map->tile_size + kissa->map->tile_size / 2;
 	center_y = 6 * kissa->map->tile_size + kissa->map->tile_size / 2;
-	if (sqrt(pow((ray_x - center_x), 2) + pow((ray_y - center_y), 2)) <= MM_RADIUS * kissa->map->tile_size)
+	if (sqrt(pow((ray_x - center_x), 2) + pow((ray_y - center_y), 2)) <= MMRAD * kissa->map->tile_size)
 		return (1);
 	return (0);
 }
@@ -96,7 +97,7 @@ int	check_radius(t_cub3d *kissa, float ray_x, float ray_y)
 void	shoot_ray(t_cub3d *kissa, t_obj *obj)
 {
 	int tile = kissa->map->tile_size;
-	int radius = MM_RADIUS * 2;
+	int radius = MMRAD * 2;
 	int center_x = 6 * tile + tile / 2;
 	int center_y = 6 * tile + tile / 2;
 	float ray_x = center_x;

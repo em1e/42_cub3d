@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 20:38:06 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/10 10:00:51 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/11 09:37:58 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,7 @@ TASKS:
 	--> this might require us to put the pixel by pixel, I hope not tho
 	
 @ fix minimap:
-	--> keep player static and update surroundings according to the movement
-	--> make it a sphere shape
-	--> center ray in the middle of the player
-
+	--> OPTIONAL: make the minimap rounding scalable
 */
 
 /*
