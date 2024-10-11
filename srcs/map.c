@@ -12,6 +12,25 @@
 
 #include "cub3d.h"
 
+void fill_short_lines(t_cub3d *kissa, char **line)
+{
+	char	*new_line;
+	int		i;
+
+	i = ft_strlen(*line);
+	new_line = ft_calloc(kissa->map->width + 1, sizeof(char));
+	if (!new_line)
+		quit_perror(kissa, NULL, "memory allocation error");
+	ft_strlcpy(new_line, *line, i + 1);
+	while (i < kissa->map->width)
+	{
+		new_line[i] = '1';
+		i++;
+	}
+	free(*line);
+	*line = new_line;
+}
+
 /*
 	Opens the map file, callocs for the map array, and stores each row from the 
 	file into the array using ft_get_next_line.
@@ -38,6 +57,8 @@ static void	fill_map(t_cub3d *kissa)
 		{
 			if (line[ft_strlen(line) - 1] == '\n')
 				line[ft_strlen(line) - 1] = 0;
+			if (ft_strlen(line) < (size_t)kissa->map->width)
+				fill_short_lines(kissa, &line);
 			kissa->map->array[i - kissa->map->first_map_line] = line;
 		}
 		else
