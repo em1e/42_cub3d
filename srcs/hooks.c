@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:35:39 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/10 13:59:55 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/11 04:49:10 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,13 +97,10 @@ void	update_hook(void *param)
 	if (kissa->player->x == old_loc.x && kissa->player->y == old_loc.y
 		&& kissa->player->rot == old_rot)
 		return ;
-	// makes sure we aren't updating without reason
-	// e.g. when continuesly walking towards a wall
 	old_loc.x = kissa->player->x;
 	old_loc.y = kissa->player->y;
 	old_rot = kissa->player->rot;
 	draw_scene(kissa);
-	move_player_texture(kissa, kissa->player->x, kissa->player->y);
 	draw_mini_map(kissa);
 	shoot_ray(kissa, kissa->player);
 	dda_shoot_ray(kissa, kissa->player->rot, kissa->ray);

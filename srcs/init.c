@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:25:48 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/10 14:37:50 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/11 06:16:44 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,12 +74,14 @@ t_ray	*new_ray(t_cub3d *kissa)
 t_view	*new_view(t_cub3d *kissa)
 {
 	t_view	*view;
-	float		ray_array[RAYC];
+	float		*ray_array;
 
 	view = malloc(sizeof(t_view));
 	if (!view)
 		quit_error(kissa, NULL, "memory allocation failure");
 	// view->scene = new_vec(kissa);
+	ray_array = malloc(sizeof(float) * RAYC);
+	
 	view->ray_array = ray_array;
 	view->player_inst = 0;
 	return (view);
@@ -158,9 +160,7 @@ void	init_mlx(t_cub3d *kissa)
 	kissa->view->mlx_floor = convert_png(kissa, kissa->floor_tex);
 	kissa->view->mlx_player = convert_png(kissa, kissa->player_tex);
 	kissa->view->player_inst = mlx_image_to_window(kissa->mlx,
-			kissa->view->mlx_player,
-			MM_RADIUS * kissa->map->tile_size,
-			MM_RADIUS * kissa->map->tile_size);
+			kissa->view->mlx_player, MM_RADIUS * kissa->map->tile_size, MM_RADIUS * kissa->map->tile_size);
 	if (kissa->view->player_inst < 0)
 		quit_perror(kissa, NULL, "MLX42 failed");
 }

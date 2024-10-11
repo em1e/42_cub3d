@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 16:33:57 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/10 13:48:38 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/11 04:57:22 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,19 +57,7 @@ void	draw_mini_map(t_cub3d *kissa)
 		else
 			draw_map_line(kissa, line_i, 0);
 		line_i++;
-	}	
-	// while (i <= MM_RADIUS * 2)
-	// {
-	// 	j = kissa->player->x - MM_RADIUS;
-	// 	while (j <= kissa->map->width)
-	// 	{
-	// 		printf("%c", kissa->map->array[i][j]);
-	// 		draw_tile(kissa, kissa->map->array[i][j], i, j);
-	// 		j++;
-	// 	}
-	// 	printf("\n");
-	// 	i++;
-	// }
+	}
 }
 
 /*
@@ -92,17 +80,8 @@ mlx_instance_t	*get_player(t_view *view)
 */
 void	move_player_texture(t_cub3d *kissa, float new_x, float new_y)
 {
-	get_player(kissa->view)->y = new_y * kissa->map->tile_size;
-	get_player(kissa->view)->x = new_x * kissa->map->tile_size;
+	(void)new_x;
+	(void)new_y;
+	get_player(kissa->view)->y = MM_RADIUS * kissa->map->tile_size;
+	get_player(kissa->view)->x = MM_RADIUS  * kissa->map->tile_size;
 }
-
-/*
-	Resets the minimap through clearing the old array and calculating the new
-	cut down map around the player
-*/
-// void	update_minimap(t_cub3d *kissa)
-// {
-// 	reset_minimap();
-// 	load_minimap_grid();
-// 	draw_minimap(map);
-// }

@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:49:02 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/10 14:30:15 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/11 06:10:05 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,44 @@ void	draw_tile(t_cub3d *kissa, char c, int i, int j)
 }
 
 /*
+	THIS IS THE OLD SHOOT_RAY FUNCTION
+*/
+// void	shoot_ray(t_cub3d *kissa, t_obj *obj)
+// {
+// 	double	px_x;
+// 	double	px_y;
+
+// 	px_x = obj->x * kissa->map->tile_size;
+// 	px_y = obj->y * kissa->map->tile_size;
+// 	kissa->view->ray = mlx_new_image(kissa->mlx, 100 * kissa->map->tile_size, 100 * kissa->map->tile_size);
+// 	while (is_wall(kissa, px_x / kissa->map->tile_size, px_y / kissa->map->tile_size) == 0
+// 		&& !(px_x / kissa->map->tile_size < 0 || px_x / kissa->map->tile_size >= kissa->map->width
+// 		|| px_y / kissa->map->tile_size < 0 || px_y / kissa->map->tile_size >= kissa->map->height))
+// 	{
+// 		mlx_put_pixel(kissa->view->ray, (int)px_x, (int)px_y, 0xFF0000FF);
+// 		px_x += 1 * obj->dir->x;
+// 		px_y += 1 * obj->dir->y;
+// 	}
+// 	mlx_image_to_window(kissa->mlx, kissa->view->ray, 0, 0);
+// }
+
+/*
+	Returns 1 if coordinate ray_x and ray_y are within the minimap radius
+	from player pos (6, 6), else returns 0.
+*/
+int	check_radius(t_cub3d *kissa, float ray_x, float ray_y)
+{
+	int center_x;
+	int center_y;
+
+	center_x = 6 * kissa->map->tile_size + kissa->map->tile_size / 2;
+	center_y = 6 * kissa->map->tile_size + kissa->map->tile_size / 2;
+	if (sqrt(pow((ray_x - center_x), 2) + pow((ray_y - center_y), 2)) <= MM_RADIUS * kissa->map->tile_size)
+		return (1);
+	return (0);
+}
+
+/*
 	Shoots a ray from the player object in the direction of the player object.
 	While the ray is not hitting a wall, the ray is drawn on the screen.
 
@@ -43,24 +81,55 @@ void	draw_tile(t_cub3d *kissa, char c, int i, int j)
 	0x000000FF = black
 	0xFF00FFFF = purple
 	0xFFFF00FF = yellow
+
+	NOTE: 
+		"+ tile / 2" : this centers the ray to the player
+		it seems to be working, the ray just goes over by a fiew pixels
+		(dif between float and int), do we want to do smth about that?
+		
 */
 void	shoot_ray(t_cub3d *kissa, t_obj *obj)
 {
-	double	px_x;
-	double	px_y;
+	int tile = kissa->map->tile_size;
+	int radius = MM_RADIUS * 2;
+	int center_x = 6 * tile + tile / 2;
+	int center_y = 6 * tile + tile / 2;
+	float ray_x = center_x;
+	float ray_y = center_y;
+	float player_x = obj->x * tile;
+	float player_y = obj->y * tile;
 
-	px_x = obj->x * kissa->map->tile_size;
-	px_y = obj->y * kissa->map->tile_size;
-	kissa->view->ray = mlx_new_image(kissa->mlx, 100 * kissa->map->tile_size, 100 * kissa->map->tile_size);
-	while (is_wall(kissa, px_x / kissa->map->tile_size, px_y / kissa->map->tile_size) == 0
-		&& !(px_x / kissa->map->tile_size < 0 || px_x / kissa->map->tile_size >= kissa->map->width
-		|| px_y / kissa->map->tile_size < 0 || px_y / kissa->map->tile_size >= kissa->map->height))
+	kissa->view->ray = mlx_new_image(kissa->mlx, tile * 100, tile * 100);
+	if (!kissa->view->ray)
+		quit_perror(kissa, NULL, "MLX42 image creation failed");
+	
+	while (check_radius(kissa, ray_x, ray_y) && (ray_x - center_x) + radius / 2 * tile >= 0
+		&& (ray_y - center_y) + radius / 2 * tile >= 0
+		&& is_wall(kissa, player_x / tile, player_y / tile) == 0)
 	{
-		mlx_put_pixel(kissa->view->ray, (int)px_x, (int)px_y, 0xFF0000FF);
-		px_x += 1 * obj->dir->x;
-		px_y += 1 * obj->dir->y;
+		if (ray_x < 0 || ray_x >= kissa->map->width * tile || ray_y < 0 || ray_y >= kissa->map->height * tile)
+				break;
+		// printf("ray_x - center_x + radius = %f\n", ray_x - center_x + radius);
+		// printf("ray_y - center_y + radius = %f\n", ray_y - center_y + radius);
+		mlx_put_pixel(kissa->view->ray, (ray_x - center_x + radius * tile / 2) + tile / 2,
+			(ray_y - center_y + radius * tile / 2) + tile / 2, 0xFF0000FF);
+		ray_x += obj->dir->x;
+		ray_y += obj->dir->y;
+		player_x += obj->dir->x;
+		player_y += obj->dir->y;
+
+		// if (is_wall(kissa, player_x / kissa->map->tile_size, player_y / kissa->map->tile_size) == 1)
+		// 	printf("\tIS A WALL ( %f, %f )\n", player_x, player_y);
+		// else if ((ray_y - center_y) + radius / 2 * kissa->map->tile_size <= 0)
+		// 	printf("\ty is 0\n");
+		// else if ((ray_x - center_x) + radius / 2 * kissa->map->tile_size <= 0)
+		// 	printf("\tx is 0\n");
+		// else if (sqrt(pow((ray_x - center_x), 2) + pow((ray_y - center_y), 2))
+		// 	>= (radius - 6) * kissa->map->tile_size)
+		// 	printf("\tRadius is finished\n");
 	}
-	mlx_image_to_window(kissa->mlx, kissa->view->ray, 0, 0);
+	if (mlx_image_to_window(kissa->mlx, kissa->view->ray, 0, 0) < 0)
+		quit_perror(kissa, NULL, "MLX42 image to window failed");
 }
 
 //////////////////////////////////////////////////////////////////////////

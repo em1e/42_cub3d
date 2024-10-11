@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:48:49 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/10 14:57:00 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/11 05:38:46 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	set_rot(t_obj *obj, char rot_char)
 */
 int	is_wall(t_cub3d *kissa, float x, float y)
 {
+	// printf("\n\t\tCHECKING IF WALL AT (%f, %f)\n", x, y);
 	if (kissa->map->array[(int)y][(int)x] == '1')
 		return (1);
 	return (0);
