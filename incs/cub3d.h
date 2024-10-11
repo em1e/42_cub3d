@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 20:28:20 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/11 12:52:35 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/11 12:58:48 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,7 +145,6 @@ void	rotate(t_cub3d *kissa, t_obj *obj, int dir);
 void	play_game(t_cub3d *kissa);
 
 // minimap.c
-void	shoot_ray(t_cub3d *kissa, t_obj *obj);
 void	refresh_minimap(t_cub3d *kissa);
 void	setup_minimap(t_cub3d *kissa);
 
