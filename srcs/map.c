@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 04:12:10 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/10 13:12:18 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/11 08:36:23 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,8 +123,18 @@ void	replace_spaces(t_cub3d *kissa)
 	int	j;
 
 	i = 0;
+	printf("height %d, depth %d\n", kissa->map->height, kissa->map->width);
+	kissa->view->wall_inst = malloc(sizeof(int) * kissa->map->height * 2);
+	kissa->view->floor_inst = malloc(sizeof(int) * kissa->map->height * 2);
+	if (!kissa->view->wall_inst || !kissa->view->floor_inst)
+		quit_error(kissa, NULL, "memory allocation failure");
 	while (i < kissa->map->height)
 	{
+		// printf("i = %d\n", i);
+		kissa->view->wall_inst[i] = malloc(sizeof(int) * kissa->map->width * 2);
+		kissa->view->floor_inst[i] = malloc(sizeof(int) * kissa->map->width * 2);
+		if (!kissa->view->wall_inst[i] || !kissa->view->floor_inst[i])
+			quit_error(kissa, NULL, "memory allocation failure");
 		j = 0;
 		while (j < kissa->map->width)
 		{
@@ -141,6 +151,9 @@ void	replace_spaces(t_cub3d *kissa)
 */
 void	init_map(t_cub3d *kissa)
 {
+	int	i;
+
+	i = 0;
 	kissa->map->array = ft_calloc(kissa->map->height + 1, sizeof(char *));
 	if (!kissa->map->array)
 		quit_perror(kissa, NULL, "memory allocation error");

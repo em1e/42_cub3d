@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 13:04:19 by jajuntti          #+#    #+#             */
-/*   Updated: 2024/10/10 05:13:44 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/11 07:46:13 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,4 +126,26 @@ void	print_floodfill(t_cub3d *kissa)
 		i++;
 	}
 	ft_putchar_fd('\n', 1);
+}
+
+mlx_instance_t	*get_tile(t_view *view, int x, int y, char tile)
+{
+	mlx_image_t	*image;
+	int			inst;
+
+	inst = 0;
+	image = 0;
+	if (tile == '1')
+	{
+		image = view->mlx_wall;
+		inst = view->wall_inst[y][x];
+	}
+	else if (tile == '0')
+	{
+		image = view->mlx_floor;
+		inst = view->floor_inst[y][x];
+	}
+	if (image == 0)
+		return (0);
+	return (&image->instances[inst]);
 }
