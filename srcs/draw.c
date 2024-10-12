@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 13:43:44 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/12 16:33:09 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/12 16:40:17 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ void	draw_texture(t_cub3d *kissa, t_ray *ray, int ray_i)
 	ray->wall_hit->y = scale / 2 + MLX_HEIGHT / 2;
 	y = ray->wall_hit->y;
 	// printf("WANT TO DRAW scale %f, column_start (x) %d, height start (y) %d\n", scale, column_start_x, y);
-	while (y > ray->wall_hit->y - 	scale)
+	while (y > ray->wall_hit->y - scale)
 	{
 		x = column_start_x;
 		while (x < column_start_x + MLX_WIDTH / RAYC)
