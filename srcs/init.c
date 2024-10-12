@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:25:48 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/11 15:53:13 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/12 16:03:26 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,13 @@ t_ray	*new_ray(t_cub3d *kissa)
 	ray->x = 0;
 	ray->y = 0;
 	ray->line_len = 0;
+	ray->side = -1;
 	ray->ray_len = new_vec(kissa);
 	ray->step = new_vec(kissa);
 	ray->step_size = new_vec(kissa);
 	ray->dir = new_vec(kissa);
+	ray->wall_hit = new_vec(kissa);
+	ray->wall_tex = NULL;
 	return (ray);
 }
 
@@ -74,17 +77,28 @@ t_ray	*new_ray(t_cub3d *kissa)
 t_view	*new_view(t_cub3d *kissa)
 {
 	t_view	*view;
-	float		*ray_array;
 
 	view = malloc(sizeof(t_view));
 	if (!view)
 		quit_error(kissa, NULL, "memory allocation failure");
 	// view->scene = new_vec(kissa);
-	ray_array = malloc(sizeof(float) * RAYC);
-	view->ray_array = ray_array;
 	view->floor_inst = NULL;
 	view->wall_inst = NULL;
+	view->mlx_scene = NULL;
 	return (view);
+}
+
+void	init_rays(t_cub3d *kissa)
+{
+	int	i;
+
+	i = 0;
+	kissa->ray_array = malloc(sizeof(t_ray*) * RAYC);
+	while (i < RAYC)
+	{
+		kissa->ray_array[i] = new_ray(kissa);
+		i++;
+	}
 }
 
 /*
@@ -111,6 +125,7 @@ t_obj	*init_player(t_cub3d *kissa)
 void	init_kissa(t_cub3d *kissa)
 {
 	kissa->fd = -1;
+	kissa->wall_height = MLX_HEIGHT / 3 * 2;
 	kissa->map = NULL;
 	kissa->view = NULL;
 	kissa->no = NULL;
@@ -130,7 +145,7 @@ void	init_kissa(t_cub3d *kissa)
 	kissa->map = new_map(kissa);
 	kissa->view = new_view(kissa);
 	kissa->player = init_player(kissa);
-	kissa->ray = new_ray(kissa);
+	init_rays(kissa);
 }
 
 void convert_textures(t_cub3d *kissa)
@@ -158,12 +173,9 @@ for later if we want to use pixels instead of images in minimap:
 */
 void	init_mlx(t_cub3d *kissa)
 {
-	int i;
-
-	i = 0;
 	kissa->map->tile_size = 21;
 	mlx_set_setting(MLX_STRETCH_IMAGE, 1);
-	kissa->mlx = mlx_init(1200, 800, "KISSA^3", true);
+	kissa->mlx = mlx_init(MLX_WIDTH, MLX_HEIGHT, "KISSA^3", true);
 	if (!kissa->mlx)
 		quit_perror(kissa, NULL, "mlx_init failed");
 	convert_textures(kissa);

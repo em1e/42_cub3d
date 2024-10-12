@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 12:07:09 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/11 11:35:30 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/12 15:03:49 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,6 @@ void	clean_view(t_map *map, t_view *view)
 	i = 0;
 	// if (view->scene)
 	// 	free(view->scene);
-	if (view->ray_array)
-		free(view->ray_array);
 	while (i <= MMRAD * 2)
 	{
 		if (view->floor_inst && view->floor_inst[i])
@@ -77,6 +75,8 @@ void	clean_ray(t_ray *ray)
 		free(ray->step_size);
 	if (ray->dir)
 		free(ray->dir);
+	if (ray->wall_hit)
+		free(ray->wall_hit);
 	free(ray);
 }
 
@@ -101,6 +101,20 @@ void	clean_file_content(t_cub3d *kissa)
 		free(kissa->player_tex);
 }
 
+void	clean_ray_array(t_ray **ray_array)
+{
+	int	i;
+
+	i = 0;
+	while (i < RAYC)
+	{
+		clean_ray(ray_array[i]);
+		i++;
+	}
+	free(ray_array);
+	ray_array = NULL;
+}
+
 /*
 	Cleans all the memory allocated for the cub3d struct.
 */
@@ -115,8 +129,8 @@ void	clean_kissa(t_cub3d *kissa)
 			clean_map(kissa->map);
 		if (kissa->player)
 			clean_obj(kissa->player);
-		if (kissa->ray)
-			clean_ray(kissa->ray);
+		if (kissa->ray_array)
+			clean_ray_array(kissa->ray_array);
 		clean_file_content(kissa);
 		free(kissa);
 	}

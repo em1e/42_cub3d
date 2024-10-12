@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dda.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:49:02 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/11 12:40:58 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/12 16:22:26 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ static void	init_dda(t_cub3d *kissa, t_ray *ray, float rot)
 	ray->line_len = 0;
 	ray->step->x = check_dir(rot, 1);
 	ray->step->y = check_dir(rot, 0);
+	ray->side = -1;
 	if (ray->dir->x == 0)
 	{
 		ray->step_size->x = 1;
@@ -92,6 +93,28 @@ static void	init_dda(t_cub3d *kissa, t_ray *ray, float rot)
 	{
 		ray->step_size->x = sqrt(1 + (ray->dir->y / ray->dir->x) * (ray->dir->y / ray->dir->x));
 		ray->step_size->y = sqrt(1 + (ray->dir->x / ray->dir->y) * (ray->dir->x / ray->dir->y));
+	}
+}
+
+void	set_wall_texture(t_cub3d *kissa, t_ray *ray)
+{
+	if (ray->side == 0)
+	{
+		ray->wall_tex = kissa->view->mlx_we;
+		if (ray->dir->x > 0)
+			ray->wall_tex = kissa->view->mlx_ea;
+		// printf("\tA ray->x %f, ray->line_len %f, ray->dir->x %f\n", ray->x, ray->line_len, ray->dir->x);
+		// printf("\tA Wall hit x %f\n", ray->x + ray->line_len * ray->dir->x);
+		ray->wall_hit->x = ray->x + ray->line_len * ray->dir->x;
+	}
+	else
+	{
+		ray->wall_tex = kissa->view->mlx_so;
+		if (ray->dir->y > 0)
+			ray->wall_tex = kissa->view->mlx_no;
+		// printf("\tB ray->x %f, ray->line_len %f, ray->dir->x %f\n", ray->x, ray->line_len, ray->dir->x);
+		// printf("\tB Wall hit x %f\n", ray->x + ray->line_len * ray->dir->x);
+		ray->wall_hit->x = ray->x + ray->line_len * ray->dir->x;
 	}
 }
 
@@ -115,12 +138,15 @@ void	cast_ray(t_cub3d *kissa, float rot, t_ray *ray)
 			ray->x += ray->step->x;
 			ray->line_len = ray->ray_len->x;
 			ray->ray_len->x += ray->step_size->x;
+			ray->side = 0;
 		}
 		else
 		{
 			ray->y += ray->step->y;
 			ray->line_len = ray->ray_len->y;
 			ray->ray_len->y += ray->step_size->y;
+			ray->side = 1;
 		}
 	}
+	set_wall_texture(kissa, ray);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 20:28:20 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/11 15:09:28 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/12 15:56:32 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,10 @@
 # define SOUTH M_PI * 0.5
 # define WEST M_PI
 
+// mlx window sizes
+# define MLX_WIDTH 1200
+# define MLX_HEIGHT 800
+
 // depth values for rendering images
 # define Z_HIDDEN 0
 # define Z_BACKGROUND 1
@@ -62,9 +66,9 @@ typedef struct	s_view
 	mlx_image_t	*mlx_floor;
 	mlx_image_t	*mlx_player;
 	mlx_image_t	*mlx_bg;
+	mlx_image_t	*mlx_scene;
 	int			**wall_inst;
 	int			**floor_inst;
-	float		*ray_array;
 	t_vec		*scene;
 } t_view;
 
@@ -92,6 +96,7 @@ typedef struct	s_map
 // remove if dda func is not needed
 typedef struct	s_ray
 {
+	int		side;
 	float	x;
 	float	y;
 	float	rot;
@@ -100,15 +105,18 @@ typedef struct	s_ray
 	t_vec	*ray_len;
 	t_vec	*step;
 	t_vec	*step_size;
+	mlx_image_t	*wall_tex;
+	t_vec	*wall_hit;
 }	t_ray;
 
 typedef struct	s_cub3d
 {
 	mlx_t		*mlx;
-	t_ray		*ray;
+	t_ray		**ray_array;
 	t_map		*map;
 	t_obj		*player;
 	t_view		*view;
+	int			wall_height;
 	int			fd;
 	char		*no;
 	char		*so;

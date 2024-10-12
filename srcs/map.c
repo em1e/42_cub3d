@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 04:12:10 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/11 11:35:23 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/12 11:47:17 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,21 +167,12 @@ void	replace_spaces(t_cub3d *kissa)
 */
 void	init_map(t_cub3d *kissa)
 {
-	int	i;
-
-	i = 0;
 	kissa->map->array = ft_calloc(kissa->map->height + 1, sizeof(char *));
 	if (!kissa->map->array)
 		quit_perror(kissa, NULL, "memory allocation error");
 	fill_map(kissa);
 	check_map(kissa);
 	replace_spaces(kissa);
-	// if (kissa->map->height < MMRAD
-	// 	&& kissa->map->height < kissa->map->width)
-	// 	MMRAD = kissa->map->height;
-	// if (kissa->map->width < kissa->map->height 
-	// 	&& kissa->map->width < MMRAD)
-	// 	MMRAD = kissa->map->width;
 	//init_visited(kissa);
 	print_map(kissa);
 }

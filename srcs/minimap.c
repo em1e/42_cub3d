@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minimap.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 16:33:57 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/11 15:14:33 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/12 16:22:44 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ static int	check_radius(t_cub3d *kissa, float ray_x, float ray_y)
 		"+ tile / 2" : this centers the ray to the player
 		it seems to be working, the ray just goes over by a fiew pixels
 		(dif between float and int), do we want to do smth about that?
+
+		THIS NEEDS TO BE SHORTENED, OPTIMIZED AND FIXED
 		
 */
 static void	shoot_ray(t_cub3d *kissa, t_obj *obj)
@@ -60,11 +62,11 @@ static void	shoot_ray(t_cub3d *kissa, t_obj *obj)
 	kissa->view->ray = mlx_new_image(kissa->mlx, tile * 100, tile * 100);
 	if (!kissa->view->ray)
 		quit_perror(kissa, NULL, "MLX42 image creation failed");
-	
 	while (check_radius(kissa, ray_x, ray_y) && (ray_x - center_x) + radius / 2 * tile >= 0
 		&& (ray_y - center_y) + radius / 2 * tile >= 0
 		&& is_wall(kissa, player_x / tile, player_y / tile) == 0)
 	{
+		// printf("ray_x %f, ray_y %f\n", ray_x, ray_y);
 		if (ray_x < 0 || ray_x >= kissa->map->width * tile || ray_y < 0 || ray_y >= kissa->map->height * tile)
 				break;
 		mlx_put_pixel(kissa->view->ray, (ray_x - center_x + radius * tile / 2) + tile / 2,
@@ -77,6 +79,7 @@ static void	shoot_ray(t_cub3d *kissa, t_obj *obj)
 	if (mlx_image_to_window(kissa->mlx, kissa->view->ray, 0, 0) < 0)
 		quit_perror(kissa, NULL, "MLX42 image to window failed");
 }
+
 
 /*
 	Draws the image for the provided character at the given coordinate, which is 
