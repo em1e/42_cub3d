@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:25:48 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/14 09:42:10 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/14 09:45:45 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,7 +150,14 @@ void	init_kissa(t_cub3d *kissa)
 
 void	scale_wall_images(t_cub3d *kissa)
 {
-	mlx_resize_image(kissa->view->no, kissa->kissa->wall_height, kissa->wall_height)
+	mlx_resize_image(kissa->view->mlx_no, kissa->view->mlx_no->width * kissa->wall_height,
+		kissa->view->mlx_no->height * kissa->wall_height);
+	mlx_resize_image(kissa->view->mlx_we, kissa->view->mlx_we->width * kissa->wall_height,
+		kissa->view->mlx_we->height * kissa->wall_height);
+	mlx_resize_image(kissa->view->mlx_so, kissa->view->mlx_so->width * kissa->wall_height,
+		kissa->view->mlx_so->height * kissa->wall_height);
+	mlx_resize_image(kissa->view->mlx_ea, kissa->view->mlx_ea->width * kissa->wall_height,
+		kissa->view->mlx_ea->height * kissa->wall_height);
 }
 
 
