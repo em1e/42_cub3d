@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:25:48 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/14 09:45:45 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/14 14:09:29 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,16 +150,11 @@ void	init_kissa(t_cub3d *kissa)
 
 void	scale_wall_images(t_cub3d *kissa)
 {
-	mlx_resize_image(kissa->view->mlx_no, kissa->view->mlx_no->width * kissa->wall_height,
-		kissa->view->mlx_no->height * kissa->wall_height);
-	mlx_resize_image(kissa->view->mlx_we, kissa->view->mlx_we->width * kissa->wall_height,
-		kissa->view->mlx_we->height * kissa->wall_height);
-	mlx_resize_image(kissa->view->mlx_so, kissa->view->mlx_so->width * kissa->wall_height,
-		kissa->view->mlx_so->height * kissa->wall_height);
-	mlx_resize_image(kissa->view->mlx_ea, kissa->view->mlx_ea->width * kissa->wall_height,
-		kissa->view->mlx_ea->height * kissa->wall_height);
+	mlx_resize_image(kissa->view->mlx_no, kissa->wall_height, kissa->wall_height);
+	mlx_resize_image(kissa->view->mlx_we, kissa->wall_height, kissa->wall_height);
+	mlx_resize_image(kissa->view->mlx_so, kissa->wall_height, kissa->wall_height);
+	mlx_resize_image(kissa->view->mlx_ea, kissa->wall_height, kissa->wall_height);
 }
-
 
 void	convert_textures(t_cub3d *kissa)
 {
@@ -167,6 +162,7 @@ void	convert_textures(t_cub3d *kissa)
 	kissa->view->mlx_we = convert_png(kissa, kissa->we);
 	kissa->view->mlx_so = convert_png(kissa, kissa->so);
 	kissa->view->mlx_ea = convert_png(kissa, kissa->ea);
+	scale_wall_images(kissa);
 	kissa->view->mlx_wall = convert_png(kissa, kissa->wall_tex);
 	kissa->view->mlx_floor = convert_png(kissa, kissa->floor_tex);
 	kissa->view->mlx_player = convert_png(kissa, kissa->player_tex);
