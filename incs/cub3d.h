@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 20:28:20 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/14 08:38:43 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/14 09:53:05 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@
 
 // number of rays to be cast
 # define RAYC 240
+# define RAYDIFF M_PI / 2 / RAYC
 
 // minimap radius
 # define MMRAD 5
@@ -101,6 +102,8 @@ typedef struct	s_ray
 	float	y;
 	float	rot;
 	float	line_len;
+	float	fishey_factor;;
+	float	scale;
 	t_vec	*dir;
 	t_vec	*ray_len;
 	t_vec	*step;

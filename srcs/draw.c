@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 13:43:44 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/14 09:39:33 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/14 13:56:20 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,13 @@
 
 	seems to be correctly calculating the line lens
 */
-static void	get_ray_lens(t_cub3d *kissa)
+static void	cast_rays(t_cub3d *kissa)
 {
 	int	i;
 	float	start_rot;
 	float	rot;
-	float	rot_change;
+	t_ray	*ray;
 
-	rot_change = M_PI / 2 / RAYC;
 	start_rot = kissa->player->rot - M_PI / 4;
 	if (start_rot < 0)
 		start_rot += 2 * M_PI;
@@ -36,11 +35,21 @@ static void	get_ray_lens(t_cub3d *kissa)
 	i = 0;
 	while (i < RAYC)
 	{
-		rot = start_rot + i * rot_change;
+		ray = kissa->ray_array[i];
+		rot = start_rot + i * RAYDIFF;
 		if (rot > 2 * M_PI)
 			rot -= 2 * M_PI;
-		cast_ray(kissa, rot, kissa->ray_array[i]);
-		
+		cast_ray(kissa, rot, ray);
+		// if (i < RAYC / 2)
+		// 	ray->fishey_factor = cos((kissa->player->rot - rot));
+		// else
+		// 	ray->fishey_factor = cos((kissa->player->rot - rot));
+		if (ray->side)
+			ray->scale = kissa->wall_height / (ray->x - ray->step->x);
+		else
+			ray->scale = kissa->wall_height / (ray->y - ray->step->y);
+		ray->px_start->x = i * MLX_WIDTH / RAYC;
+		ray->px_start->y = ray->scale / 2 + MLX_HEIGHT / 2;
 		// printf("A Ray %d rot %f and len %f\n", i, rot, kissa->ray->line_len);
 		// printf("B Ray %d rot %f and len %f\n", i, rot, kissa->view->ray_array[i]);
 		i++;
@@ -99,18 +108,14 @@ int	get_imgs_pixel(t_cub3d *kissa, t_ray *ray, int x, int y)
 // 	// return (ray->wall_tex->pixels[y * ray->wall_tex->width + x] * (32 / 8));
 // }
 
-void	draw_texture(t_cub3d *kissa, t_ray *ray, int ray_i)
+void	draw_texture(t_cub3d *kissa, t_ray *ray)
 {
-	float	scale;
 	int	y;
 	int	x;
 
-	ray->px_start->x = ray_i * MLX_WIDTH / RAYC;
-	scale = kissa->wall_height / ray->line_len;
-	ray->px_start->y = scale / 2 + MLX_HEIGHT / 2;
 	y = ray->px_start->y;
 	// printf("WANT TO DRAW scale %f, column_start (x) %d, height start (y) %d\n", scale, column_start_x, y);
-	while (y > ray->px_start->y - scale)
+	while (y > ray->px_start->y - ray->scale)
 	{
 		x = ray->px_start->x;
 		while (x < ray->px_start->x + MLX_WIDTH / RAYC)
@@ -137,11 +142,11 @@ void	draw_scene(t_cub3d *kissa)
 	int	i;
 
 	i = 0;
-	get_ray_lens(kissa);
+	cast_rays(kissa);
 	reset_scene_image(kissa);
 	while (i < RAYC)
 	{
-		draw_texture(kissa, kissa->ray_array[i], i);
+		draw_texture(kissa, kissa->ray_array[i]);
 		i++;
 	}
 	if (mlx_image_to_window(kissa->mlx, kissa->view->mlx_scene, 0, 0) < 0)
