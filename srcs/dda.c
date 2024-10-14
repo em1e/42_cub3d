@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:49:02 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/12 16:22:26 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/14 08:53:21 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ void	set_wall_texture(t_cub3d *kissa, t_ray *ray)
 			ray->wall_tex = kissa->view->mlx_ea;
 		// printf("\tA ray->x %f, ray->line_len %f, ray->dir->x %f\n", ray->x, ray->line_len, ray->dir->x);
 		// printf("\tA Wall hit x %f\n", ray->x + ray->line_len * ray->dir->x);
-		ray->wall_hit->x = ray->x + ray->line_len * ray->dir->x;
+		ray->px_start->x = ray->x + ray->line_len * ray->dir->x;
 	}
 	else
 	{
@@ -114,8 +114,9 @@ void	set_wall_texture(t_cub3d *kissa, t_ray *ray)
 			ray->wall_tex = kissa->view->mlx_no;
 		// printf("\tB ray->x %f, ray->line_len %f, ray->dir->x %f\n", ray->x, ray->line_len, ray->dir->x);
 		// printf("\tB Wall hit x %f\n", ray->x + ray->line_len * ray->dir->x);
-		ray->wall_hit->x = ray->x + ray->line_len * ray->dir->x;
+		ray->px_start->x = ray->x + ray->line_len * ray->dir->x;
 	}
+	
 }
 
 /*

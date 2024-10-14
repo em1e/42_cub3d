@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 20:28:20 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/12 15:56:32 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/14 08:38:43 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ typedef struct	s_ray
 	t_vec	*step;
 	t_vec	*step_size;
 	mlx_image_t	*wall_tex;
-	t_vec	*wall_hit;
+	t_vec	*px_start;
 }	t_ray;
 
 typedef struct	s_cub3d

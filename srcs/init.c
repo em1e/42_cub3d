@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:25:48 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/12 16:03:26 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/14 09:42:10 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ t_ray	*new_ray(t_cub3d *kissa)
 	ray->step = new_vec(kissa);
 	ray->step_size = new_vec(kissa);
 	ray->dir = new_vec(kissa);
-	ray->wall_hit = new_vec(kissa);
+	ray->px_start = new_vec(kissa);
 	ray->wall_tex = NULL;
 	return (ray);
 }
@@ -148,7 +148,13 @@ void	init_kissa(t_cub3d *kissa)
 	init_rays(kissa);
 }
 
-void convert_textures(t_cub3d *kissa)
+void	scale_wall_images(t_cub3d *kissa)
+{
+	mlx_resize_image(kissa->view->no, kissa->kissa->wall_height, kissa->wall_height)
+}
+
+
+void	convert_textures(t_cub3d *kissa)
 {
 	kissa->view->mlx_no = convert_png(kissa, kissa->no);
 	kissa->view->mlx_we = convert_png(kissa, kissa->we);

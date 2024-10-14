@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 13:43:44 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/12 16:40:17 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/14 09:39:33 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,24 +78,45 @@ void	draw_background(t_cub3d *kissa)
 	mlx_set_instance_depth(bg->instances, Z_BACKGROUND);
 }
 
+int	get_imgs_pixel(t_cub3d *kissa, t_ray *ray, int x, int y)
+{
+	// return (ray->wall_tex->pixels[y * kissa->wall_height + x]);
+	(void)kissa;
+	return (ray->wall_tex->pixels[y * ray->wall_tex->width + x] * (32 / 8));
+}
+
+// uint32_t	get_imgs_pixel(t_cub3d *kissa, t_ray *ray, int x, int y)
+// {
+// 	(void)kissa;
+// 	// int bytes_per_pixel;
+// 	// int pixel_index;
+
+// 	// bytes_per_pixel = 32 / 8;
+// 	// pixel_index = (y * ray->wall_tex->width + x) * bytes_per_pixel;
+// 	// return (*(uint32_t *)ray->wall_tex->pixels + pixel_index);
+// 	// return (ray->wall_tex->pixels[y * kissa->wall_height + x]);
+// 	// (void)kissa;
+// 	// return (ray->wall_tex->pixels[y * ray->wall_tex->width + x] * (32 / 8));
+// }
+
 void	draw_texture(t_cub3d *kissa, t_ray *ray, int ray_i)
 {
 	float	scale;
-	int	column_start_x;
 	int	y;
 	int	x;
 
-	column_start_x = ray_i * MLX_WIDTH / RAYC;
+	ray->px_start->x = ray_i * MLX_WIDTH / RAYC;
 	scale = kissa->wall_height / ray->line_len;
-	ray->wall_hit->y = scale / 2 + MLX_HEIGHT / 2;
-	y = ray->wall_hit->y;
+	ray->px_start->y = scale / 2 + MLX_HEIGHT / 2;
+	y = ray->px_start->y;
 	// printf("WANT TO DRAW scale %f, column_start (x) %d, height start (y) %d\n", scale, column_start_x, y);
-	while (y > ray->wall_hit->y - scale)
+	while (y > ray->px_start->y - scale)
 	{
-		x = column_start_x;
-		while (x < column_start_x + MLX_WIDTH / RAYC)
+		x = ray->px_start->x;
+		while (x < ray->px_start->x + MLX_WIDTH / RAYC)
 		{
-			mlx_put_pixel(kissa->view->mlx_scene, x, y, 0xFF00FFFF);
+			mlx_put_pixel(kissa->view->mlx_scene, x, y, get_imgs_pixel(kissa, ray, x, y));
+			// mlx_put_pixel(kissa->view->mlx_scene, x, y, 0xFF00FFFF);
 			x++;
 		}
 		y--;
