@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dda.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:49:02 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/14 08:53:21 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/15 08:21:34 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,7 @@ void	cast_ray(t_cub3d *kissa, float rot, t_ray *ray)
 		return ;
 	set_ray_len(&ray->ray_len->x, ray->step->x, ray, 1);
 	set_ray_len(&ray->ray_len->y, ray->step->y, ray, 0);
-	while (is_wall(kissa, ray->x, ray->y) == 0)
+	while (is_wall(kissa, ray->x, ray->y, rot) == 0)
 	{
 		if (ray->ray_len->x < ray->ray_len->y)
 		{

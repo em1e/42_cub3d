@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 20:28:20 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/14 09:53:05 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/15 09:02:54 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,26 +23,25 @@
 # include "../libs/MLX42/include/MLX42/MLX42.h"
 # include <math.h>
 
-// speeds for moving and rotating
-# define ROT_SPEED 0.1
-# define MOVE_SPEED 0.2
+// mlx window sizes
+# define MLX_WIDTH 800
+# define MLX_HEIGHT 600
 
 // number of rays to be cast
-# define RAYC 240
+# define RAYC 60
 # define RAYDIFF M_PI / 2 / RAYC
 
+// speeds for moving and rotating
+# define ROT_SPEED 0.1
+# define MOVE_SPEED 0.5
 // minimap radius
 # define MMRAD 5
 
-// radians for directions (north & south reverted due to how minimap initialized)
-# define NORTH M_PI * 1.5
+// radians for directions 
+# define NORTH M_PI * 0.5
 # define EAST 0
-# define SOUTH M_PI * 0.5
+# define SOUTH M_PI * 1.5
 # define WEST M_PI
-
-// mlx window sizes
-# define MLX_WIDTH 1200
-# define MLX_HEIGHT 800
 
 // depth values for rendering images
 # define Z_HIDDEN 0
@@ -160,7 +159,7 @@ void	update_hook(void *param);
 
 // game.c
 void	set_rot(t_obj *obj, char rot_char);
-int		is_wall(t_cub3d *kissa, float x, float y);
+int		is_wall(t_cub3d *kissa, float x, float y, float dir);
 void	move(t_cub3d *kissa, t_obj *obj, int dir_x, int dir_y);
 void	rotate(t_cub3d *kissa, t_obj *obj, int dir);
 void	play_game(t_cub3d *kissa);

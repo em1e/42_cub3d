@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 13:43:44 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/14 17:32:40 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/15 07:35:34 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ uint32_t	get_imgs_pixel(t_cub3d *kissa, t_ray *ray, int x, int y)
 	if ((uint32_t)x >= ray->wall_tex->width)
 	{
 		x = x % ray->wall_tex->width;
-		printf("Ray goes to next wall block!\n");
+		// printf("Ray goes to next wall block!\n");
 	}
 	if ((uint32_t)x >= ray->wall_tex->width || (uint32_t)y >= ray->wall_tex->height)
 		printf("Going to segfault at %dx / %d and %dy / %d (scale = %f)\n", x, ray->wall_tex->width, y, ray->wall_tex->height, ray->scale);

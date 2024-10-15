@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hooks.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:35:39 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/12 16:16:52 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/15 08:51:41 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,5 +102,6 @@ void	update_hook(void *param)
 	old_rot = kissa->player->rot;
 	draw_scene(kissa);
 	refresh_minimap(kissa);
+	printf("Player pos = (%f, %f) dir = %f\n", old_loc.x, old_loc.y, old_rot);
 	//cast_ray(kissa, kissa->player->rot, kissa->ray);
 }
