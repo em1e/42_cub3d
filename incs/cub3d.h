@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 20:28:20 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/15 09:02:54 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/15 13:11:02 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,21 @@
 # define MLX_WIDTH 800
 # define MLX_HEIGHT 600
 
+// FOV & distance to projection pane
+# define FOV M_PI / 6 * 4
+# define PRO_DIST MLX_WIDTH / 2 / tan(FOV)
+
+// height & width of wall
+# define WALL_HEIGHT MLX_HEIGHT / 3 * 2
+
 // number of rays to be cast
-# define RAYC 60
+# define RAYC 40
 # define RAYDIFF M_PI / 2 / RAYC
 
 // speeds for moving and rotating
 # define ROT_SPEED 0.1
 # define MOVE_SPEED 0.5
+
 // minimap radius
 # define MMRAD 5
 
@@ -101,14 +109,15 @@ typedef struct	s_ray
 	float	y;
 	float	rot;
 	float	line_len;
-	float	fishey_factor;;
+	float	first_step;
+	float	fishey_factor;
 	float	scale;
 	t_vec	*dir;
 	t_vec	*ray_len;
 	t_vec	*step;
 	t_vec	*step_size;
 	mlx_image_t	*wall_tex;
-	t_vec	*px_start;
+	t_vec	*screen_start;
 }	t_ray;
 
 typedef struct	s_cub3d

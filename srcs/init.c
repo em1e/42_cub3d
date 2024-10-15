@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:25:48 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/14 14:09:29 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/15 11:56:30 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ t_ray	*new_ray(t_cub3d *kissa)
 	ray->step = new_vec(kissa);
 	ray->step_size = new_vec(kissa);
 	ray->dir = new_vec(kissa);
-	ray->px_start = new_vec(kissa);
+	ray->screen_start = new_vec(kissa);
 	ray->wall_tex = NULL;
 	return (ray);
 }
@@ -125,7 +125,7 @@ t_obj	*init_player(t_cub3d *kissa)
 void	init_kissa(t_cub3d *kissa)
 {
 	kissa->fd = -1;
-	kissa->wall_height = MLX_HEIGHT / 3 * 2;
+	kissa->wall_height = WALL_HEIGHT;
 	kissa->map = NULL;
 	kissa->view = NULL;
 	kissa->no = NULL;
@@ -148,21 +148,12 @@ void	init_kissa(t_cub3d *kissa)
 	init_rays(kissa);
 }
 
-void	scale_wall_images(t_cub3d *kissa)
-{
-	mlx_resize_image(kissa->view->mlx_no, kissa->wall_height, kissa->wall_height);
-	mlx_resize_image(kissa->view->mlx_we, kissa->wall_height, kissa->wall_height);
-	mlx_resize_image(kissa->view->mlx_so, kissa->wall_height, kissa->wall_height);
-	mlx_resize_image(kissa->view->mlx_ea, kissa->wall_height, kissa->wall_height);
-}
-
 void	convert_textures(t_cub3d *kissa)
 {
 	kissa->view->mlx_no = convert_png(kissa, kissa->no);
 	kissa->view->mlx_we = convert_png(kissa, kissa->we);
 	kissa->view->mlx_so = convert_png(kissa, kissa->so);
 	kissa->view->mlx_ea = convert_png(kissa, kissa->ea);
-	scale_wall_images(kissa);
 	kissa->view->mlx_wall = convert_png(kissa, kissa->wall_tex);
 	kissa->view->mlx_floor = convert_png(kissa, kissa->floor_tex);
 	kissa->view->mlx_player = convert_png(kissa, kissa->player_tex);
