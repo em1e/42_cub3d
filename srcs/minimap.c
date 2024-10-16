@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 16:33:57 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/15 08:25:16 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/16 12:39:34 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static void	shoot_ray(t_cub3d *kissa, t_obj *obj)
 		quit_perror(kissa, NULL, "MLX42 image creation failed");
 	while (check_radius(kissa, ray_x, ray_y) && (ray_x - center_x) + radius / 2 * tile >= 0
 		&& (ray_y - center_y) + radius / 2 * tile >= 0
-		&& is_wall(kissa, player_x / tile, player_y / tile, obj->rot) == 0)
+		&& kissa->map->array[(int)floor(player_y / tile)][(int)floor(player_x / tile)] != '1')
 	{
 		// printf("ray_x %f, ray_y %f\n", ray_x, ray_y);
 		if (ray_x < 0 || ray_x >= kissa->map->width * tile || ray_y < 0 || ray_y >= kissa->map->height * tile)

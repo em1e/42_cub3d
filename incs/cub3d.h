@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 20:28:20 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/15 13:11:02 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/16 17:10:00 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,18 +24,18 @@
 # include <math.h>
 
 // mlx window sizes
-# define MLX_WIDTH 800
-# define MLX_HEIGHT 600
+# define MLX_WIDTH 1200
+# define MLX_HEIGHT 800
 
 // FOV & distance to projection pane
-# define FOV M_PI / 6 * 4
+# define FOV M_PI / 2
 # define PRO_DIST MLX_WIDTH / 2 / tan(FOV)
 
 // height & width of wall
 # define WALL_HEIGHT MLX_HEIGHT / 3 * 2
 
 // number of rays to be cast
-# define RAYC 40
+# define RAYC 240
 # define RAYDIFF M_PI / 2 / RAYC
 
 // speeds for moving and rotating
@@ -109,9 +109,8 @@ typedef struct	s_ray
 	float	y;
 	float	rot;
 	float	line_len;
-	float	first_step;
-	float	fishey_factor;
 	float	scale;
+	int		scaled_height;
 	t_vec	*dir;
 	t_vec	*ray_len;
 	t_vec	*step;
@@ -168,7 +167,7 @@ void	update_hook(void *param);
 
 // game.c
 void	set_rot(t_obj *obj, char rot_char);
-int		is_wall(t_cub3d *kissa, float x, float y, float dir);
+int		is_wall(t_cub3d *kissa, float x, float y);
 void	move(t_cub3d *kissa, t_obj *obj, int dir_x, int dir_y);
 void	rotate(t_cub3d *kissa, t_obj *obj, int dir);
 void	play_game(t_cub3d *kissa);

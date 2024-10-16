@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 13:43:44 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/15 12:13:44 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/16 17:10:54 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ static void	cast_rays(t_cub3d *kissa)
 {
 	int	i;
 	float	start_rot;
+	float	fishey;
 	t_ray	*ray;
 
 	start_rot = kissa->player->rot - FOV / 2;
@@ -39,22 +40,21 @@ static void	cast_rays(t_cub3d *kissa)
 		if (ray->rot > 2 * M_PI)
 			ray->rot -= 2 * M_PI;
 		cast_ray(kissa, ray->rot, ray);
-		// if (i < RAYC / 2)
-		// 	ray->fishey_factor = cos((kissa->player->rot - rot));
-		// else
-		// 	ray->fishey_factor = cos((kissa->player->rot - rot));
+		fishey = fabs(cos((kissa->player->rot - ray->rot)));
 		// if (ray->side)
-		// 	ray->scale = kissa->wall_height / (ray->y - ray->step->y);
+		// 	ray->scaled_height = kissa->wall_height / (ray->y - ray->step->y);
 		// else
-		// 	ray->scale = kissa->wall_height / (ray->x - ray->step->x);
-		if (ray->line_len <= 1)
-			ray->scale = kissa->wall_height;
-		else if (ray->line_len > 0 && ray->line_len < 200)
-			ray->scale = floor(kissa->wall_height / ray->line_len);
-		else
-			ray->scale = 1;
+		// 	ray->scaled_height = kissa->wall_height / (ray->x - ray->step->x);
+		// if (ray->line_len <= 0)
+		// 	ray->scaled_height = MLX_HEIGHT - 1;
+		// else if (ray->line_len > 0 && ray->line_len < 200)
+		// 	ray->scaled_height = floor(kissa->wall_height / ray->line_len);
+		// else
+		// 	ray->scaled_height = 1;
+		ray->scale = 1 / ray->line_len / fishey;
+		ray->scaled_height = floor(kissa->wall_height * ray->scale);
 		ray->screen_start->x = i * MLX_WIDTH / RAYC;
-		ray->screen_start->y = ray->scale / 2 + MLX_HEIGHT / 2;
+		ray->screen_start->y = ray->scaled_height / 2 + MLX_HEIGHT / 2;
 		// printf("A Ray %d rot %f and len %f\n", i, rot, kissa->ray->line_len);
 		// printf("B Ray %d rot %f and len %f\n", i, rot, kissa->view->ray_array[i]);
 		i++;
@@ -99,8 +99,8 @@ uint32_t	get_imgs_pixel(t_cub3d *kissa, t_ray *ray, int x, int y)
 	uint8_t		*pixel;
 	uint32_t	color;
 
-	x *= WALL_HEIGHT / ray->scale;
-	y *= WALL_HEIGHT / ray->scale;
+	x *= WALL_HEIGHT / ray->scaled_height;
+	y *= WALL_HEIGHT / ray->scaled_height;
 	if ((uint32_t)x >= ray->wall_tex->width)
 	{
 		x = x % ray->wall_tex->width;
@@ -117,7 +117,7 @@ uint32_t	get_imgs_pixel(t_cub3d *kissa, t_ray *ray, int x, int y)
 	//return (*(uint32_t *)pixel);
 }
 
-void	draw_texture(t_cub3d *kissa, t_ray *ray)
+void	draw_texture(t_cub3d *kissa, t_ray *ray, int flag)
 {
 	int	y;
 	int	x;
@@ -125,31 +125,32 @@ void	draw_texture(t_cub3d *kissa, t_ray *ray)
 	int	img_y_start;
 	
 	img_y_start = 0;
-	// mlx_resize_image(ray->wall_tex, ray->scale, ray->scale);
-	printf("start (%f, %f), end (%f, %f)\n", kissa->player->x, kissa->player->y, ray->x, ray->y);
+	// mlx_resize_image(ray->wall_tex, ray->scaled_height, ray->scaled_height);
+	if (flag)
+		printf("start (%f, %f), end (%f, %f)\n", kissa->player->x, kissa->player->y, ray->x, ray->y);
 	if (ray->side)
 	{
 		// printf("X ray->y = %f ray->x = %f\n", ray->y, ray->x);
-		img_x_start = floor(ray->scale * (ray->x - floor(ray->x)));
+		img_x_start = floor(ray->scaled_height * (ray->x - floor(ray->x)));
 	}
 	else
 	{
 		// printf("Y ray->y = %f ray->x = %f\n", ray->y, ray->x);
-		img_x_start = floor(ray->scale * (ray->y - floor(ray->y)));
+		img_x_start = floor(ray->scaled_height * (ray->y - floor(ray->y)));
 	}
-	// if (ray->scale > MLX_HEIGHT)
-	// {
-	// 	img_y_start = (ray->scale - MLX_HEIGHT) / 2;
-	// 	printf("Y offset is %d for scale %f\n", img_y_start, ray->scale);
-	// 	ray->scale = MLX_HEIGHT - 1;
-	// }
+	if (ray->scaled_height > MLX_HEIGHT)
+	{
+		img_y_start = (int)floor((ray->scaled_height - MLX_HEIGHT) / 2);
+		// printf("Y offset is %d for scaled_height %f\n", img_y_start, ray->scaled_height);
+		ray->scaled_height = MLX_HEIGHT - 1;
+	}
 	y = 0;
-	while (y < ray->scale)
+	while (y < ray->scaled_height)
 	{
 		x = 0;
 		while (x < MLX_WIDTH / RAYC)
 		{
-			if ((!x && !y) || (x == MLX_WIDTH / RAYC / 2 && y == floor(ray->scale / 2)) || (x == MLX_WIDTH / RAYC - 1 && y == ray->scale - 1))
+			if (flag && ((!x && !y) || (x == MLX_WIDTH / RAYC / 2 && y == floor(ray->scaled_height / 2)) || (x == MLX_WIDTH / RAYC - 1 && y == ray->scaled_height - 1)))
 				printf("\tPutting pixel to screen (%f, %f) from image (%d, %d)\n", ray->screen_start->x + x, ray->screen_start->y - y, img_x_start + x, img_y_start + y);
 			mlx_put_pixel(kissa->view->mlx_scene, ray->screen_start->x + x, ray->screen_start->y - y, get_imgs_pixel(kissa, ray, img_x_start + x, img_y_start + y));
 			x++;
@@ -170,16 +171,22 @@ void	reset_scene_image(t_cub3d *kissa)
 void	draw_scene(t_cub3d *kissa)
 {
 	int	i;
+	int	flag;
 
 	i = 0;
 	cast_rays(kissa);
 	reset_scene_image(kissa);
 	while (i < RAYC)
 	{
-		printf("Drawing ray [%d], direction %f, scale %f, pro_dist %f, \n", i, kissa->ray_array[i]->rot, kissa->ray_array[i]->scale, PRO_DIST);
-		draw_texture(kissa, kissa->ray_array[i]);
+		flag = 0;
+		if (i == RAYC / 2 - 1 || i == RAYC / 2 || i == RAYC / 2 + 1)
+			flag = 1;
+		if (flag)
+			printf("Drawing ray [%d], direction %f, len %f, scale %f, \n", i, kissa->ray_array[i]->rot, kissa->ray_array[i]->line_len, kissa->ray_array[i]->scale);
+		draw_texture(kissa, kissa->ray_array[i], flag);
 		i++;
 	}
+	printf("-----\n");
 	if (mlx_image_to_window(kissa->mlx, kissa->view->mlx_scene, 0, 0) < 0)
 		quit_perror(kissa, NULL, "MLX42 failed");
 	mlx_set_instance_depth(kissa->view->mlx_scene->instances, Z_SCENE);

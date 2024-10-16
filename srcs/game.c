@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:48:49 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/15 08:59:21 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/16 16:43:05 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,15 +37,15 @@ void	set_rot(t_obj *obj, char rot_char)
 	Checks if the given coordinates are a wall.
 	Returns 1 if the coordinates are a wall, 0 if not.
 */
-int	is_wall(t_cub3d *kissa, float x, float y, float dir)
+int	is_wall(t_cub3d *kissa, float x, float y)
 {
-	float	collision_x;
-	float	collision_y;
-	
-	collision_x = x + cos(dir) * 0.5;
-	collision_y = y + sin(dir) * 0.5;
-	// printf("x = %f, y = %f\n", x, y);
 	if (kissa->map->array[(int)floor(y)][(int)floor(x)] == '1')
+		return (1);
+	if (floor(y) == y && y - 1 >= 0 
+		&& kissa->map->array[(int)(y - 1)][(int)floor(x)] == '1')
+		return (1);
+	if (floor(x) == x && x - 1 >= 0 
+		&& kissa->map->array[(int)floor(y)][(int)(x - 1)] == '1')
 		return (1);
 	// if (kissa->map->array[(int)floor(collision_y)][(int)floor(collision_x)] == '1')
 	// 	return (1);
@@ -63,11 +63,8 @@ void	move(t_cub3d *kissa, t_obj *obj, int dir_x, int dir_y)
 {
 	float	new_x;
 	float	new_y;
-	t_vec	*old_pos;
 	
-	old_pos = new_vec(kissa);
-	// these could be put into it's own "new_player_pos" function --------------
-	
+
 	// using the delta time was recommended for performance reasns by others,
 	// lets look into that at some point
 	// * kissa->mlx->delta_time
@@ -78,17 +75,9 @@ void	move(t_cub3d *kissa, t_obj *obj, int dir_x, int dir_y)
 	+ (dir_y * MOVE_SPEED * kissa->player->dir->y)
 	+ (dir_x * MOVE_SPEED * kissa->player->dir->x);
 
-	if (new_x < 0 || new_x >= kissa->map->width
-		|| new_y < 0 || new_y >= kissa->map->height)
-		return ;
-	// ------------------------------------------------------------------------
-	old_pos->x = obj->x;
-	old_pos->y = obj->y;
-	
-	if (old_pos)
-		free(old_pos);
-
-	if (is_wall(kissa, new_x, new_y, obj->rot))
+	if (new_x < 0 || new_x >= kissa->map->width 
+		|| new_y < 0 || new_y >= kissa->map->height 
+		|| is_wall(kissa, new_x, new_y))
 		return ; // add bounceback
 	obj->x = new_x;
 	obj->y = new_y;

@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:49:02 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/15 13:20:49 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/16 17:13:51 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,15 +56,15 @@ static int	check_dir(float rot, int flag)
 	flag = 0 checks for y rotation
 	flag = 1 checks for x rotation
 */
-static void	set_ray_len(float *ray_len_q, float step_q, t_ray *ray, int flag)
-{
-	if (step_q < 0)
-		*ray_len_q = 0;
-	else if (flag == 1)
-		*ray_len_q = ray->step_size->x;
-	else
-		*ray_len_q = ray->step_size->y;
-}
+// static void	set_ray_len(float *ray_len_q, float step_q, t_ray *ray, int flag)
+// {
+// 	if (step_q < 0)
+// 		*ray_len_q = 0;
+// 	else if (flag == 1)
+// 		*ray_len_q = ray->step_size->x;
+// 	else
+// 		*ray_len_q = ray->step_size->y;
+// }
 
 /*
 	Initializes the DDA algorithm by setting the starting coordinates and step sizes
@@ -100,35 +100,33 @@ void	set_wall_texture(t_cub3d *kissa, t_ray *ray)
 {
 	if (ray->side == 0)
 	{
-		ray->wall_tex = kissa->view->mlx_we;
 		if (ray->dir->x > 0)
 			ray->wall_tex = kissa->view->mlx_ea;
+		else
+			ray->wall_tex = kissa->view->mlx_we;
 	}
 	else
 	{
-		ray->wall_tex = kissa->view->mlx_so;
 		if (ray->dir->y > 0)
 			ray->wall_tex = kissa->view->mlx_no;
+		else
+			ray->wall_tex = kissa->view->mlx_so;
 	}
 	
 }
 
-void calculate_initial_step(t_cub3d *kissa, t_ray *ray)
+void calculate_initial_ray_lens(t_cub3d *kissa, t_ray *ray)
 {
-	float	x_delta;
-	float	y_delta;
-
-	y_delta = kissa->player->y - floor(kissa->player->y);
+	ray->ray_len->y = kissa->player->y - floor(kissa->player->y);
 	if (check_dir(ray->rot, 0) == - 1)
-		y_delta = 1 - y_delta;
-	x_delta = kissa->player->x - floor(kissa->player->x);
+		ray->ray_len->y = 1 - ray->ray_len->y;
+	ray->ray_len->x = kissa->player->x - floor(kissa->player->x);
 	if (check_dir(ray->rot, 1) == - 1)
-		x_delta = 1 - x_delta;
-	if (y_delta == 0 || y_delta == 1 || x_delta == 0 || x_delta == 1)
-		ray->first_step = 0;
-	else
-		ray->first_step = sqrt(x_delta * x_delta + y_delta * y_delta);
-	printf("First step for (%f, %f) with dX%f and dY %f is %f\n", kissa->player->x,kissa->player->y, x_delta, y_delta, ray->first_step);
+		ray->ray_len->x = 1 - ray->ray_len->x;
+	if (ray->ray_len->y == 0 || ray->ray_len->y == 1)
+		ray->ray_len->y = ray->step_size->y;
+	if (ray->ray_len->x == 0 || ray->ray_len->x == 1)
+		ray->ray_len->x = ray->step_size->x;
 }
 
 /*
@@ -142,10 +140,10 @@ void	cast_ray(t_cub3d *kissa, float rot, t_ray *ray)
 	init_dda(kissa, ray, rot);
 	if (ray->step->x == -10 || ray->step->y == -10)
 		quit_error(kissa, NULL, "math failed in init_ray");
-	calculate_initial_step(kissa, ray);
-	set_ray_len(&ray->ray_len->x, ray->step->x, ray, 1);
-	set_ray_len(&ray->ray_len->y, ray->step->y, ray, 0);
-	while (is_wall(kissa, ray->x, ray->y, rot) == 0)
+	calculate_initial_ray_lens(kissa, ray);
+	// set_ray_len(&ray->ray_len->x, ray->step->x, ray, 1);
+	// set_ray_len(&ray->ray_len->y, ray->step->y, ray, 0);
+	while (is_wall(kissa, ray->x, ray->y) == 0)
 	{
 		if (ray->ray_len->x < ray->ray_len->y)
 		{
@@ -162,6 +160,5 @@ void	cast_ray(t_cub3d *kissa, float rot, t_ray *ray)
 			ray->side = 1;
 		}
 	}
-	ray->line_len += ray->first_step;
 	set_wall_texture(kissa, ray);
 }
