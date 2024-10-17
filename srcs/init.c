@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:25:48 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/15 11:56:30 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/17 14:31:08 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,8 @@ t_ray	*new_ray(t_cub3d *kissa)
 	ray->line_len = 0;
 	ray->side = -1;
 	ray->ray_len = new_vec(kissa);
-	ray->step = new_vec(kissa);
-	ray->step_size = new_vec(kissa);
+	ray->step_dir = new_vec(kissa);
+	ray->step_len = new_vec(kissa);
 	ray->dir = new_vec(kissa);
 	ray->screen_start = new_vec(kissa);
 	ray->wall_tex = NULL;

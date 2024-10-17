@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 20:28:20 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/17 11:49:58 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/17 15:34:09 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,8 +114,8 @@ typedef struct	s_ray
 	int		scaled_height;
 	t_vec	*dir;
 	t_vec	*ray_len;
-	t_vec	*step;
-	t_vec	*step_size;
+	t_vec	*step_dir;
+	t_vec	*step_len;
 	mlx_image_t	*wall_tex;
 	t_vec	*screen_start;
 }	t_ray;
@@ -178,7 +178,7 @@ void	refresh_minimap(t_cub3d *kissa);
 void	setup_minimap(t_cub3d *kissa, int i, int j);
 
 // dda.c
-void	cast_ray(t_cub3d *kissa, float rot, t_ray *ray);
+void	cast_ray(t_cub3d *kissa, t_ray *ray);
 
 // draw.c
 void	draw_background(t_cub3d *kissa);

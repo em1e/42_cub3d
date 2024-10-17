@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 12:07:09 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/15 10:31:44 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/17 14:33:09 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,10 +69,10 @@ void	clean_ray(t_ray *ray)
 {
 	if (ray->ray_len)
 		free(ray->ray_len);
-	if (ray->step)
-		free(ray->step);
-	if (ray->step_size)
-		free(ray->step_size);
+	if (ray->step_dir)
+		free(ray->step_dir);
+	if (ray->step_len)
+		free(ray->step_len);
 	if (ray->dir)
 		free(ray->dir);
 	if (ray->screen_start)

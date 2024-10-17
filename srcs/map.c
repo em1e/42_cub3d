@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 04:12:10 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/12 11:47:17 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/17 12:25:14 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,8 @@ void	init_player_pos(t_cub3d *kissa, char this, int i, int j)
 {
 	kissa->player->start_dir = this;
 	set_rot(kissa->player, this);
-	kissa->player->x = (float)j;
-	kissa->player->y = (float)i;
+	kissa->player->x = (float)j + 0.5;
+	kissa->player->y = (float)i + 0.5;
 	kissa->player->dir->x = cos(kissa->player->rot);
 	kissa->player->dir->y = sin(kissa->player->rot);
 	kissa->map->array[i][j] = '0';

@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:49:02 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/17 12:10:53 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/17 15:38:50 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,38 +61,42 @@ static void	set_ray_len(float *ray_len_q, float step_q, t_ray *ray, int flag)
 	if (step_q < 0)
 		*ray_len_q = 0;
 	else if (flag == 1)
-		*ray_len_q = ray->step_size->x;
+		*ray_len_q = ray->step_len->x;
 	else
-		*ray_len_q = ray->step_size->y;
+		*ray_len_q = ray->step_len->y;
 }
 
 /*
 	Initializes the DDA algorithm by setting the starting coordinates and step sizes
 */
-static void	init_dda(t_cub3d *kissa, t_ray *ray, float rot)
+static void	init_dda(t_cub3d *kissa, t_ray *ray)
 {
 	ray->x = kissa->player->x;
 	ray->y = kissa->player->y;
-	ray->dir->x = cos(rot);
-	ray->dir->y = sin(rot);
+	ray->dir->x = cos(ray->rot);
+	ray->dir->y = sin(ray->rot);
 	ray->line_len = 0;
-	ray->step->x = check_dir(rot, 1);
-	ray->step->y = check_dir(rot, 0);
+	ray->step_dir->x = check_dir(ray->rot, 1);
+	ray->step_dir->y = check_dir(ray->rot, 0);
 	ray->side = -1;
-	if (ray->dir->x == 0)
+	if (ray->rot == kissa->player->rot)
+		printf("dir_x = %f, dir_y = %f, ray rot = %f, player rot = %f\n", ray->dir->x, ray->dir->y, ray->rot, kissa->player->rot);
+	if (ray->rot == (float)M_PI * 0.5 || ray->rot == 4.712389)
 	{
-		ray->step_size->x = 1;
-		ray->step_size->y = HUGE_VAL;
+		printf("SHOULD GO HERE\n");
+		ray->step_len->y = 1;
+		ray->step_len->y = HUGE_VAL;
 	}
-	else if (ray->dir->y == 0)
+	else if (ray->rot == (float)M_PI || ray->rot == (float)0)
 	{
-		ray->step_size->y = 1;
-		ray->step_size->x = HUGE_VAL;
+		printf("SHOULD GO HERE\n");
+		ray->step_len->y = 1;
+		ray->step_len->x = HUGE_VAL;
 	}
 	else
 	{
-		ray->step_size->x = sqrt(1 + (ray->dir->y / ray->dir->x) * (ray->dir->y / ray->dir->x));
-		ray->step_size->y = sqrt(1 + (ray->dir->x / ray->dir->y) * (ray->dir->x / ray->dir->y));
+		ray->step_len->x = sqrt(1 + (ray->dir->y / ray->dir->x) * (ray->dir->y / ray->dir->x));
+		ray->step_len->y = sqrt(1 + (ray->dir->x / ray->dir->y) * (ray->dir->x / ray->dir->y));
 	}
 }
 
@@ -115,29 +119,38 @@ void	set_wall_texture(t_cub3d *kissa, t_ray *ray)
 	
 }
 
-void calculate_initial_step(t_cub3d *kissa, t_ray *ray)
-{
-	float	initial_y;
-	float	initial_x;
+// void calculate_initial_step(t_cub3d *kissa, t_ray *ray)
+// {
+// 	float	initial_y;
+// 	float	initial_x;
 
-	initial_y = kissa->player->y - floor(kissa->player->y);
-	if (check_dir(ray->rot, 0) == - 1)
-		initial_y = 1 - initial_y;
-	initial_x = kissa->player->x - floor(kissa->player->x);
-	if (check_dir(ray->rot, 1) == - 1)
-		initial_x = 1 - initial_x;
-	if (initial_y == 0 || initial_y == 1 || initial_x == 0 || initial_x == 1)
-		ray->initial_step = 0;
-	else
-	{
-		printf("NOT HERE\n");
-		ray->initial_step = sqrt(initial_x * initial_x + initial_y * initial_y);
-		if (initial_x * ray->step_size->x < initial_y * ray->step_size->y)
-			ray->x += ray->step->x * initial_x;
-		else
-			ray->y += ray->step->y * initial_y;
-	}
-}
+// 	initial_y = kissa->player->y - floor(kissa->player->y);
+// 	if (check_dir(ray->rot, 0) == - 1)
+// 		initial_y = 1 - initial_y;
+// 	initial_x = kissa->player->x - floor(kissa->player->x);
+// 	if (check_dir(ray->rot, 1) == - 1)
+// 		initial_x = 1 - initial_x;
+// 	if (initial_y == 0)
+// 	{
+// 		ray->line_len = initial_x;
+// 		ray->x += ray->step_dir->x * initial_x;
+// 	}
+// 	else if (initial_x == 0)
+// 	{
+// 		ray->line_len = initial_y;
+// 		ray->y += ray->step_dir->y * initial_y;
+// 	}
+// 	else
+// 	{
+// 		ray->line_len = sqrt(initial_x * initial_x + initial_y * initial_y);
+// 		if (initial_x * ray->step_len->x < initial_y * ray->step_len->y)
+// 			ray->x += ray->step_dir->x * initial_x;
+// 		else
+// 			ray->y += ray->step_dir->y * initial_y;
+// 	}
+// 	if (ray->rot == kissa->player->rot)
+// 		printf("line len before stuff: %f\n", ray->line_len);
+// }
 
 /*
 	Shoots a ray from the player object in the direction of the player object
@@ -145,32 +158,36 @@ void calculate_initial_step(t_cub3d *kissa, t_ray *ray)
 
 	This code works, is more optimized, bur is not as readable as function above
 */
-void	cast_ray(t_cub3d *kissa, float rot, t_ray *ray)
+void	cast_ray(t_cub3d *kissa, t_ray *ray)
 {
-	init_dda(kissa, ray, rot);
-	if (ray->step->x == -10 || ray->step->y == -10)
+	init_dda(kissa, ray);
+	if (ray->step_dir->x == -10 || ray->step_dir->y == -10)
 		quit_error(kissa, NULL, "math failed in init_ray");
-	calculate_initial_step(kissa, ray);
-	set_ray_len(&ray->ray_len->x, ray->step->x, ray, 1);
-	set_ray_len(&ray->ray_len->y, ray->step->y, ray, 0);
+	// calculate_initial_step(kissa, ray);
+	set_ray_len(&ray->ray_len->x, ray->step_dir->x, ray, 1);
+	set_ray_len(&ray->ray_len->y, ray->step_dir->y, ray, 0);
 	while (is_wall(kissa, ray->x, ray->y) == 0)
 	{
 		if (ray->ray_len->x < ray->ray_len->y)
 		{
-			ray->x += ray->step->x;
+			ray->x += ray->step_dir->x;
 			ray->line_len = ray->ray_len->x;
-			ray->ray_len->x += ray->step_size->x;
+			ray->ray_len->x += ray->step_len->x;
 			ray->side = 0;
+			if (ray->rot == kissa->player->rot)
+				printf("X: Line len %f, ray_x %f, ray_y %f, ray_len x %f, ray_len y %f\n", ray->line_len, ray->x, ray->y, ray->ray_len->x, ray->ray_len->y);
 		}
 		else
 		{
-			ray->y += ray->step->y;
+			ray->y += ray->step_dir->y;
 			ray->line_len = ray->ray_len->y;
-			ray->ray_len->y += ray->step_size->y;
+			ray->ray_len->y += ray->step_len->y;
 			ray->side = 1;
+			if (ray->rot == kissa->player->rot)
+				printf("Y: Line len %f, ray_x %f, ray_y %f, ray_len x %f, ray_len y %f\n", ray->line_len, ray->x, ray->y, ray->ray_len->x, ray->ray_len->y);
 		}
 	}
-	ray->line_len += ray->initial_step;
-	printf("Initial step = %f\n", ray->initial_step);
+	// ray->line_len += ray->initial_step;
+	// printf("Initial step = %f\n", ray->initial_step);
 	set_wall_texture(kissa, ray);
 }
