@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 13:43:44 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/16 17:10:54 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/17 09:41:31 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ static void	cast_rays(t_cub3d *kissa)
 {
 	int	i;
 	float	start_rot;
-	float	fishey;
 	t_ray	*ray;
 
 	start_rot = kissa->player->rot - FOV / 2;
@@ -40,7 +39,6 @@ static void	cast_rays(t_cub3d *kissa)
 		if (ray->rot > 2 * M_PI)
 			ray->rot -= 2 * M_PI;
 		cast_ray(kissa, ray->rot, ray);
-		fishey = fabs(cos((kissa->player->rot - ray->rot)));
 		// if (ray->side)
 		// 	ray->scaled_height = kissa->wall_height / (ray->y - ray->step->y);
 		// else
@@ -51,8 +49,8 @@ static void	cast_rays(t_cub3d *kissa)
 		// 	ray->scaled_height = floor(kissa->wall_height / ray->line_len);
 		// else
 		// 	ray->scaled_height = 1;
-		ray->scale = 1 / ray->line_len / fishey;
-		ray->scaled_height = floor(kissa->wall_height * ray->scale);
+		ray->scale = 1 / (ray->line_len * cos(fabs(kissa->player->rot - ray->rot)));
+		ray->scaled_height = kissa->wall_height * ray->scale;
 		ray->screen_start->x = i * MLX_WIDTH / RAYC;
 		ray->screen_start->y = ray->scaled_height / 2 + MLX_HEIGHT / 2;
 		// printf("A Ray %d rot %f and len %f\n", i, rot, kissa->ray->line_len);
@@ -128,6 +126,8 @@ void	draw_texture(t_cub3d *kissa, t_ray *ray, int flag)
 	// mlx_resize_image(ray->wall_tex, ray->scaled_height, ray->scaled_height);
 	if (flag)
 		printf("start (%f, %f), end (%f, %f)\n", kissa->player->x, kissa->player->y, ray->x, ray->y);
+	if (ray->line_len <= 0)
+		printf("SEGFAULT INCOMING at player (%f, %f) and ray end (%f, %f), with rot %f", kissa->player->x, kissa->player->y, ray->x, ray->y, ray->rot);
 	if (ray->side)
 	{
 		// printf("X ray->y = %f ray->x = %f\n", ray->y, ray->x);

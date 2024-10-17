@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 20:28:20 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/16 17:10:00 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/17 11:49:58 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@
 # define RAYDIFF M_PI / 2 / RAYC
 
 // speeds for moving and rotating
-# define ROT_SPEED 0.1
+# define ROT_SPEED M_PI / 20
 # define MOVE_SPEED 0.5
 
 // minimap radius
@@ -109,6 +109,7 @@ typedef struct	s_ray
 	float	y;
 	float	rot;
 	float	line_len;
+	float	initial_step;
 	float	scale;
 	int		scaled_height;
 	t_vec	*dir;
