@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dda.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:49:02 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/18 10:11:23 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/18 12:15:32 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,24 +19,24 @@
 	this function checks if the current rotation going in a
 	positive or negative direction, in either the x or y axis
 */
-static int	check_dir(float rot, int flag)
-{
-	if (flag == 0) // y -------------------------------
-	{
-		if (rot > (float)WEST)
-			return (-1); // y is negative
-		else 
-			return (1); // y is positive or 0
-	}
-	else if (flag == 1) // x ---------------------------
-	{
-		if (rot > (float)NORTH && rot < (float)SOUTH)
-			return (-1); // x is negative
-		else 
-			return (1); // x is positive or 0
-	}
-	return (-10);
-}
+// static int	check_dir(t_ray)
+// {
+// 	if (flag == 0) // y -------------------------------
+// 	{
+// 		if (rot > (float)WEST)
+// 			return (-1); // y is negative
+// 		else 
+// 			return (1); // y is positive or 0
+// 	}
+// 	else if (flag == 1) // x ---------------------------
+// 	{
+// 		if (rot > (float)NORTH && rot < (float)SOUTH)
+// 			return (-1); // x is negative
+// 		else 
+// 			return (1); // x is positive or 0
+// 	}
+// 	return (-10);
+// }
 
 /*
 	Initializes the DDA algorithm by setting the starting coordinates and step sizes
@@ -48,16 +48,29 @@ static void	init_dda(t_cub3d *kissa, t_ray *ray)
 	ray->dir->x = cos(ray->rot);
 	ray->dir->y = sin(ray->rot);
 	ray->line_len = 0;
-	ray->step_dir->x = check_dir(ray->rot, 1);
-	ray->step_dir->y = check_dir(ray->rot, 0);
-	ray->side = -1;
-	if (ray->rot == kissa->player->rot)
-		printf("dir_x = %f, dir_y = %f, ray rot = %f, player rot = %f\n", ray->dir->x, ray->dir->y, ray->rot, kissa->player->rot);
 	ray->step_len->x = sqrt(1 + (ray->dir->y / ray->dir->x) * (ray->dir->y / ray->dir->x));
 	ray->step_len->y = sqrt(1 + (ray->dir->x / ray->dir->y) * (ray->dir->x / ray->dir->y));
-	ray->ray_len->x = ray->step_len->x;
-	ray->ray_len->y = ray->step_len->y;
-	// }
+	if (ray->rot > (float)WEST)
+	{
+		ray->step_dir->y = -1; // y is negative
+		ray->ray_len->y = (ray->y - floor(ray->y)) * ray->step_len->y;
+	}
+	else
+	{
+		ray->step_dir->y = 1; // y is positive or 0
+		ray->ray_len->y = 1 - (ray->y - floor(ray->y)) * ray->step_len->y;
+	}
+	if (ray->rot > (float)NORTH && ray->rot < (float)SOUTH)
+	{
+		ray->step_dir->x = -1; // x is negative
+		ray->ray_len->x = (ray->x - floor(ray->x)) * ray->step_len->x;
+	}
+	else
+	{
+		ray->step_dir->y = 1; // x is positive or 0
+		ray->ray_len->x = 1 - (ray->x - floor(ray->x)) * ray->step_len->x;
+	}
+	ray->side = -1;
 }
 
 void	set_wall_texture(t_cub3d *kissa, t_ray *ray)
@@ -79,38 +92,38 @@ void	set_wall_texture(t_cub3d *kissa, t_ray *ray)
 	
 }
 
-void calculate_initial_step(t_cub3d *kissa, t_ray *ray)
-{
-	float	initial_y;
-	float	initial_x;
+// void calculate_initial_step(t_cub3d *kissa, t_ray *ray)
+// {
+// 	float	initial_y;
+// 	float	initial_x;
 
-	initial_y = kissa->player->y - floor(kissa->player->y);
-	if (check_dir(ray->rot, 0) == - 1)
-		initial_y = 1 - initial_y;
-	initial_x = kissa->player->x - floor(kissa->player->x);
-	if (check_dir(ray->rot, 1) == - 1)
-		initial_x = 1 - initial_x;
-	if (initial_y == 0)
-	{
-		ray->line_len = initial_x;
-		ray->x += ray->step_dir->x * initial_x;
-	}
-	else if (initial_x == 0)
-	{
-		ray->line_len = initial_y;
-		ray->y += ray->step_dir->y * initial_y;
-	}
-	else
-	{
-		ray->line_len = sqrt(initial_x * initial_x + initial_y * initial_y);
-		if (initial_x * ray->step_len->x < initial_y * ray->step_len->y)
-			ray->x += ray->step_dir->x * initial_x;
-		else
-			ray->y += ray->step_dir->y * initial_y;
-	}
-	if (ray->rot == kissa->player->rot)
-		printf("line len before stuff: %f\n", ray->line_len);
-}
+// 	initial_y = kissa->player->y - floor(kissa->player->y);
+// 	if (check_dir(ray->rot, 0) == - 1)
+// 		initial_y = 1 - initial_y;
+// 	initial_x = kissa->player->x - floor(kissa->player->x);
+// 	if (check_dir(ray->rot, 1) == - 1)
+// 		initial_x = 1 - initial_x;
+// 	if (initial_y == 0)
+// 	{
+// 		ray->line_len = initial_x;
+// 		ray->x += ray->step_dir->x * initial_x;
+// 	}
+// 	else if (initial_x == 0)
+// 	{
+// 		ray->line_len = initial_y;
+// 		ray->y += ray->step_dir->y * initial_y;
+// 	}
+// 	else
+// 	{
+// 		ray->line_len = sqrt(initial_x * initial_x + initial_y * initial_y);
+// 		if (initial_x * ray->step_len->x < initial_y * ray->step_len->y)
+// 			ray->x += ray->step_dir->x * initial_x;
+// 		else
+// 			ray->y += ray->step_dir->y * initial_y;
+// 	}
+// 	if (ray->rot == kissa->player->rot)
+// 		printf("line len before stuff: %f\n", ray->line_len);
+// }
 
 /*
 	Shoots a ray from the player object in the direction of the player object
