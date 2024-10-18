@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:49:02 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/17 15:38:50 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/18 10:06:00 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,15 +56,15 @@ static int	check_dir(float rot, int flag)
 	flag = 0 checks for y rotation
 	flag = 1 checks for x rotation
 */
-static void	set_ray_len(float *ray_len_q, float step_q, t_ray *ray, int flag)
-{
-	if (step_q < 0)
-		*ray_len_q = 0;
-	else if (flag == 1)
-		*ray_len_q = ray->step_len->x;
-	else
-		*ray_len_q = ray->step_len->y;
-}
+// static void	set_ray_len(float *ray_len_q, float step_q, t_ray *ray, int flag)
+// {
+// 	if (step_q < 0)
+// 		*ray_len_q = 0;
+// 	else if (flag == 1)
+// 		*ray_len_q = ray->step_len->x;
+// 	else
+// 		*ray_len_q = ray->step_len->y;
+// }
 
 /*
 	Initializes the DDA algorithm by setting the starting coordinates and step sizes
@@ -81,23 +81,11 @@ static void	init_dda(t_cub3d *kissa, t_ray *ray)
 	ray->side = -1;
 	if (ray->rot == kissa->player->rot)
 		printf("dir_x = %f, dir_y = %f, ray rot = %f, player rot = %f\n", ray->dir->x, ray->dir->y, ray->rot, kissa->player->rot);
-	if (ray->rot == (float)M_PI * 0.5 || ray->rot == 4.712389)
-	{
-		printf("SHOULD GO HERE\n");
-		ray->step_len->y = 1;
-		ray->step_len->y = HUGE_VAL;
-	}
-	else if (ray->rot == (float)M_PI || ray->rot == (float)0)
-	{
-		printf("SHOULD GO HERE\n");
-		ray->step_len->y = 1;
-		ray->step_len->x = HUGE_VAL;
-	}
-	else
-	{
-		ray->step_len->x = sqrt(1 + (ray->dir->y / ray->dir->x) * (ray->dir->y / ray->dir->x));
-		ray->step_len->y = sqrt(1 + (ray->dir->x / ray->dir->y) * (ray->dir->x / ray->dir->y));
-	}
+	ray->step_len->x = sqrt(1 + (ray->dir->y / ray->dir->x) * (ray->dir->y / ray->dir->x));
+	ray->step_len->y = sqrt(1 + (ray->dir->x / ray->dir->y) * (ray->dir->x / ray->dir->y));
+	ray->ray_len->x = ray->step_len->x;
+	ray->ray_len->y = ray->step_len->y;
+	// }
 }
 
 void	set_wall_texture(t_cub3d *kissa, t_ray *ray)
@@ -119,38 +107,38 @@ void	set_wall_texture(t_cub3d *kissa, t_ray *ray)
 	
 }
 
-// void calculate_initial_step(t_cub3d *kissa, t_ray *ray)
-// {
-// 	float	initial_y;
-// 	float	initial_x;
+void calculate_initial_step(t_cub3d *kissa, t_ray *ray)
+{
+	float	initial_y;
+	float	initial_x;
 
-// 	initial_y = kissa->player->y - floor(kissa->player->y);
-// 	if (check_dir(ray->rot, 0) == - 1)
-// 		initial_y = 1 - initial_y;
-// 	initial_x = kissa->player->x - floor(kissa->player->x);
-// 	if (check_dir(ray->rot, 1) == - 1)
-// 		initial_x = 1 - initial_x;
-// 	if (initial_y == 0)
-// 	{
-// 		ray->line_len = initial_x;
-// 		ray->x += ray->step_dir->x * initial_x;
-// 	}
-// 	else if (initial_x == 0)
-// 	{
-// 		ray->line_len = initial_y;
-// 		ray->y += ray->step_dir->y * initial_y;
-// 	}
-// 	else
-// 	{
-// 		ray->line_len = sqrt(initial_x * initial_x + initial_y * initial_y);
-// 		if (initial_x * ray->step_len->x < initial_y * ray->step_len->y)
-// 			ray->x += ray->step_dir->x * initial_x;
-// 		else
-// 			ray->y += ray->step_dir->y * initial_y;
-// 	}
-// 	if (ray->rot == kissa->player->rot)
-// 		printf("line len before stuff: %f\n", ray->line_len);
-// }
+	initial_y = kissa->player->y - floor(kissa->player->y);
+	if (check_dir(ray->rot, 0) == - 1)
+		initial_y = 1 - initial_y;
+	initial_x = kissa->player->x - floor(kissa->player->x);
+	if (check_dir(ray->rot, 1) == - 1)
+		initial_x = 1 - initial_x;
+	if (initial_y == 0)
+	{
+		ray->line_len = initial_x;
+		ray->x += ray->step_dir->x * initial_x;
+	}
+	else if (initial_x == 0)
+	{
+		ray->line_len = initial_y;
+		ray->y += ray->step_dir->y * initial_y;
+	}
+	else
+	{
+		ray->line_len = sqrt(initial_x * initial_x + initial_y * initial_y);
+		if (initial_x * ray->step_len->x < initial_y * ray->step_len->y)
+			ray->x += ray->step_dir->x * initial_x;
+		else
+			ray->y += ray->step_dir->y * initial_y;
+	}
+	if (ray->rot == kissa->player->rot)
+		printf("line len before stuff: %f\n", ray->line_len);
+}
 
 /*
 	Shoots a ray from the player object in the direction of the player object
@@ -163,9 +151,6 @@ void	cast_ray(t_cub3d *kissa, t_ray *ray)
 	init_dda(kissa, ray);
 	if (ray->step_dir->x == -10 || ray->step_dir->y == -10)
 		quit_error(kissa, NULL, "math failed in init_ray");
-	// calculate_initial_step(kissa, ray);
-	set_ray_len(&ray->ray_len->x, ray->step_dir->x, ray, 1);
-	set_ray_len(&ray->ray_len->y, ray->step_dir->y, ray, 0);
 	while (is_wall(kissa, ray->x, ray->y) == 0)
 	{
 		if (ray->ray_len->x < ray->ray_len->y)
@@ -187,7 +172,7 @@ void	cast_ray(t_cub3d *kissa, t_ray *ray)
 				printf("Y: Line len %f, ray_x %f, ray_y %f, ray_len x %f, ray_len y %f\n", ray->line_len, ray->x, ray->y, ray->ray_len->x, ray->ray_len->y);
 		}
 	}
-	// ray->line_len += ray->initial_step;
-	// printf("Initial step = %f\n", ray->initial_step);
+	ray->x = kissa->player->x + ray->dir->x * ray->line_len;
+	ray->y = kissa->player->y + ray->dir->y * ray->line_len;
 	set_wall_texture(kissa, ray);
 }
