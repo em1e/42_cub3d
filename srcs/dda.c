@@ -3,26 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   dda.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:49:02 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/18 10:06:00 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/18 10:11:23 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-//////////////////////////////////////////////////////////////////////////
-//														DDA ALGORITHM															//
-//////////////////////////////////////////////////////////////////////////
-
-/*
-	NOTE:
-
-	I coudn't get the DDA algorithm to work properly with putting the ray pixels on screen,
-	however, the algorithm itself seems to work. I will leave the code here for future reference
-	if we want to get back to it or implement it in a different way e.g. in the scene.
-*/
 
 /*
 	flag = 0 checks for y rotation
@@ -49,22 +37,6 @@ static int	check_dir(float rot, int flag)
 	}
 	return (-10);
 }
-
-/*
-	Sets the length of the ray to the next wall in the x or y direction
-
-	flag = 0 checks for y rotation
-	flag = 1 checks for x rotation
-*/
-// static void	set_ray_len(float *ray_len_q, float step_q, t_ray *ray, int flag)
-// {
-// 	if (step_q < 0)
-// 		*ray_len_q = 0;
-// 	else if (flag == 1)
-// 		*ray_len_q = ray->step_len->x;
-// 	else
-// 		*ray_len_q = ray->step_len->y;
-// }
 
 /*
 	Initializes the DDA algorithm by setting the starting coordinates and step sizes

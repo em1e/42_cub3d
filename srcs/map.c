@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 04:12:10 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/17 12:25:14 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/18 10:12:39 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,13 +146,11 @@ void	replace_spaces(t_cub3d *kissa)
 	i = 0;
 	while (i < kissa->map->height)
 	{
-		// printf("i = %d\n", i);
 		j = 0;
 		if (i < kissa->map->height)
 		{
 			while (j < kissa->map->width)
 			{
-				// printf("j = %d\n", j);
 				if (kissa->map->array[i][j] == ' ')
 					kissa->map->array[i][j] = '1';
 				j++;
@@ -173,6 +171,5 @@ void	init_map(t_cub3d *kissa)
 	fill_map(kissa);
 	check_map(kissa);
 	replace_spaces(kissa);
-	//init_visited(kissa);
 	print_map(kissa);
 }

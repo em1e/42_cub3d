@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minimap.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 16:33:57 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/16 12:39:34 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/18 10:12:56 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,6 @@ static int	check_radius(t_cub3d *kissa, float ray_x, float ray_y)
 	0xFF00FFFF = purple
 	0xFFFF00FF = yellow
 
-	NOTE: 
-		"+ tile / 2" : this centers the ray to the player
-		it seems to be working, the ray just goes over by a fiew pixels
-		(dif between float and int), do we want to do smth about that?
-
-		THIS NEEDS TO BE SHORTENED, OPTIMIZED AND FIXED
-		
 */
 static void	shoot_ray(t_cub3d *kissa, t_obj *obj)
 {
@@ -66,7 +59,6 @@ static void	shoot_ray(t_cub3d *kissa, t_obj *obj)
 		&& (ray_y - center_y) + radius / 2 * tile >= 0
 		&& kissa->map->array[(int)floor(player_y / tile)][(int)floor(player_x / tile)] != '1')
 	{
-		// printf("ray_x %f, ray_y %f\n", ray_x, ray_y);
 		if (ray_x < 0 || ray_x >= kissa->map->width * tile || ray_y < 0 || ray_y >= kissa->map->height * tile)
 				break;
 		mlx_put_pixel(kissa->view->ray, (ray_x - center_x + radius * tile / 2) + tile / 2,

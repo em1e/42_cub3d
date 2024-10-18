@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:25:48 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/17 14:31:08 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/18 10:11:00 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,6 @@ t_view	*new_view(t_cub3d *kissa)
 	view = malloc(sizeof(t_view));
 	if (!view)
 		quit_error(kissa, NULL, "memory allocation failure");
-	// view->scene = new_vec(kissa);
 	view->floor_inst = NULL;
 	view->wall_inst = NULL;
 	view->mlx_scene = NULL;
@@ -161,15 +160,6 @@ void	convert_textures(t_cub3d *kissa)
 
 /*
 Initializes MLX and stores the required images.
-
-NOTE:
-for later if we want to use pixels instead of images in minimap:
-	// kissa->view->mlx_wall = mlx_new_image(kissa->mlx, 100 * kissa->map->tile_size,
-	// 	100 * kissa->map->tile_size);
-	// kissa->view->mlx_floor = mlx_new_image(kissa->mlx, 100 * kissa->map->tile_size,
-	// 	100 * kissa->map->tile_size);
-	// kissa->view->mlx_player = mlx_new_image(kissa->mlx, 100 * kissa->map->tile_size,
-	// 	100 * kissa->map->tile_size);
 */
 void	init_mlx(t_cub3d *kissa)
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clean.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 12:07:09 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/17 14:33:09 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/18 10:10:41 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,6 @@ void	clean_view(t_map *map, t_view *view)
 
 	(void)map;
 	i = 0;
-	// if (view->scene)
-	// 	free(view->scene);
 	while (i <= MMRAD * 2)
 	{
 		if (view->floor_inst && view->floor_inst[i])

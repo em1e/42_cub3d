@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   game.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:48:49 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/16 16:43:05 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/18 10:12:04 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,6 @@ int	is_wall(t_cub3d *kissa, float x, float y)
 	if (floor(x) == x && x - 1 >= 0 
 		&& kissa->map->array[(int)floor(y)][(int)(x - 1)] == '1')
 		return (1);
-	// if (kissa->map->array[(int)floor(collision_y)][(int)floor(collision_x)] == '1')
-	// 	return (1);
 	return (0);
 }
 
@@ -81,7 +79,6 @@ void	move(t_cub3d *kissa, t_obj *obj, int dir_x, int dir_y)
 		return ; // add bounceback
 	obj->x = new_x;
 	obj->y = new_y;
-	//printf("Player pos = (%f, %f)\n", obj->x, obj->y);
 }
 
 /*
@@ -110,7 +107,6 @@ void	rotate(t_cub3d *kissa, t_obj *obj, int rot)
 	}
 	obj->dir->x = cos(obj->rot);
 	obj->dir->y = sin(obj->rot);
-	// printf("Player dir = %f\n", obj->rot);
 }
 
 /*
