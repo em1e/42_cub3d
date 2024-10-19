@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 13:43:44 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/19 09:44:56 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/19 11:27:08 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,14 +129,12 @@ void	reset_scene_image(t_cub3d *kissa)
 void	draw_scene(t_cub3d *kissa)
 {
 	int	i;
-	int	flag;
 
 	i = 0;
 	cast_rays(kissa);
 	reset_scene_image(kissa);
 	while (i < RAYC)
 	{
-		flag = 0;
 		if (i == RAYC / 2)
 			printf("\tDrawing ray [%d], direction %f, len %f, scale %f, \n", i, kissa->ray_array[i]->rot, kissa->ray_array[i]->line_len, kissa->ray_array[i]->scale);
 		draw_texture(kissa, kissa->ray_array[i]);
