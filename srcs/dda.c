@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:49:02 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/19 09:40:18 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/19 10:08:40 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,14 @@ static void	init_dda(t_cub3d *kissa, t_ray *ray)
 	ray->line_len = 0;
 	ray->step_len->x = sqrt(1 + (ray->dir->y / ray->dir->x) * (ray->dir->y / ray->dir->x));
 	ray->step_len->y = sqrt(1 + (ray->dir->x / ray->dir->y) * (ray->dir->x / ray->dir->y));
+	ray->side = -1;
+	
+	// this actually somewhat works, look into it -------------
 	ray->step_dir->x = check_dir(ray->rot, 1);
 	ray->step_dir->y = check_dir(ray->rot, 0);
 	if (ray->step_dir->x == -10 || ray->step_dir->y == -10)
 		quit_error(kissa, NULL, "math failed in init_ray");
-	ray->side = -1;
-	// this actually somewhat works, look into it -------------
+
 	if (ray->rot > (float)WEST)
 	{
 		// ray->step_dir->y = -1; // y is negative
@@ -64,7 +66,8 @@ static void	init_dda(t_cub3d *kissa, t_ray *ray)
 	else
 	{
 		// ray->step_dir->y = 1; // y is positive or 0
-		ray->ray_len->y = 1 - (ray->y - floor(ray->y)) * ray->step_len->y;
+		// ray->ray_len->y = 1 - (ray->y - floor(ray->y)) * ray->step_len->y;
+		ray->ray_len->y = (floor(ray->y) + 1 - ray->y) * ray->step_len->y;
 	}
 	if (ray->rot > (float)NORTH && ray->rot < (float)SOUTH)
 	{
@@ -74,11 +77,11 @@ static void	init_dda(t_cub3d *kissa, t_ray *ray)
 	else
 	{
 		// ray->step_dir->y = 1; // x is positive or 0
-		ray->ray_len->x = 1 - (ray->x - floor(ray->x)) * ray->step_len->x;
+		// ray->ray_len->x = 1 - (ray->x - floor(ray->x)) * ray->step_len->x;
+		ray->ray_len->x = (floor(ray->x) + 1 - ray->x) * ray->step_len->x;
 	}
 	// ---------------------------------------------------
 
-	
 	// this causes our issues -------------------------
 	// if (ray->rot > (float)WEST)
 	// {
@@ -187,7 +190,11 @@ void	cast_ray(t_cub3d *kissa, t_ray *ray)
 	ray->x = kissa->player->x + ray->dir->x * ray->line_len;
 	ray->y = kissa->player->y + ray->dir->y * ray->line_len;
 	if (ray->rot == kissa->player->rot)
+	{
 		printf("NEW POS (x %f, y %f)\n", ray->x, ray->y);
+		printf("PLAYER POS (x %f, y %f)\n", kissa->player->x, kissa->player->y);
+	}
 	// ---------------------------------------------------------------
+	
 	set_wall_texture(kissa, ray);
 }
