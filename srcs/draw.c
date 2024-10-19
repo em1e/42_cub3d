@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 13:43:44 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/18 12:11:19 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/19 09:44:56 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ void	draw_texture(t_cub3d *kissa, t_ray *ray)
 	
 	img_y_start = 0;
 	if (ray->rot == kissa->player->rot)
-		printf("start (%f, %f), end (%f, %f)\n", kissa->player->x, kissa->player->y, ray->x, ray->y);
+		printf("\tstart (%f, %f), end (%f, %f)\n", kissa->player->x, kissa->player->y, ray->x, ray->y);
 	if (ray->side)
 		img_x_start = floor(ray->scaled_height * (ray->x - floor(ray->x)));
 	else
@@ -109,7 +109,7 @@ void	draw_texture(t_cub3d *kissa, t_ray *ray)
 		while (x < MLX_WIDTH / RAYC)
 		{
 			if (ray->rot == kissa->player->rot && ((!x && !y) || (x == MLX_WIDTH / RAYC / 2 && y == floor(ray->scaled_height / 2)) || (x == MLX_WIDTH / RAYC - 1 && y == ray->scaled_height - 1)))
-				printf("\tPutting pixel to screen (%f, %f) from image (%d, %d)\n", ray->screen_start->x + x, ray->screen_start->y - y, img_x_start + x, img_y_start + y);
+				printf("\t\tPutting pixel to screen (%f, %f) from image (%d, %d)\n", ray->screen_start->x + x, ray->screen_start->y - y, img_x_start + x, img_y_start + y);
 			mlx_put_pixel(kissa->view->mlx_scene, ray->screen_start->x + x, ray->screen_start->y - y, get_imgs_pixel(kissa, ray, img_x_start + x, img_y_start + y));
 			x++;
 		}
@@ -138,7 +138,7 @@ void	draw_scene(t_cub3d *kissa)
 	{
 		flag = 0;
 		if (i == RAYC / 2)
-			printf("Drawing ray [%d], direction %f, len %f, scale %f, \n", i, kissa->ray_array[i]->rot, kissa->ray_array[i]->line_len, kissa->ray_array[i]->scale);
+			printf("\tDrawing ray [%d], direction %f, len %f, scale %f, \n", i, kissa->ray_array[i]->rot, kissa->ray_array[i]->line_len, kissa->ray_array[i]->scale);
 		draw_texture(kissa, kissa->ray_array[i]);
 		i++;
 	}
