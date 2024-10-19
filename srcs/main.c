@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 20:38:06 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/11 09:37:58 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/19 10:50:53 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,24 @@
 
 TASKS:
 
-@ use dda to draw walls:
-	--> the ray logic is there (lines and calculated), just need to make the cone
-	of rays and calculate wall heights
-	
-@ draw ceiling and floor planes using colors in struct:
-	--> this might require us to put the pixel by pixel, I hope not tho
-	
-@ fix minimap:
-	--> OPTIONAL: make the minimap rounding scalable
+@ check map parsing
+	---> ask around about map islands and how that shoul dbe handled
+	---> fix parser to not give an error if there is an empty line inside map
+
+@ add more png's and change all of the maps into valid .cub maps
+
+@ fix drawing walls and dda
+	---> make it so that walls aren't glitchy anymore
+	---> make sure it doesn't segv when walking towards walls
+
+@ fix minimap ray
+
+@ add toggle for minimap
+
+@ add starting screen
+
+@ add bounceback
+
 */
 
 /*
