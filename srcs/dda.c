@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dda.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:49:02 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/19 10:08:40 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/19 14:41:13 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,10 @@ static void	init_dda(t_cub3d *kissa, t_ray *ray)
 	ray->dir->x = cos(ray->rot);
 	ray->dir->y = sin(ray->rot);
 	ray->line_len = 0;
-	ray->step_len->x = sqrt(1 + (ray->dir->y / ray->dir->x) * (ray->dir->y / ray->dir->x));
-	ray->step_len->y = sqrt(1 + (ray->dir->x / ray->dir->y) * (ray->dir->x / ray->dir->y));
+	ray->step_len->x = fabs(1/ray->dir->x); // far faster way to calculate lens
+	ray->step_len->y = fabs(1/ray->dir->y); // far faster way to calculate lens
+	// ray->step_len->x = sqrt(1 + (ray->dir->y / ray->dir->x) * (ray->dir->y / ray->dir->x));
+	// ray->step_len->y = sqrt(1 + (ray->dir->x / ray->dir->y) * (ray->dir->x / ray->dir->y));
 	ray->side = -1;
 	
 	// this actually somewhat works, look into it -------------
