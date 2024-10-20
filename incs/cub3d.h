@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 20:28:20 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/17 15:34:09 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/20 13:53:03 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,12 @@
 # define RAYC 240
 # define RAYDIFF M_PI / 2 / RAYC
 
+// radius of collision bumper
+# define BUMPER_SIZE 0.3
+
 // speeds for moving and rotating
 # define ROT_SPEED M_PI / 20
-# define MOVE_SPEED 0.5
+# define MOVE_SPEED 0.2
 
 // minimap radius
 # define MMRAD 5

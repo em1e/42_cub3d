@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   game.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:48:49 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/18 10:12:04 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/20 13:51:17 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,12 @@ int	is_wall(t_cub3d *kissa, float x, float y)
 {
 	if (kissa->map->array[(int)floor(y)][(int)floor(x)] == '1')
 		return (1);
-	if (floor(y) == y && y - 1 >= 0 
-		&& kissa->map->array[(int)(y - 1)][(int)floor(x)] == '1')
-		return (1);
-	if (floor(x) == x && x - 1 >= 0 
-		&& kissa->map->array[(int)floor(y)][(int)(x - 1)] == '1')
-		return (1);
+	// if (floor(y) == y && y - 1 >= 0 
+	// 	&& kissa->map->array[(int)(y - 1)][(int)floor(x)] == '1')
+	// 	return (1);
+	// if (floor(x) == x && x - 1 >= 0 
+	// 	&& kissa->map->array[(int)floor(y)][(int)(x - 1)] == '1')
+	// 	return (1);
 	return (0);
 }
 
@@ -75,7 +75,11 @@ void	move(t_cub3d *kissa, t_obj *obj, int dir_x, int dir_y)
 
 	if (new_x < 0 || new_x >= kissa->map->width 
 		|| new_y < 0 || new_y >= kissa->map->height 
-		|| is_wall(kissa, new_x, new_y))
+		|| is_wall(kissa, new_x, new_y) 
+		|| is_wall(kissa, new_x + BUMPER_SIZE, new_y) 
+		|| is_wall(kissa, new_x - BUMPER_SIZE, new_y)
+		|| is_wall(kissa, new_x, new_y + BUMPER_SIZE) 
+		|| is_wall(kissa, new_x, new_y - BUMPER_SIZE))
 		return ; // add bounceback
 	obj->x = new_x;
 	obj->y = new_y;
