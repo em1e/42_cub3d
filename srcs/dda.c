@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:49:02 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/19 14:41:13 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/21 15:29:29 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,38 +164,38 @@ void	cast_ray(t_cub3d *kissa, t_ray *ray)
 		{
 			ray->x += ray->step_dir->x;
 			ray->line_len = ray->ray_len->x;
-			if (ray->rot == kissa->player->rot)
-				printf("BB ray->ray_len->x = %f\n", ray->ray_len->x);
+			// if (ray->rot == kissa->player->rot)
+			// 	printf("BB ray->ray_len->x = %f\n", ray->ray_len->x);
 			ray->ray_len->x += ray->step_len->x;
 			ray->side = 0;
-			if (ray->rot == kissa->player->rot)
-				printf("X: Line len %f, ray_x %f, ray_y %f, ray_len x %f, ray_len y %f\n", ray->line_len, ray->x, ray->y, ray->ray_len->x, ray->ray_len->y);
+			// if (ray->rot == kissa->player->rot)
+			// 	printf("X: Line len %f, ray_x %f, ray_y %f, ray_len x %f, ray_len y %f\n", ray->line_len, ray->x, ray->y, ray->ray_len->x, ray->ray_len->y);
 		}
 		else
 		{
 			ray->y += ray->step_dir->y;
 			ray->line_len = ray->ray_len->y;
-			if (ray->rot == kissa->player->rot)
-				printf("CC ray->ray_len->y = %f\n", ray->ray_len->y);
+			// if (ray->rot == kissa->player->rot)
+			// 	printf("CC ray->ray_len->y = %f\n", ray->ray_len->y);
 			ray->ray_len->y += ray->step_len->y;
 			ray->side = 1;
-			if (ray->rot == kissa->player->rot)
-				printf("Y: Line len %f, ray_x %f, ray_y %f, ray_len x %f, ray_len y %f\n", ray->line_len, ray->x, ray->y, ray->ray_len->x, ray->ray_len->y);
+			// if (ray->rot == kissa->player->rot)
+			// 	printf("Y: Line len %f, ray_x %f, ray_y %f, ray_len x %f, ray_len y %f\n", ray->line_len, ray->x, ray->y, ray->ray_len->x, ray->ray_len->y);
 		}
-		if (ray->rot == kissa->player->rot)
-			printf("LINE_LEN = %f, ray->x = %f, ray->y = %f\n--\n", ray->line_len, ray->x, ray->y);
+		// if (ray->rot == kissa->player->rot)
+		// 	printf("LINE_LEN = %f, ray->x = %f, ray->y = %f\n--\n", ray->line_len, ray->x, ray->y);
 	}
 	
 	// this should not be needed -------------------------------------
-	if (ray->rot == kissa->player->rot)
-		printf("OLD POS (x %f, y %f)\n", ray->x, ray->y);
+	// if (ray->rot == kissa->player->rot)
+	// 	printf("OLD POS (x %f, y %f)\n", ray->x, ray->y);
 	ray->x = kissa->player->x + ray->dir->x * ray->line_len;
 	ray->y = kissa->player->y + ray->dir->y * ray->line_len;
-	if (ray->rot == kissa->player->rot)
-	{
-		printf("NEW POS (x %f, y %f)\n", ray->x, ray->y);
-		printf("PLAYER POS (x %f, y %f)\n", kissa->player->x, kissa->player->y);
-	}
+	// if (ray->rot == kissa->player->rot)
+	// {
+	// 	printf("NEW POS (x %f, y %f)\n", ray->x, ray->y);
+	// 	printf("PLAYER POS (x %f, y %f)\n", kissa->player->x, kissa->player->y);
+	// }
 	// ---------------------------------------------------------------
 	
 	set_wall_texture(kissa, ray);

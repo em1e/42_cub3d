@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:25:48 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/18 10:11:00 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/21 14:51:03 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,11 +62,18 @@ t_ray	*new_ray(t_cub3d *kissa)
 	ray->y = 0;
 	ray->line_len = 0;
 	ray->side = -1;
+	ray->ray_len = NULL;
+	ray->step_dir = NULL;
+	ray->step_len = NULL;
+	ray->dir = NULL;
+	ray->screen_start = NULL;
+	ray->img_start = NULL;
 	ray->ray_len = new_vec(kissa);
 	ray->step_dir = new_vec(kissa);
 	ray->step_len = new_vec(kissa);
 	ray->dir = new_vec(kissa);
 	ray->screen_start = new_vec(kissa);
+	ray->img_start = new_vec(kissa);
 	ray->wall_tex = NULL;
 	return (ray);
 }

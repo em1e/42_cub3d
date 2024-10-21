@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 13:43:44 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/19 11:27:08 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/21 15:59:59 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,10 @@ static void	cast_rays(t_cub3d *kissa)
 		ray->scale = 1 / (ray->line_len * cos(fabs(kissa->player->rot - ray->rot)));
 		ray->scaled_height = kissa->wall_height * ray->scale;
 		ray->screen_start->x = i * MLX_WIDTH / RAYC;
-		ray->screen_start->y = ray->scaled_height / 2 + MLX_HEIGHT / 2;
+		if (ray->scaled_height <= MLX_HEIGHT)
+			ray->screen_start->y = ray->scaled_height / 2 + MLX_HEIGHT / 2;
+		else
+			ray->screen_start->y = 0;
 		i++;
 	}
 }
@@ -73,8 +76,8 @@ uint32_t	get_imgs_pixel(t_cub3d *kissa, t_ray *ray, int x, int y)
 	uint8_t		*pixel;
 	uint32_t	color;
 
-	x *= WALL_HEIGHT / ray->scaled_height;
-	y *= WALL_HEIGHT / ray->scaled_height;
+	x *= ray->wall_tex->width / ray->scaled_height;
+	y *= ray->wall_tex->height / ray->scaled_height;
 	if ((uint32_t)x >= ray->wall_tex->width)
 		x = x % ray->wall_tex->width;
 	pixel_index = (y * ray->wall_tex->width + x) * (32 / 8);
@@ -87,20 +90,18 @@ void	draw_texture(t_cub3d *kissa, t_ray *ray)
 {
 	int	y;
 	int	x;
-	int	img_x_start;
-	int	img_y_start;
 	
-	img_y_start = 0;
+	ray->img_start->y = ray->scaled_height;
 	if (ray->rot == kissa->player->rot)
 		printf("\tstart (%f, %f), end (%f, %f)\n", kissa->player->x, kissa->player->y, ray->x, ray->y);
 	if (ray->side)
-		img_x_start = floor(ray->scaled_height * (ray->x - floor(ray->x)));
+		ray->img_start->x = floor(ray->scaled_height * (ray->x - floor(ray->x)));
 	else
-		img_x_start = floor(ray->scaled_height * (ray->y - floor(ray->y)));
+		ray->img_start->x = floor(ray->scaled_height * (ray->y - floor(ray->y)));
 	if (ray->scaled_height > MLX_HEIGHT)
 	{
-		img_y_start = (int)floor((ray->scaled_height - MLX_HEIGHT) / 2);
-		ray->scaled_height = MLX_HEIGHT - 1;
+		ray->img_start->y = (int)floor((ray->scaled_height - MLX_HEIGHT) / 2);
+		// ray->scaled_height = MLX_HEIGHT - 1;
 	}
 	y = 0;
 	while (y < ray->scaled_height)
@@ -109,8 +110,8 @@ void	draw_texture(t_cub3d *kissa, t_ray *ray)
 		while (x < MLX_WIDTH / RAYC)
 		{
 			if (ray->rot == kissa->player->rot && ((!x && !y) || (x == MLX_WIDTH / RAYC / 2 && y == floor(ray->scaled_height / 2)) || (x == MLX_WIDTH / RAYC - 1 && y == ray->scaled_height - 1)))
-				printf("\t\tPutting pixel to screen (%f, %f) from image (%d, %d)\n", ray->screen_start->x + x, ray->screen_start->y - y, img_x_start + x, img_y_start + y);
-			mlx_put_pixel(kissa->view->mlx_scene, ray->screen_start->x + x, ray->screen_start->y - y, get_imgs_pixel(kissa, ray, img_x_start + x, img_y_start + y));
+				printf("\t\tPutting pixel (%d, %d / %f) to screen (%f, %f / %d) from image (%f, %f / %d)\n", x, y, ray->scaled_height, ray->screen_start->x + x, ray->screen_start->y - y, MLX_HEIGHT, ray->img_start->x + x, ray->img_start->y - y, ray->wall_tex->height);
+			mlx_put_pixel(kissa->view->mlx_scene, ray->screen_start->x + x, ray->screen_start->y - y, get_imgs_pixel(kissa, ray, ray->img_start->x + x, ray->img_start->y - y));
 			x++;
 		}
 		y++;
@@ -136,7 +137,7 @@ void	draw_scene(t_cub3d *kissa)
 	while (i < RAYC)
 	{
 		if (i == RAYC / 2)
-			printf("\tDrawing ray [%d], direction %f, len %f, scale %f, \n", i, kissa->ray_array[i]->rot, kissa->ray_array[i]->line_len, kissa->ray_array[i]->scale);
+			printf("\tDrawing ray [%d], direction %f, len %f, scale %f, scaled height %f \n", i, kissa->ray_array[i]->rot, kissa->ray_array[i]->line_len, kissa->ray_array[i]->scale, kissa->ray_array[i]->scaled_height);
 		draw_texture(kissa, kissa->ray_array[i]);
 		i++;
 	}

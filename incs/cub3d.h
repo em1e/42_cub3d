@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 20:28:20 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/20 13:53:03 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/21 16:03:34 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@
 # define PRO_DIST MLX_WIDTH / 2 / tan(FOV)
 
 // height & width of wall
-# define WALL_HEIGHT MLX_HEIGHT / 3 * 2
+# define WALL_HEIGHT MLX_HEIGHT
 
 // number of rays to be cast
 # define RAYC 240
@@ -114,13 +114,14 @@ typedef struct	s_ray
 	float	line_len;
 	float	initial_step;
 	float	scale;
-	int		scaled_height;
+	float	scaled_height;
 	t_vec	*dir;
 	t_vec	*ray_len;
 	t_vec	*step_dir;
 	t_vec	*step_len;
 	mlx_image_t	*wall_tex;
 	t_vec	*screen_start;
+	t_vec	*img_start;
 }	t_ray;
 
 typedef struct	s_cub3d

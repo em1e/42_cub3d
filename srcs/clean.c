@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clean.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 12:07:09 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/18 10:10:41 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/21 14:49:18 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,8 @@ void	clean_ray(t_ray *ray)
 		free(ray->dir);
 	if (ray->screen_start)
 		free(ray->screen_start);
+	if (ray->img_start)
+		free(ray->img_start);
 	free(ray);
 }
 
