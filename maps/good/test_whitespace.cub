@@ -5,9 +5,7 @@
 
 
 
-
-NO textures/test/north.xpm
-
+NO ./textures/red.png
 
 
 
@@ -15,9 +13,10 @@ NO textures/test/north.xpm
 
 
 
-SO textures/test/south.xpm
-                        WE textures/test/west.xpm
-        EA textures/test/east.xpm            
+
+SO ./textures/green.png
+                        WE ./textures/blue.png
+        EA ./textures/pink.png            
 
         F 20,           20,             20
 C 200,          200,200
@@ -35,26 +34,3 @@ C 200,          200,200
 10001
 10001
 11111           
-
-        
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

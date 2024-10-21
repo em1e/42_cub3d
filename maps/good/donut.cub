@@ -1,7 +1,7 @@
-NO textures/simonkraft/soul_sand.xpm
-SO textures/simonkraft/soul_soil_01.xpm
-WE textures/simonkraft/soul_soil.xpm
-EA textures/simonkraft/soul_sand.xpm
+NO ./textures/duck.png
+SO ./textures/dino.png
+WE ./textures/pattern_3.png
+EA ./textures/pattern_4.png
 
 C 53,41,34
 F 45,33,27
@@ -19,4 +19,3 @@ F 45,33,27
 111110000011111
 111111000111111
 111111111111111
-

@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 18:13:48 by jajuntti          #+#    #+#             */
-/*   Updated: 2024/10/10 05:10:38 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/21 16:52:37 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,21 @@ void	skip_space(char **str)
 
 void	get_texture(t_cub3d *kissa, char **texture, char *line)
 {
+	int	i;
+
+	i = 0;
 	if (*texture)
 		quit_error(kissa, NULL, "duplicate element in scene file");
 	line += 2;
 	skip_space(&line);
 	if (!line)
 		quit_error(kissa, NULL, "scene element value missing");
+	while (line[i] && line[i] != ' ')
+	{
+		i++;
+		if (line[i] == ' ')
+			line[i] = 0;
+	}
 	check_file(kissa, line, NULL);
 	*texture = ft_strdup(line);
 	if (!*texture)

@@ -1,7 +1,10 @@
-NO textures/matrix.xpm
-SO textures/matrix.xpm
-WE textures/matrix.xpm
-EA textures/matrix.xpm
+NO ./textures/pattern_4.png
+SO ./textures/pattern_2.png
+WE ./textures/pattern_1.png
+EA ./textures/pattern_3.png
+
+
+
 
 F 0,0,0
 C 0,0,0
@@ -27,4 +30,3 @@ C 0,0,0
 101010111011111111101
 1N1000001000000000001
 111111111111111111111
-

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:25:48 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/21 14:51:03 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/21 16:44:21 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,9 +141,9 @@ void	init_kissa(t_cub3d *kissa)
 	kissa->wall_tex = NULL;
 	kissa->floor_tex = NULL;
 	kissa->player_tex = NULL;
-	kissa->wall_tex = ft_strdup("./textures/png/21black.png");
-	kissa->floor_tex = ft_strdup("./textures/png/21white.png");
-	kissa->player_tex = ft_strdup("./textures/png/21player.png");
+	kissa->wall_tex = ft_strdup("./textures/21black.png");
+	kissa->floor_tex = ft_strdup("./textures/21white.png");
+	kissa->player_tex = ft_strdup("./textures/21player.png");
 	if (!kissa->wall_tex || !kissa->floor_tex || !kissa->player_tex)
 		quit_error(kissa, NULL, "memory allocation failure");
 	kissa->c[0] = -1;

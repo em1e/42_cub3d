@@ -1,10 +1,10 @@
 F 139,99,58
 C 171,154,137
 
-NO ./textures/png/cat02.png
-SO ./textures/png/cat02.png
-WE ./textures/png/cat02.png
-EA ./textures/png/cat02.png
+NO ./textures/cat_1.png
+SO ./textures/cat_2.png
+WE ./textures/cat_3.png
+EA ./textures/cat_4.png
 
 11111111111111111111111111111
 10000000000000000100000000001
