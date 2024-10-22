@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 20:28:20 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/22 09:22:48 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/22 13:12:05 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@
 # define Z_START 4
 
 # define START_SCREEN "./textures/start_screen.png"
+# define DELAY 0.2
+# define CAT 4
 
 typedef struct	s_vec
 {
@@ -69,8 +71,22 @@ typedef struct	s_vec
 	float	y;
 } t_vec;
 
+typedef struct	s_ani
+{
+	mlx_image_t	*mlx_front[3];
+	mlx_image_t	*mlx_back[3];
+	mlx_image_t	*mlx_walk_left[3];
+	mlx_image_t	*mlx_walk_right[3];
+	mlx_image_t	*img;
+	mlx_image_t	*original;
+	int	type;
+} t_ani;
+
 typedef struct	s_view
 {
+	t_ani	*cats;
+	mlx_image_t	*mlx_heart_ani[3];
+	mlx_image_t	*mlx_heart;
 	mlx_image_t	*mlx_start;
 	mlx_image_t	*ray;
 	mlx_image_t	*mlx_no;
@@ -176,14 +192,18 @@ void	quit_hook(void *param);
 void	move_keyhook(mlx_key_data_t keykissa, void *param);
 void	update_hook(void *param);
 void	mouse_hook(double xpos, double ypos, void *param);
+void	anim_update_hook(void *param);
 
 // game.c
 void	set_rot(t_obj *obj, char rot_char);
 int		is_wall(t_cub3d *kissa, float x, float y);
 void	move(t_cub3d *kissa, t_obj *obj, int dir_x, int dir_y);
 void	rotate(t_cub3d *kissa, t_obj *obj, int dir);
-void	start_loop(t_cub3d *kissa);
 void	play_game(t_cub3d *kissa);
+
+// sprite.c
+int	animate_heart(t_cub3d *kissa, int direction);
+void	init_cat_ani(t_cub3d *kissa);
 
 // minimap.c
 void	refresh_minimap(t_cub3d *kissa);

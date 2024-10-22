@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:25:48 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/22 09:23:13 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/22 13:25:54 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,17 @@ t_ray	*new_ray(t_cub3d *kissa)
 	return (ray);
 }
 
+t_ani	*new_animation(t_cub3d *kissa)
+{
+	t_ani	*animation;
+
+	animation = malloc(sizeof(t_ani));
+	if (!animation)
+		quit_error(kissa, NULL, "memory allocation failure");
+	animation->type = 0;
+	return (animation);
+}
+
 /*
 	Initializes a new view struct.
 */
@@ -88,6 +99,7 @@ t_view	*new_view(t_cub3d *kissa)
 	view = malloc(sizeof(t_view));
 	if (!view)
 		quit_error(kissa, NULL, "memory allocation failure");
+	view->cats = new_animation(kissa);
 	view->floor_inst = NULL;
 	view->wall_inst = NULL;
 	view->mlx_scene = NULL;
@@ -165,6 +177,14 @@ void	convert_textures(t_cub3d *kissa)
 	kissa->view->mlx_wall = convert_png(kissa, kissa->wall_tex);
 	kissa->view->mlx_floor = convert_png(kissa, kissa->floor_tex);
 	kissa->view->mlx_player = convert_png(kissa, kissa->player_tex);
+	kissa->view->mlx_heart_ani[0] = convert_png(kissa, "./textures/heart_1.png");
+	kissa->view->mlx_heart_ani[1] = convert_png(kissa, "./textures/heart_2.png");
+	kissa->view->mlx_heart_ani[2] = convert_png(kissa, "./textures/heart_3.png");
+	mlx_resize_image(kissa->view->mlx_heart_ani[0], 200, 200);
+	mlx_resize_image(kissa->view->mlx_heart_ani[1], 200, 200);
+	mlx_resize_image(kissa->view->mlx_heart_ani[2], 200, 200);
+	kissa->view->mlx_heart = kissa->view->mlx_heart_ani[0];
+	kissa->view->cats->original = convert_png(kissa, "./textures/cat_sprite_1.png");
 }
 
 /*

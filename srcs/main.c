@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 20:38:06 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/22 08:20:24 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/22 10:01:47 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,18 +17,13 @@
 TASKS:
 
 @ check map parsing
-	---> ask around about map islands and how that shoul dbe handled
-	---> fix parser to not give an error if there is an empty line inside map
 
 @ add more png's and change all of the maps into valid .cub maps
 
 @ fix drawing walls and dda
-	---> make it so that walls aren't glitchy anymore
 	---> make sure it doesn't segv when walking towards walls
 
 @ fix minimap ray
-
-@ add toggle for minimap
 
 @ add bounceback
 

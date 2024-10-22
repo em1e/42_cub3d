@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:35:39 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/22 09:20:16 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/22 13:31:44 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	move_keyhook(mlx_key_data_t keydata, void *param)
 	rotate_flag = 0;
 	dir_x = 0;
 	dir_y = 0;
-	if (keydata.action == MLX_PRESS && keydata.key == MLX_KEY_ENTER)
+	if (!kissa->start && keydata.action == MLX_PRESS && keydata.key == MLX_KEY_ENTER)
 	{
 		kissa->start = true;
 		kissa->view->mlx_start->enabled = false;
@@ -97,19 +97,28 @@ void	move_keyhook(mlx_key_data_t keydata, void *param)
 void	update_hook(void *param)
 {
 	t_cub3d			*kissa;
+	static double		timer;
+	// remove these if you can after taking away printfs ---------------
 	static t_vec	old_loc;
 	static double	old_rot;
+	// ------------------------------------------------------------------
 
 	kissa = (t_cub3d *) param;
 	if (!kissa->start)
 		return ;
+	
+	timer += kissa->mlx->delta_time;
+	if (timer < (double) 0.05)
+		return ;
+	timer = 0;
+	draw_scene(kissa);
+	init_cat_ani(kissa);
 	if (kissa->player->x == old_loc.x && kissa->player->y == old_loc.y
 		&& kissa->player->rot == old_rot)
 		return ;
 	old_loc.x = kissa->player->x;
 	old_loc.y = kissa->player->y;
 	old_rot = kissa->player->rot;
-	draw_scene(kissa);
 	refresh_minimap(kissa);
 }
 
@@ -137,4 +146,25 @@ void	mouse_hook(double xpos, double ypos, void *param)
 	}
 	kissa->player->dir->x = cos(kissa->player->rot);
 	kissa->player->dir->y = sin(kissa->player->rot);
+}
+
+void	anim_update_hook(void *param)
+{
+	static double		timer;
+	t_cub3d				*kissa;
+	static int			direction;
+	int	check;
+
+	kissa = param;
+	timer += kissa->mlx->delta_time;
+	if (timer < (double) DELAY)
+		return ;
+	timer = 0;
+	if (direction == 0)
+		direction = 1;
+	check = animate_heart(kissa, direction);
+	if (check == 2)
+		direction = -1;
+	else if (check == 0)
+		direction = 1;
 }
