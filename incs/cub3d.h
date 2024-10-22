@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 20:28:20 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/22 13:12:05 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/22 13:59:44 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,8 +134,8 @@ typedef struct	s_ray
 	float	rot;
 	float	line_len;
 	float	initial_step;
-	float	scale;
 	float	scaled_height;
+	int		offset;
 	t_vec	*dir;
 	t_vec	*ray_len;
 	t_vec	*step_dir;
