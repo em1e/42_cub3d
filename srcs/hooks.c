@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:35:39 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/18 10:12:12 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/22 08:14:24 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,13 @@ void	move_keyhook(mlx_key_data_t keydata, void *param)
 	rotate_flag = 0;
 	dir_x = 0;
 	dir_y = 0;
+	if (keydata.action == MLX_PRESS && keydata.key == MLX_KEY_ENTER)
+	{
+		kissa->start = true;
+		kissa->view->mlx_start->enabled = false;
+	}
+	if (!kissa->start)
+		return ;
 	if (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT)
 	{
 		if (keydata.key == MLX_KEY_W)
@@ -94,6 +101,8 @@ void	update_hook(void *param)
 	static double	old_rot;
 
 	kissa = (t_cub3d *) param;
+	if (!kissa->start)
+		return ;
 	if (kissa->player->x == old_loc.x && kissa->player->y == old_loc.y
 		&& kissa->player->rot == old_rot)
 		return ;

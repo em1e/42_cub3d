@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   game.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:48:49 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/20 13:51:17 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/22 08:14:36 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,9 @@ void	play_game(t_cub3d *kissa)
 {
 	(void)kissa;
 	printf("game started\n");
+	if (mlx_image_to_window(kissa->mlx, kissa->view->mlx_start, 0, 0) < 0)
+		quit_perror(kissa, NULL, "MLX42 failed");
+	mlx_set_instance_depth(kissa->view->mlx_start->instances, 10);
 	setup_minimap(kissa, 0, 0);
 	draw_background(kissa);
 	draw_scene(kissa);

@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 20:38:06 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/19 10:50:53 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/22 08:11:06 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ int	main(int argc, char **argv)
 	parse_kissa(kissa);
 	init_map(kissa);
 	init_mlx(kissa);
+	// start_loop(kissa);
 	play_game(kissa);
 	printf("IT WORKS!!!\n");
 	clean_kissa(kissa);

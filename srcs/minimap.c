@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 16:33:57 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/18 10:12:56 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/22 07:38:38 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ static void	shoot_ray(t_cub3d *kissa, t_obj *obj)
 	}
 	if (mlx_image_to_window(kissa->mlx, kissa->view->ray, 0, 0) < 0)
 		quit_perror(kissa, NULL, "MLX42 image to window failed");
+	mlx_set_instance_depth(kissa->view->mlx_start->instances, Z_MINIMAP);
 }
 
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 20:28:20 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/21 16:03:34 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/22 08:00:24 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,9 @@
 # define Z_BACKGROUND 1
 # define Z_SCENE 2
 # define Z_MINIMAP 3
+# define Z_START 4
+
+# define START_SCREEN "./textures/start_screen.png"
 
 typedef struct	s_vec
 {
@@ -68,6 +71,7 @@ typedef struct	s_vec
 
 typedef struct	s_view
 {
+	mlx_image_t	*mlx_start;
 	mlx_image_t	*ray;
 	mlx_image_t	*mlx_no;
 	mlx_image_t	*mlx_we;
@@ -131,6 +135,7 @@ typedef struct	s_cub3d
 	t_map		*map;
 	t_obj		*player;
 	t_view		*view;
+	bool		start;
 	int			wall_height;
 	int			fd;
 	char		*no;
@@ -169,12 +174,14 @@ void	escape_hook(void *param);
 void	quit_hook(void *param);
 void	move_keyhook(mlx_key_data_t keykissa, void *param);
 void	update_hook(void *param);
+void	start_hook(mlx_key_data_t keydata, void *param);
 
 // game.c
 void	set_rot(t_obj *obj, char rot_char);
 int		is_wall(t_cub3d *kissa, float x, float y);
 void	move(t_cub3d *kissa, t_obj *obj, int dir_x, int dir_y);
 void	rotate(t_cub3d *kissa, t_obj *obj, int dir);
+void	start_loop(t_cub3d *kissa);
 void	play_game(t_cub3d *kissa);
 
 // minimap.c
