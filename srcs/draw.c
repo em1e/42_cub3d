@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 13:43:44 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/22 15:33:53 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/22 15:49:13 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,21 +62,18 @@ void	draw_background(t_cub3d *kissa)
 	mlx_set_instance_depth(bg->instances, Z_BACKGROUND);
 }
 
-uint32_t	get_imgs_pixel(t_cub3d *kissa, t_ray *ray, int x, int y)
+uint32_t	get_imgs_pixel(mlx_image_t *img, int x, int y, float scale_factor)
 {
-	(void)kissa;
 	int			pixel_index;
 	uint8_t		*pixel;
 	uint32_t	color;
 
-	x = (int)ray->img_start->x + x;
-	y = (int)ray->img_start->y + y;
-	x = floor(x * ray->wall_tex->width / ray->scaled_height);
-	y = floor(y * ray->wall_tex->height / ray->scaled_height);
-	if ((uint32_t)x >= ray->wall_tex->width)
-		x = x % ray->wall_tex->width;
-	pixel_index = (y * ray->wall_tex->width + x) * (32 / 8);
-	pixel = ray->wall_tex->pixels + pixel_index;
+	x = floor(x * scale_factor);
+	y = floor(y * scale_factor);
+	if ((uint32_t)x >= img->width)
+		x = x % img->width;
+	pixel_index = (y * img->width + x) * (32 / 8);
+	pixel = img->pixels + pixel_index;
 	color = (pixel[0] << 24) | (pixel[1] << 16) | (pixel[2] << 8) | 255;
 	return (color);
 }
@@ -93,7 +90,7 @@ void	draw_column(t_cub3d *kissa, t_ray *ray)
 		x = 0;
 		while (x < MLX_WIDTH / RAYC)
 		{
-			pixel = get_imgs_pixel(kissa, ray, x, y);
+			pixel = get_imgs_pixel(ray->wall_tex, ray->img_start->x + x, ray->img_start->y + y, WALL_HEIGHT / ray->scaled_height);
 			mlx_put_pixel(kissa->view->mlx_scene, (uint32_t)ray->screen_start->x + x, (uint32_t)ray->screen_start->y + y, pixel);
 			x++;
 		}
