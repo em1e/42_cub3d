@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 20:28:20 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/22 08:00:24 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/22 09:01:39 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,7 +174,7 @@ void	escape_hook(void *param);
 void	quit_hook(void *param);
 void	move_keyhook(mlx_key_data_t keykissa, void *param);
 void	update_hook(void *param);
-void	start_hook(mlx_key_data_t keydata, void *param);
+void	mouse_hook(double xpos, double ypos, void *param);
 
 // game.c
 void	set_rot(t_obj *obj, char rot_char);

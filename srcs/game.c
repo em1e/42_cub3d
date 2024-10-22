@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:48:49 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/22 08:14:36 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/22 09:20:50 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,19 @@ int	is_wall(t_cub3d *kissa, float x, float y)
 	return (0);
 }
 
+int	bounceback(t_cub3d *kissa, t_obj *obj, float new_x, float new_y)
+{
+	(void)obj;
+	if (new_x < 0 || new_x >= kissa->map->width 
+		|| new_y < 0 || new_y >= kissa->map->height 
+		|| is_wall(kissa, new_x, new_y)
+		|| is_wall(kissa, new_x + BUMPER_SIZE, new_y) 
+		|| is_wall(kissa, new_x - BUMPER_SIZE, new_y)
+		|| is_wall(kissa, new_x, new_y + BUMPER_SIZE) 
+		|| is_wall(kissa, new_x, new_y - BUMPER_SIZE))
+		return (1);
+	return (0);
+}
 /*
 Moves the player object in the direction of the player object by the given
 
@@ -61,7 +74,6 @@ void	move(t_cub3d *kissa, t_obj *obj, int dir_x, int dir_y)
 {
 	float	new_x;
 	float	new_y;
-	
 
 	// using the delta time was recommended for performance reasns by others,
 	// lets look into that at some point
@@ -73,13 +85,7 @@ void	move(t_cub3d *kissa, t_obj *obj, int dir_x, int dir_y)
 	+ (dir_y * MOVE_SPEED * kissa->player->dir->y)
 	+ (dir_x * MOVE_SPEED * kissa->player->dir->x);
 
-	if (new_x < 0 || new_x >= kissa->map->width 
-		|| new_y < 0 || new_y >= kissa->map->height 
-		|| is_wall(kissa, new_x, new_y) 
-		|| is_wall(kissa, new_x + BUMPER_SIZE, new_y) 
-		|| is_wall(kissa, new_x - BUMPER_SIZE, new_y)
-		|| is_wall(kissa, new_x, new_y + BUMPER_SIZE) 
-		|| is_wall(kissa, new_x, new_y - BUMPER_SIZE))
+	if (bounceback(kissa, obj, new_x, new_y))
 		return ; // add bounceback
 	obj->x = new_x;
 	obj->y = new_y;
@@ -113,6 +119,25 @@ void	rotate(t_cub3d *kissa, t_obj *obj, int rot)
 	obj->dir->y = sin(obj->rot);
 }
 
+void	draw_start(t_cub3d *kissa)
+{
+	int	start_x;
+	int	start_y;
+
+	start_x = 0;
+	start_y = 0;
+	if (kissa->view->mlx_start->width >= MLX_WIDTH || kissa->view->mlx_start->height >= MLX_HEIGHT)
+		mlx_resize_image(kissa->view->mlx_start, MLX_WIDTH, MLX_HEIGHT);
+	else
+	{
+		start_x = (MLX_WIDTH - kissa->view->mlx_start->width) / 2;
+		start_y = (MLX_HEIGHT - kissa->view->mlx_start->height) / 2;
+	}
+	if (mlx_image_to_window(kissa->mlx, kissa->view->mlx_start, start_x, start_y) < 0)
+		quit_perror(kissa, NULL, "MLX42 failed");
+	mlx_set_instance_depth(kissa->view->mlx_start->instances, Z_START);
+}
+
 /*
 	Initializes the game loop and the hooks for the game.
 */
@@ -120,15 +145,14 @@ void	play_game(t_cub3d *kissa)
 {
 	(void)kissa;
 	printf("game started\n");
-	if (mlx_image_to_window(kissa->mlx, kissa->view->mlx_start, 0, 0) < 0)
-		quit_perror(kissa, NULL, "MLX42 failed");
-	mlx_set_instance_depth(kissa->view->mlx_start->instances, 10);
+	draw_start(kissa);
 	setup_minimap(kissa, 0, 0);
 	draw_background(kissa);
 	draw_scene(kissa);
 	mlx_loop_hook(kissa->mlx, escape_hook, kissa);
 	mlx_close_hook(kissa->mlx, quit_hook, kissa);
 	mlx_key_hook(kissa->mlx, (mlx_keyfunc)move_keyhook, kissa);
+	mlx_cursor_hook(kissa->mlx, (mlx_cursorfunc)mouse_hook, kissa);
 	mlx_loop_hook(kissa->mlx, update_hook, kissa);
 	mlx_loop(kissa->mlx);
 }

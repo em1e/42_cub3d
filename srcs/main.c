@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 20:38:06 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/22 08:11:06 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/22 08:20:24 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,6 @@ TASKS:
 @ fix minimap ray
 
 @ add toggle for minimap
-
-@ add starting screen
 
 @ add bounceback
 
@@ -60,7 +58,6 @@ int	main(int argc, char **argv)
 	parse_kissa(kissa);
 	init_map(kissa);
 	init_mlx(kissa);
-	// start_loop(kissa);
 	play_game(kissa);
 	printf("IT WORKS!!!\n");
 	clean_kissa(kissa);

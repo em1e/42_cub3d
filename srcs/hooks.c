@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:35:39 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/22 08:14:24 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/22 09:20:16 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,4 +111,30 @@ void	update_hook(void *param)
 	old_rot = kissa->player->rot;
 	draw_scene(kissa);
 	refresh_minimap(kissa);
+}
+
+void	mouse_hook(double xpos, double ypos, void *param)
+{
+	t_cub3d	*kissa;
+	static double	old_x;
+	(void)ypos;
+
+	kissa = param;
+	if (xpos == old_x)
+		return ;
+	old_x = xpos;
+	if (xpos > MLX_WIDTH / 2)
+	{
+		kissa->player->rot += ROT_SPEED / 15;
+		if (kissa->player->rot > 2 * M_PI)
+			kissa->player->rot -= 2 * M_PI;
+	}
+	else
+	{
+		kissa->player->rot -= ROT_SPEED / 15;
+		if (kissa->player->rot < 0)
+			kissa->player->rot += 2 * M_PI;
+	}
+	kissa->player->dir->x = cos(kissa->player->rot);
+	kissa->player->dir->y = sin(kissa->player->rot);
 }
