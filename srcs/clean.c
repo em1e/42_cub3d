@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clean.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 12:07:09 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/21 14:49:18 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/22 13:02:16 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ void	clean_view(t_map *map, t_view *view)
 			free(view->wall_inst[i]);
 		i++;
 	}
+	if (view->cats)
+		free(view->cats);
 	if (view->wall_inst)
 		free(view->wall_inst);
 	if (view->floor_inst)

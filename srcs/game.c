@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:48:49 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/22 09:20:50 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/22 13:27:59 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,6 +146,11 @@ void	play_game(t_cub3d *kissa)
 	(void)kissa;
 	printf("game started\n");
 	draw_start(kissa);
+	// this can be taken out ---------------
+	// if (mlx_image_to_window(kissa->mlx, kissa->view->mlx_heart, MLX_WIDTH / 2 * 1.7, MLX_HEIGHT / 2 * 1.5))
+	// 	quit_perror(kissa, NULL, "MLX42 failed");
+	// mlx_set_instance_depth(kissa->view->mlx_heart->instances, Z_START);
+	// -------------------------------------
 	setup_minimap(kissa, 0, 0);
 	draw_background(kissa);
 	draw_scene(kissa);
@@ -154,5 +159,6 @@ void	play_game(t_cub3d *kissa)
 	mlx_key_hook(kissa->mlx, (mlx_keyfunc)move_keyhook, kissa);
 	mlx_cursor_hook(kissa->mlx, (mlx_cursorfunc)mouse_hook, kissa);
 	mlx_loop_hook(kissa->mlx, update_hook, kissa);
+	mlx_loop_hook(kissa->mlx, &anim_update_hook, kissa);
 	mlx_loop(kissa->mlx);
 }
