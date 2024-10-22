@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:25:48 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/22 07:25:19 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/22 09:23:13 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ void	init_rays(t_cub3d *kissa)
 	while (i < RAYC)
 	{
 		kissa->ray_array[i] = new_ray(kissa);
+		kissa->ray_array[i]->index = i;
 		i++;
 	}
 }
