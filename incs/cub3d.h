@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 20:28:20 by vkettune          #+#    #+#             */
 /*   Updated: 2024/10/22 13:12:05 by vkettune         ###   ########.fr       */
@@ -127,6 +127,7 @@ typedef struct	s_map
 // remove if dda func is not needed
 typedef struct	s_ray
 {
+	int		index;
 	int		side;
 	float	x;
 	float	y;

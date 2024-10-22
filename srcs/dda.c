@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:49:02 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/21 15:29:29 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/22 13:18:03 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,67 +53,20 @@ static void	init_dda(t_cub3d *kissa, t_ray *ray)
 	// ray->step_len->x = sqrt(1 + (ray->dir->y / ray->dir->x) * (ray->dir->y / ray->dir->x));
 	// ray->step_len->y = sqrt(1 + (ray->dir->x / ray->dir->y) * (ray->dir->x / ray->dir->y));
 	ray->side = -1;
-	
-	// this actually somewhat works, look into it -------------
+
 	ray->step_dir->x = check_dir(ray->rot, 1);
 	ray->step_dir->y = check_dir(ray->rot, 0);
 	if (ray->step_dir->x == -10 || ray->step_dir->y == -10)
 		quit_error(kissa, NULL, "math failed in init_ray");
 
 	if (ray->rot > (float)WEST)
-	{
-		// ray->step_dir->y = -1; // y is negative
 		ray->ray_len->y = (ray->y - floor(ray->y)) * ray->step_len->y;
-	}
 	else
-	{
-		// ray->step_dir->y = 1; // y is positive or 0
-		// ray->ray_len->y = 1 - (ray->y - floor(ray->y)) * ray->step_len->y;
 		ray->ray_len->y = (floor(ray->y) + 1 - ray->y) * ray->step_len->y;
-	}
 	if (ray->rot > (float)NORTH && ray->rot < (float)SOUTH)
-	{
-		// ray->step_dir->x = -1; // x is negative
 		ray->ray_len->x = (ray->x - floor(ray->x)) * ray->step_len->x;
-	}
 	else
-	{
-		// ray->step_dir->y = 1; // x is positive or 0
-		// ray->ray_len->x = 1 - (ray->x - floor(ray->x)) * ray->step_len->x;
 		ray->ray_len->x = (floor(ray->x) + 1 - ray->x) * ray->step_len->x;
-	}
-	// ---------------------------------------------------
-
-	// this causes our issues -------------------------
-	// if (ray->rot > (float)WEST)
-	// {
-	// 	ray->step_dir->y = -1; // y is negative
-	// 	ray->ray_len->y = (ray->y - floor(ray->y)) * ray->step_len->y;
-	// 	if (ray->rot == kissa->player->rot)
-	// 		printf("check a : ray->ray_len->y = %f\n", ray->ray_len->y);
-	// }
-	// else
-	// {
-	// 	ray->step_dir->y = 1; // y is positive or 0
-	// 	ray->ray_len->y = 1 - (ray->y - floor(ray->y)) * ray->step_len->y;
-	// 	if (ray->rot == kissa->player->rot)
-	// 		printf("check b : ray->ray_len->y = %f\n", ray->ray_len->y);
-	// }
-	// if (ray->rot > (float)NORTH && ray->rot < (float)SOUTH)
-	// {
-	// 	ray->step_dir->x = -1; // x is negative
-	// 	ray->ray_len->x = (ray->x - floor(ray->x)) * ray->step_len->x;
-	// 	if (ray->rot == kissa->player->rot)
-	// 		printf("check c : ray->ray_len->x = %f\n", ray->ray_len->x);
-	// }
-	// else
-	// {
-	// 	ray->step_dir->x = 1; // x is positive or 0
-	// 	ray->ray_len->x = 1 - (ray->x - floor(ray->x)) * ray->step_len->x;
-	// 	if (ray->rot == kissa->player->rot)
-	// 		printf("check d : ray->ray_len->x = %f, (ray->x - floor(ray->x)) %f\n", ray->ray_len->x, (ray->x - floor(ray->x)));
-	// }
-	// ---------------------------------------------------
 }
 
 void	set_wall_texture(t_cub3d *kissa, t_ray *ray)
@@ -132,6 +85,31 @@ void	set_wall_texture(t_cub3d *kissa, t_ray *ray)
 		else
 			ray->wall_tex = kissa->view->mlx_so;
 	}
+}
+
+void	calculate_values(t_cub3d *kissa, t_ray *ray)
+{
+	float	fishey_adjust;
+
+	fishey_adjust = cos(fabs(kissa->player->rot - ray->rot));
+	ray->scaled_height = kissa->wall_height / (ray->line_len * fishey_adjust);
+	ray->screen_start->x = ray->index * MLX_WIDTH / RAYC;
+	if (ray->scaled_height < MLX_HEIGHT)
+	{
+		ray->offset = 0;
+		ray->screen_start->y = MLX_HEIGHT / 2 - ray->scaled_height / 2;
+		ray->img_start->y = 0;
+	}
+	else
+	{
+		ray->offset = ray->scaled_height - MLX_HEIGHT;
+		ray->screen_start->y = 0;
+		ray->img_start->y = ray->offset / 2; //(int)floor((ray->scaled_height - MLX_HEIGHT) / 2);
+	}
+	if (ray->side)
+		ray->img_start->x = floor(ray->scaled_height * (ray->x - floor(ray->x)));
+	else
+		ray->img_start->x = floor(ray->scaled_height * (ray->y - floor(ray->y)));
 }
 
 /*
@@ -199,4 +177,5 @@ void	cast_ray(t_cub3d *kissa, t_ray *ray)
 	// ---------------------------------------------------------------
 	
 	set_wall_texture(kissa, ray);
+	calculate_values(kissa, ray);
 }
