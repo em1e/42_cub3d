@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 10:04:17 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/23 16:02:20 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/23 16:56:57 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,6 +173,7 @@ void	create_cat_objs(t_cub3d *kissa)
 			if (kissa->map->array[y][x] == 'C')
 			{
 				kissa->cats[cat] = init_obj(kissa, CAT_SPEED);
+				kissa->cats[cat]->size = CAT_SIZE;
 				init_cat_pos(kissa, cat, x, y);
 				cat++;
 			}

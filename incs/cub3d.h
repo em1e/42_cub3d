@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 20:28:20 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/23 15:48:38 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/23 16:41:14 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@
 
 // wall & object sizes
 # define WALL_HEIGHT MLX_HEIGHT
-# define CAT_SIZE WALL_HEIGHT / 3;
+# define CAT_SIZE WALL_HEIGHT / 3
 # define CAT_TEX_SIZE 48
 
 // number of rays to be cast
@@ -142,6 +142,8 @@ typedef struct s_obj
 	t_ray	*seen_by;
 	float	view_dir;
 	float	distance;
+	float	size;
+	float	scaled_size;
 } t_obj;
 
 typedef struct	s_cub3d
