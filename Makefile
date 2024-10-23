@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+         #
+#    By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/25 19:49:37 by vkettune          #+#    #+#              #
-#    Updated: 2024/10/22 10:07:09 by vkettune         ###   ########.fr        #
+#    Updated: 2024/10/23 10:17:39 by jajuntti         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,14 +14,15 @@
 # change colors and emojis to be cat themed
 
 NAME = cub3D
-FLAGS = -Wall -Wextra -Werror $(HEADERS) -g -fsanitize=address 
+CC = cc
+FLAGS = -Wall -Wextra -Werror $(HEADERS) #-g -fsanitize=address 
 HEADERS = -I ./incs/ -I ./libs/MLX42/include/MLX42
 
 LIBFT = ./libs/libft/libft.a
 MLX42 = ./libs/MLX42/build/libmlx42.a
 MLX42_DIR = ./libs/MLX42/
 
-LIBS = $(LIBFT) $(MLX42) -I include -lglfw \
+LIBS = -lm $(LIBFT) $(MLX42) -I include -lglfw \
 		-L"/Users/$(USER)/.brew/opt/glfw/lib/"
 #-L"/home/linuxbrew/.linuxbrew/Cellar/glfw/3.4/lib/" -lm
 
@@ -63,10 +64,10 @@ all: folders libft mlx42 $(NAME)
 	@echo "$(GREEN)Run the program with ./$(NAME)$(X)"
 
 objs/%.o: srcs/%.c
-	@cc $(FLAGS) -c $< -o $@ && echo "$(DARK_GRAY)Compiled: $@ $(X)"
+	@$(CC) $(FLAGS) -c $< -o $@ && echo "$(DARK_GRAY)Compiled: $@ $(X)"
 
 $(NAME): $(OBJECTS)
-	@cc $(OBJECTS) $(LIBS) $(FLAGS) -o $(NAME)
+	@$(CC) $(OBJECTS) $(LIBS) $(FLAGS) -o $(NAME)
 	@echo "$(DARK_MAGENTA)- - ✨✨✨✨ $(NAME) compiled! ✨✨✨✨ - -$(X)"
 
 folders: # objs/images objs/ray
