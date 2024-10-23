@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sprite.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 10:04:17 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/23 09:21:53 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/23 09:55:14 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,12 +100,8 @@ void	draw_cat(t_cub3d *kissa, t_obj *cat)
 		while (x <= 48)
 		{
 			pixel = get_cats_pixel(kissa, cat, x, y);
-			if (pixel == 0)
-			{
-				x++;
-				continue;
-			}
-			mlx_put_pixel(kissa->view->mlx_scene, x + (MLX_WIDTH / 2), y + (MLX_HEIGHT / 2), pixel);
+			if (pixel != 0)
+				mlx_put_pixel(kissa->view->mlx_scene, x + (MLX_WIDTH / 2), y + (MLX_HEIGHT / 2), pixel);
 			x++;
 		}
 		y++;
@@ -172,7 +168,7 @@ void	create_cat_objs(t_cub3d *kissa)
 		{
 			if (kissa->map->array[y][x] == 'C')
 			{
-				kissa->cats[cat] = init_player(kissa);
+				kissa->cats[cat] = init_obj(kissa);
 				init_cat_pos(kissa, cat, x, y);
 				cat++;
 			}
@@ -204,7 +200,7 @@ void	place_cats_down(t_cub3d *kissa)
 		distance += 2;
 		while (x < kissa->map->width)
 		{
-			if (!is_wall(kissa, x, y))
+			if (!is_wall(kissa, x, y) || (x != kissa->player->x && y != kissa->player->y))
 				i++;
 			if (i >= distance && x != kissa->player->x && y != kissa->player->y)
 			{

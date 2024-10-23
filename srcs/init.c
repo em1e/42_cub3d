@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:25:48 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/23 08:00:08 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/23 09:32:54 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,22 +113,22 @@ void	init_rays(t_cub3d *kissa)
 /*
 	Initializes a new obj struct.
 */
-t_obj	*init_player(t_cub3d *kissa)
+t_obj	*init_obj(t_cub3d *kissa)
 {
-	t_obj	*player;
+	t_obj	*obj;
 
-	player = malloc(sizeof(t_obj));
-	if (!player)
+	obj = malloc(sizeof(t_obj));
+	if (!obj)
 		quit_error(kissa, NULL, "memory allocation failure");
-	player->x = 0;
-	player->y = 0;
-	player->rot = 0;
-	player->start_dir = 0;
-	player->cat_i = 0;
-	player->cat_j = 0;
-	player->cat_type = 0;
-	player->dir = new_vec(kissa);
-	return (player);
+	obj->x = 0;
+	obj->y = 0;
+	obj->rot = 0;
+	obj->start_dir = 0;
+	obj->cat_i = 0;
+	obj->cat_j = 0;
+	obj->cat_type = 0;
+	obj->dir = new_vec(kissa);
+	return (obj);
 }
 
 /*
@@ -149,6 +149,7 @@ void	init_kissa(t_cub3d *kissa)
 	kissa->wall_tex = NULL;
 	kissa->floor_tex = NULL;
 	kissa->player_tex = NULL;
+	kissa->ray_array = NULL;
 	kissa->wall_tex = ft_strdup("./textures/21black.png");
 	kissa->floor_tex = ft_strdup("./textures/21white.png");
 	kissa->player_tex = ft_strdup("./textures/21player.png");
@@ -158,7 +159,7 @@ void	init_kissa(t_cub3d *kissa)
 	kissa->f[0] = -1;
 	kissa->map = new_map(kissa);
 	kissa->view = new_view(kissa);
-	kissa->player = init_player(kissa);
+	kissa->player = init_obj(kissa);
 	init_rays(kissa);
 }
 

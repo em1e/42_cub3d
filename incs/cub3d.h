@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 20:28:20 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/23 08:23:01 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/23 09:30:56 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,7 +166,7 @@ t_map	*new_map(t_cub3d *kissa);
 t_view	*new_view(t_cub3d *kissa);
 t_vec	*new_vec(t_cub3d *kissa);
 t_ray	*new_ray(t_cub3d *kissa);
-t_obj	*init_player(t_cub3d *kissa);
+t_obj	*init_obj(t_cub3d *kissa);
 void	init_kissa(t_cub3d *kissa);
 void	init_mlx(t_cub3d *kissa);
 
