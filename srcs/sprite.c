@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 10:04:17 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/23 07:59:22 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/23 08:56:05 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,14 +121,20 @@ void	move_cats(t_cub3d *kissa)
 	i = 0;
 	while (i < kissa->cat_count)
 	{
+		kissa->map->array[(int)kissa->cats[i]->y][(int)kissa->cats[i]->x] = '0';
 		if (move(kissa, kissa->cats[i], 0, 1) == 1)
+		{
+			printf("ROTATE CAT %d\n", i + 1);
 			rotate(kissa, kissa->cats[i], 1, NORTH);
+		}
+		kissa->map->array[(int)kissa->cats[i]->y][(int)kissa->cats[i]->x] = 'C';
 		i++;
 	}
+	printf("cat 1 : pos (%d, %d), rot = %f, dir->x %f, dir->y %f\n", (int)kissa->cats[0]->x, (int)kissa->cats[0]->y, kissa->cats[0]->rot, kissa->cats[0]->dir->x, kissa->cats[0]->dir->y);
+	printf("cat 2 : pos (%d, %d), rot = %f, dir->x %f, dir->y %f\n", (int)kissa->cats[1]->x, (int)kissa->cats[1]->y, kissa->cats[1]->rot, kissa->cats[1]->dir->x, kissa->cats[1]->dir->y);
+	print_map(kissa);
 	// check player dir and cat dir
-	// move cat
-	// check if wall
-		// if wall then turn cat
+
 }
 
 // ------------------- INIT CAT -------------------
@@ -233,14 +239,6 @@ void	calcuate_tile_count(t_cub3d *kissa)
 	}
 }
 
-/*
-	fills the t_ani struct images in view->cats according to the CAT defininition
-
-	grid_x and grid_y are for finding the correct cat kind from the grid.
-		- brown cat?, green cat?
-	cat_x and cat_y are for finding the correct type of cat:
-		- first row, second row, third... etc
-*/
 void	init_cat_ani(t_cub3d *kissa)
 {
 	calcuate_tile_count(kissa);

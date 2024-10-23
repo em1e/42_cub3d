@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:48:49 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/23 08:03:16 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/23 08:54:11 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,12 @@ int	bounceback(t_cub3d *kissa, t_obj *obj, float new_x, float new_y)
 		|| is_wall(kissa, new_x + BUMPER_SIZE, new_y) 
 		|| is_wall(kissa, new_x - BUMPER_SIZE, new_y)
 		|| is_wall(kissa, new_x, new_y + BUMPER_SIZE) 
-		|| is_wall(kissa, new_x, new_y - BUMPER_SIZE))
+		|| is_wall(kissa, new_x, new_y - BUMPER_SIZE)
+		|| kissa->map->array[(int)new_y][(int)new_x] == 'C')
+	{
+		// printf("new x %f, new y %f\n", new_x, new_y);
 		return (1);
+	}
 	return (0);
 }
 /*
@@ -73,11 +77,11 @@ int	move(t_cub3d *kissa, t_obj *obj, int dir_x, int dir_y)
 	// lets look into that at some point
 	// * kissa->mlx->delta_time
 	new_x = obj->x
-	+ (dir_y * MOVE_SPEED * kissa->player->dir->x)
-	+ (dir_x * MOVE_SPEED * -kissa->player->dir->y);
+	+ (dir_y * MOVE_SPEED * obj->dir->x)
+	+ (dir_x * MOVE_SPEED * -obj->dir->y);
 	new_y = obj->y
-	+ (dir_y * MOVE_SPEED * kissa->player->dir->y)
-	+ (dir_x * MOVE_SPEED * kissa->player->dir->x);
+	+ (dir_y * MOVE_SPEED * obj->dir->y)
+	+ (dir_x * MOVE_SPEED * obj->dir->x);
 
 	if (bounceback(kissa, obj, new_x, new_y))
 		return (1); // add bounceback

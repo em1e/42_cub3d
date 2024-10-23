@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 20:28:20 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/23 08:01:25 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/23 08:23:01 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,6 +196,7 @@ void	play_game(t_cub3d *kissa);
 
 // sprite.c
 void	animate_cat(t_cub3d *kissa);
+void	move_cats(t_cub3d *kissa);
 void	draw_cat(t_cub3d *kissa, t_obj *cat);
 uint32_t	get_cats_pixel(t_cub3d *kissa, t_obj *cat, int x, int y);
 void	init_cat_ani(t_cub3d *kissa);
