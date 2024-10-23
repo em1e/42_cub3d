@@ -6,54 +6,76 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 10:04:17 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/22 13:46:46 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/23 07:59:22 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int	animate_heart(t_cub3d *kissa, int direction)
-{
-	static int	i;
-	mlx_image_t	*heart_img;
-	mlx_image_t	*new_img;
+// ------------------- ANIMATIONS -------------------
 
-	if (direction == 1)
+void	animate_cat(t_cub3d *kissa)
+{
+	int	i;
+
+	i = 0;
+	while (i < kissa->cat_count)
+	{
+		kissa->cats[i]->cat_j++;
+		if (kissa->cats[i]->cat_j > 3)
+			kissa->cats[i]->cat_j = 0;
 		i++;
-	else
-		i--;
-	heart_img = kissa->view->mlx_heart;
-	new_img = kissa->view->mlx_heart_ani[i];
-	ft_memcpy(heart_img->pixels, new_img->pixels,
-		heart_img->width * heart_img->height * sizeof(int32_t));
-	return (i);
+	}
 }
 
-// ------------------- CAT TEXTURE STUFFF -------------------
+// ------------------- CAT TEXTURE -------------------
 
-void	choose_cat_from_file(t_cub3d *kissa, int *grid_x, int *grid_y)
+void	choose_cat_type(t_cub3d *kissa, int cat_type, int *grid_x, int *grid_y)
 {
-	if (CAT < 0 || CAT > 7)
+	if (cat_type < 0 || cat_type > 7)
 		quit_error(kissa, NULL, "Wrong cat selected");
-	if (CAT > 3)
+	if (cat_type > 3)
 	{
 		*grid_y = 1;
-		*grid_x = CAT - 4;
+		*grid_x = cat_type - 4;
 	}
 	else
 	{
 		*grid_y = 0;
-		*grid_x = CAT;
+		*grid_x = cat_type;
 	}
 }
 
-uint32_t	get_cats_pixel(t_cub3d *kissa, mlx_image_t *img, int x, int y)
+/*
+	changes the x and y so that theyactually find the correct cat texture from view->original_cat image
+
+	- cat_i is for what cat animation are we talking
+	- cat_j is for what texture of that animation are we on (changed in ani hook)
+	- grid_x and grid_y are for navigating cat_type from the object,
+	aka WHICH CAT TEXTURE TYPE do we need to grab
+*/
+void	get_cat_texture(t_cub3d *kissa, t_obj *cat, int *x, int *y)
+{
+	int	grid_x;
+	int	grid_y;
+
+	grid_x = 0;
+	grid_y = 0;
+	choose_cat_type(kissa, cat->cat_type, &grid_x, &grid_y);
+	*x = grid_x * 48 + cat->cat_j * 48 + *x;
+	*y = grid_y * 48 + cat->cat_i * 48 + *y;
+}
+
+uint32_t	get_cats_pixel(t_cub3d *kissa, t_obj *cat, int x, int y)
 {
 	(void)kissa;
 	int			pixel_index;
 	uint8_t		*pixel;
 	uint32_t	color;
+	mlx_image_t	*img;
 
+	img = kissa->view->original_cat;
+	get_cat_texture(kissa, cat, &x, &y);
 	pixel_index = (y * img->width + x) * (32 / 8);
 	pixel = img->pixels + pixel_index;
 	if (pixel[3] == 0)
@@ -63,32 +85,148 @@ uint32_t	get_cats_pixel(t_cub3d *kissa, mlx_image_t *img, int x, int y)
 }
 
 /*
-	grabs the cat texture pixel by pixel from given start coordinates from a larger image
-	
-	NOTE: type variable is what cat texture type are we talking about
+	draws the cat object's texture pixel by pixel from a larger image
 */
-void	grab_cat(t_cub3d *kissa, int start_x, int start_y, int cat_x)
+void	draw_cat(t_cub3d *kissa, t_obj *cat)
 {
-	t_ani			*cats;
 	uint32_t	pixel;
 	int				x;
 	int				y;
-	(void)cat_x;
-	
-	y = start_y;
-	cats = kissa->view->cats;
-	while (y <= start_y + 48)
+
+	y = 0;
+	while (y <= 48)
 	{
-		x = start_x;
-		while (x <= start_x + 48)
+		x = 0;
+		while (x <= 48)
 		{
-			pixel = get_cats_pixel(kissa, cats->original, x, y);
+			pixel = get_cats_pixel(kissa, cat, x, y);
 			if (pixel == 0)
 			{
 				x++;
 				continue;
 			}
-			mlx_put_pixel(kissa->view->mlx_scene, x - start_x + (MLX_WIDTH / 2), y - start_y + (MLX_HEIGHT / 2), pixel);
+			mlx_put_pixel(kissa->view->mlx_scene, x + (MLX_WIDTH / 2), y + (MLX_HEIGHT / 2), pixel);
+			x++;
+		}
+		y++;
+	}
+}
+
+// ------------------- CAT MOVEMENT -------------------
+
+void	move_cats(t_cub3d *kissa)
+{
+	int	i;
+
+	i = 0;
+	while (i < kissa->cat_count)
+	{
+		if (move(kissa, kissa->cats[i], 0, 1) == 1)
+			rotate(kissa, kissa->cats[i], 1, NORTH);
+		i++;
+	}
+	// check player dir and cat dir
+	// move cat
+	// check if wall
+		// if wall then turn cat
+}
+
+// ------------------- INIT CAT -------------------
+
+void	init_cat_pos(t_cub3d *kissa, int cat, int x, int y)
+{
+	kissa->cats[cat]->x = (float)x + 0.5;
+	kissa->cats[cat]->y = (float)y + 0.5;
+	set_rot(kissa->player, 'E'); // default cat dir
+	kissa->cats[cat]->dir->x = cos(kissa->cats[cat]->rot);
+	kissa->cats[cat]->dir->y = sin(kissa->cats[cat]->rot);
+}
+
+/*
+	creates cat objects if conditions are met
+*/
+void	create_cat_objs(t_cub3d *kissa)
+{
+	int		y;
+	int		x;
+	int		cat;
+
+	y = 0;
+	cat = 0;
+	kissa->cats = malloc(sizeof(t_obj*) * kissa->cat_count);
+	if (!kissa->cats)
+		quit_error(kissa, NULL, "memory allocation failure");
+	while (y < kissa->map->height)
+	{
+		x = 0;
+		while (x < kissa->map->width)
+		{
+			if (kissa->map->array[y][x] == 'C')
+			{
+				kissa->cats[cat] = init_player(kissa);
+				init_cat_pos(kissa, cat, x, y);
+				cat++;
+			}
+			x++;
+		}
+		y++;
+	}
+	if (cat != kissa->cat_count)
+		quit_error(kissa, NULL, "cat count issue");
+}
+
+/*
+	places down cats or "C" on the map, and creates as many cat objects
+	into kissa->cats as needed
+*/
+void	place_cats_down(t_cub3d *kissa)
+{
+	int	distance;
+	int	i;
+	int	y;
+	int	x;
+
+	y = 0;
+	i = 0;
+	distance = kissa->tile_count / 3;
+	while (y < kissa->map->height)
+	{
+		x = 0;
+		distance += 2;
+		while (x < kissa->map->width)
+		{
+			if (!is_wall(kissa, x, y))
+				i++;
+			if (i >= distance && x != kissa->player->x && y != kissa->player->y)
+			{
+				i = 0;
+				kissa->map->array[y][x] = 'C';
+				kissa->cat_count++;
+			}
+			x++;
+		}
+		y++;
+	}
+	print_map(kissa);
+	create_cat_objs(kissa);
+}
+
+/*
+	calculates how many tiles are in the map
+*/
+void	calcuate_tile_count(t_cub3d *kissa)
+{
+	int	y;
+	int	x;
+
+	y = 0;
+	while (y < kissa->map->height)
+	{
+		x = 0;
+		while (x < kissa->map->width)
+		{
+			if (!is_wall(kissa, x, y))
+				kissa->tile_count++;
 			x++;
 		}
 		y++;
@@ -105,29 +243,7 @@ void	grab_cat(t_cub3d *kissa, int start_x, int start_y, int cat_x)
 */
 void	init_cat_ani(t_cub3d *kissa)
 {
-	int	cat_x;
-	int	cat_y;
-	int	grid_x;
-	int	grid_y;
-
-	cat_y = 0;
-	grid_x = 0;
-	grid_y = 0;
-	choose_cat_from_file(kissa, &grid_x, &grid_y);
-	cat_x = 0;
-	grab_cat(kissa, (grid_x * 48 * 3) + (cat_x * 48), (grid_y * 48 * 4) + (cat_y * 48), cat_x);
-	// loop through all iages of the cats ----------------------
-	// while (cat_y < 4)
-	// {
-	// 	cat_x = 0;
-	// 	while (cat_x < 3)
-	// 	{
-	// 		grab_cat(kissa, (grid_x * 48 * 3) + (cat_x * 48), (grid_y * 48 * 4) + (cat_y * 48), cat_x);
-			
-	// 		cat_x++;
-	// 	}
-	// 	kissa->view->cats->type++;
-	// 	cat_y++;
-	// }
-	// ---------------------------------------------------------
+	calcuate_tile_count(kissa);
+	place_cats_down(kissa);
 }
+

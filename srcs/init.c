@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:25:48 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/22 13:25:54 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/23 08:00:08 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,17 +78,6 @@ t_ray	*new_ray(t_cub3d *kissa)
 	return (ray);
 }
 
-t_ani	*new_animation(t_cub3d *kissa)
-{
-	t_ani	*animation;
-
-	animation = malloc(sizeof(t_ani));
-	if (!animation)
-		quit_error(kissa, NULL, "memory allocation failure");
-	animation->type = 0;
-	return (animation);
-}
-
 /*
 	Initializes a new view struct.
 */
@@ -99,7 +88,6 @@ t_view	*new_view(t_cub3d *kissa)
 	view = malloc(sizeof(t_view));
 	if (!view)
 		quit_error(kissa, NULL, "memory allocation failure");
-	view->cats = new_animation(kissa);
 	view->floor_inst = NULL;
 	view->wall_inst = NULL;
 	view->mlx_scene = NULL;
@@ -112,6 +100,8 @@ void	init_rays(t_cub3d *kissa)
 
 	i = 0;
 	kissa->ray_array = malloc(sizeof(t_ray*) * RAYC);
+	if (!kissa->ray_array)
+		quit_error(kissa, NULL, "memory allocation failure");
 	while (i < RAYC)
 	{
 		kissa->ray_array[i] = new_ray(kissa);
@@ -134,6 +124,9 @@ t_obj	*init_player(t_cub3d *kissa)
 	player->y = 0;
 	player->rot = 0;
 	player->start_dir = 0;
+	player->cat_i = 0;
+	player->cat_j = 0;
+	player->cat_type = 0;
 	player->dir = new_vec(kissa);
 	return (player);
 }
@@ -144,6 +137,8 @@ t_obj	*init_player(t_cub3d *kissa)
 void	init_kissa(t_cub3d *kissa)
 {
 	kissa->fd = -1;
+	kissa->tile_count = 0;
+	kissa->cat_count = 0;
 	kissa->wall_height = WALL_HEIGHT;
 	kissa->map = NULL;
 	kissa->view = NULL;
@@ -177,14 +172,7 @@ void	convert_textures(t_cub3d *kissa)
 	kissa->view->mlx_wall = convert_png(kissa, kissa->wall_tex);
 	kissa->view->mlx_floor = convert_png(kissa, kissa->floor_tex);
 	kissa->view->mlx_player = convert_png(kissa, kissa->player_tex);
-	kissa->view->mlx_heart_ani[0] = convert_png(kissa, "./textures/heart_1.png");
-	kissa->view->mlx_heart_ani[1] = convert_png(kissa, "./textures/heart_2.png");
-	kissa->view->mlx_heart_ani[2] = convert_png(kissa, "./textures/heart_3.png");
-	mlx_resize_image(kissa->view->mlx_heart_ani[0], 200, 200);
-	mlx_resize_image(kissa->view->mlx_heart_ani[1], 200, 200);
-	mlx_resize_image(kissa->view->mlx_heart_ani[2], 200, 200);
-	kissa->view->mlx_heart = kissa->view->mlx_heart_ani[0];
-	kissa->view->cats->original = convert_png(kissa, "./textures/cat_sprite_1.png");
+	kissa->view->original_cat = convert_png(kissa, "./textures/cat_sprite_1.png");
 }
 
 /*
@@ -201,4 +189,5 @@ void	init_mlx(t_cub3d *kissa)
 	kissa->view->mlx_bg = mlx_new_image(kissa->mlx, kissa->mlx->width, kissa->mlx->height);
 	if (!kissa->view->mlx_bg)
 		quit_perror(kissa, NULL, "MLX42 failed");
+	init_cat_ani(kissa);
 }

@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 12:07:09 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/22 13:02:16 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/23 07:10:35 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,6 @@ void	clean_view(t_map *map, t_view *view)
 			free(view->wall_inst[i]);
 		i++;
 	}
-	if (view->cats)
-		free(view->cats);
 	if (view->wall_inst)
 		free(view->wall_inst);
 	if (view->floor_inst)
@@ -117,6 +115,20 @@ void	clean_ray_array(t_ray **ray_array)
 	ray_array = NULL;
 }
 
+void	clean_cats(t_cub3d *kissa, t_obj **cats)
+{
+	int	i;
+
+	i = 0;
+	while (i < kissa->cat_count)
+	{
+		clean_obj(cats[i]);
+		i++;
+	}
+	free(cats);
+	cats = NULL;
+}
+
 /*
 	Cleans all the memory allocated for the cub3d struct.
 */
@@ -133,6 +145,8 @@ void	clean_kissa(t_cub3d *kissa)
 			clean_obj(kissa->player);
 		if (kissa->ray_array)
 			clean_ray_array(kissa->ray_array);
+		if (kissa->cats)
+			clean_cats(kissa, kissa->cats);
 		clean_file_content(kissa);
 		free(kissa);
 	}

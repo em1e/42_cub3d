@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:48:49 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/22 13:27:59 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/23 08:03:16 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,6 @@ int	is_wall(t_cub3d *kissa, float x, float y)
 {
 	if (kissa->map->array[(int)floor(y)][(int)floor(x)] == '1')
 		return (1);
-	// if (floor(y) == y && y - 1 >= 0 
-	// 	&& kissa->map->array[(int)(y - 1)][(int)floor(x)] == '1')
-	// 	return (1);
-	// if (floor(x) == x && x - 1 >= 0 
-	// 	&& kissa->map->array[(int)floor(y)][(int)(x - 1)] == '1')
-	// 	return (1);
 	return (0);
 }
 
@@ -70,7 +64,7 @@ dir_x: 1 for right, -1 for left, 0 for no movement
 dir_y: 1 for up, -1 for down, 0 for no movement
 obj: the player object in cub3d kissa
 */
-void	move(t_cub3d *kissa, t_obj *obj, int dir_x, int dir_y)
+int	move(t_cub3d *kissa, t_obj *obj, int dir_x, int dir_y)
 {
 	float	new_x;
 	float	new_y;
@@ -86,9 +80,10 @@ void	move(t_cub3d *kissa, t_obj *obj, int dir_x, int dir_y)
 	+ (dir_x * MOVE_SPEED * kissa->player->dir->x);
 
 	if (bounceback(kissa, obj, new_x, new_y))
-		return ; // add bounceback
+		return (1); // add bounceback
 	obj->x = new_x;
 	obj->y = new_y;
+	return (0);
 }
 
 /*
@@ -98,20 +93,20 @@ void	move(t_cub3d *kissa, t_obj *obj, int dir_x, int dir_y)
 	rot: 1 for right, -1 for left, 0 for no rotation
 	obj: the player object in cub3d kissa
 */
-void	rotate(t_cub3d *kissa, t_obj *obj, int rot)
+void	rotate(t_cub3d *kissa, t_obj *obj, int rot, float amount)
 {
 	(void)kissa;
 	if (!rot)
 		return ;
 	if (rot > 0)
 	{
-		obj->rot += ROT_SPEED;
+		obj->rot += amount;
 		if (obj->rot > 2 * M_PI)
 			obj->rot -= 2 * M_PI;
 	}
 	else
 	{
-		obj->rot -= ROT_SPEED;
+		obj->rot -= amount;
 		if (obj->rot < 0)
 			obj->rot += 2 * M_PI;
 	}
@@ -146,11 +141,6 @@ void	play_game(t_cub3d *kissa)
 	(void)kissa;
 	printf("game started\n");
 	draw_start(kissa);
-	// this can be taken out ---------------
-	// if (mlx_image_to_window(kissa->mlx, kissa->view->mlx_heart, MLX_WIDTH / 2 * 1.7, MLX_HEIGHT / 2 * 1.5))
-	// 	quit_perror(kissa, NULL, "MLX42 failed");
-	// mlx_set_instance_depth(kissa->view->mlx_heart->instances, Z_START);
-	// -------------------------------------
 	setup_minimap(kissa, 0, 0);
 	draw_background(kissa);
 	draw_scene(kissa);

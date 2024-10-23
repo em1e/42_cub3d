@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 20:28:20 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/22 13:59:44 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/23 08:01:25 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@
 
 # define START_SCREEN "./textures/start_screen.png"
 # define DELAY 0.2
-# define CAT 4
 
 typedef struct	s_vec
 {
@@ -71,22 +70,9 @@ typedef struct	s_vec
 	float	y;
 } t_vec;
 
-typedef struct	s_ani
-{
-	mlx_image_t	*mlx_front[3];
-	mlx_image_t	*mlx_back[3];
-	mlx_image_t	*mlx_walk_left[3];
-	mlx_image_t	*mlx_walk_right[3];
-	mlx_image_t	*img;
-	mlx_image_t	*original;
-	int	type;
-} t_ani;
-
 typedef struct	s_view
 {
-	t_ani	*cats;
-	mlx_image_t	*mlx_heart_ani[3];
-	mlx_image_t	*mlx_heart;
+	mlx_image_t	*original_cat;
 	mlx_image_t	*mlx_start;
 	mlx_image_t	*ray;
 	mlx_image_t	*mlx_no;
@@ -110,6 +96,9 @@ typedef struct s_obj
 	float	y;
 	t_vec	*dir;
 	float	rot;
+	int		cat_type;
+	int		cat_i;
+	int		cat_j;
 } t_obj;
 
 typedef struct	s_map
@@ -151,6 +140,7 @@ typedef struct	s_cub3d
 	t_ray		**ray_array;
 	t_map		*map;
 	t_obj		*player;
+	t_obj		**cats;
 	t_view		*view;
 	bool		start;
 	int			wall_height;
@@ -164,6 +154,8 @@ typedef struct	s_cub3d
 	char		*player_tex;
 	int			f[3];
 	int			c[3];
+	int			tile_count;
+	int			cat_count;
 } t_cub3d;
 
 // main.c
@@ -174,6 +166,7 @@ t_map	*new_map(t_cub3d *kissa);
 t_view	*new_view(t_cub3d *kissa);
 t_vec	*new_vec(t_cub3d *kissa);
 t_ray	*new_ray(t_cub3d *kissa);
+t_obj	*init_player(t_cub3d *kissa);
 void	init_kissa(t_cub3d *kissa);
 void	init_mlx(t_cub3d *kissa);
 
@@ -197,12 +190,14 @@ void	anim_update_hook(void *param);
 // game.c
 void	set_rot(t_obj *obj, char rot_char);
 int		is_wall(t_cub3d *kissa, float x, float y);
-void	move(t_cub3d *kissa, t_obj *obj, int dir_x, int dir_y);
-void	rotate(t_cub3d *kissa, t_obj *obj, int dir);
+int		move(t_cub3d *kissa, t_obj *obj, int dir_x, int dir_y);
+void	rotate(t_cub3d *kissa, t_obj *obj, int rot, float amount);
 void	play_game(t_cub3d *kissa);
 
 // sprite.c
-int	animate_heart(t_cub3d *kissa, int direction);
+void	animate_cat(t_cub3d *kissa);
+void	draw_cat(t_cub3d *kissa, t_obj *cat);
+uint32_t	get_cats_pixel(t_cub3d *kissa, t_obj *cat, int x, int y);
 void	init_cat_ani(t_cub3d *kissa);
 
 // minimap.c

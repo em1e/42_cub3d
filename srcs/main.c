@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 20:38:06 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/22 10:01:47 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/23 05:21:26 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,15 @@ TASKS:
 @ fix drawing walls and dda
 	---> make sure it doesn't segv when walking towards walls
 
-@ fix minimap ray
-
 @ add bounceback
+
+@ DO THIS TODAY:
+	~> add x amount of randomly placed cats according to how many empty tiles the map has.
+	~> create function that finds and draws the cat on mlx_scene according to the rotation and dir
+		of cat and player.
+	~> make the cat wonder around randomly. start with it walking straight until it hits a wall and then turns 90 or 180 degrees
+	~> add different cat textures onto the window (CAT into the struct and increment that)
+	~> fix minimap ray
 
 */
 

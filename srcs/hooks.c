@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:35:39 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/22 13:31:44 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/23 07:50:41 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void	move_keyhook(mlx_key_data_t keydata, void *param)
 		if (keydata.key == MLX_KEY_RIGHT)
 			rotate_flag += 1;
 		move(kissa, kissa->player, dir_x, dir_y);
-		rotate(kissa, kissa->player, rotate_flag);
+		rotate(kissa, kissa->player, rotate_flag, ROT_SPEED);
 	}
 }
 
@@ -112,7 +112,7 @@ void	update_hook(void *param)
 		return ;
 	timer = 0;
 	draw_scene(kissa);
-	init_cat_ani(kissa);
+	
 	if (kissa->player->x == old_loc.x && kissa->player->y == old_loc.y
 		&& kissa->player->rot == old_rot)
 		return ;
@@ -153,18 +153,15 @@ void	anim_update_hook(void *param)
 	static double		timer;
 	t_cub3d				*kissa;
 	static int			direction;
-	int	check;
 
 	kissa = param;
+	if (!kissa->start)
+		return ;
 	timer += kissa->mlx->delta_time;
 	if (timer < (double) DELAY)
 		return ;
 	timer = 0;
 	if (direction == 0)
 		direction = 1;
-	check = animate_heart(kissa, direction);
-	if (check == 2)
-		direction = -1;
-	else if (check == 0)
-		direction = 1;
+	animate_cat(kissa);
 }
