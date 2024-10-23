@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:35:39 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/23 08:23:31 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/23 09:04:01 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,7 @@ void	update_hook(void *param)
 	timer = 0;
 	draw_scene(kissa);
 	move_cats(kissa);
+	draw_cat(kissa, kissa->cats[1]);
 	if (kissa->player->x == old_loc.x && kissa->player->y == old_loc.y
 		&& kissa->player->rot == old_rot)
 		return ;

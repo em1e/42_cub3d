@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 10:04:17 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/23 08:56:05 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/23 09:21:53 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	animate_cat(t_cub3d *kissa)
 	while (i < kissa->cat_count)
 	{
 		kissa->cats[i]->cat_j++;
-		if (kissa->cats[i]->cat_j > 3)
+		if (kissa->cats[i]->cat_j > 2)
 			kissa->cats[i]->cat_j = 0;
 		i++;
 	}
@@ -143,9 +143,12 @@ void	init_cat_pos(t_cub3d *kissa, int cat, int x, int y)
 {
 	kissa->cats[cat]->x = (float)x + 0.5;
 	kissa->cats[cat]->y = (float)y + 0.5;
-	set_rot(kissa->player, 'E'); // default cat dir
+	set_rot(kissa->cats[cat], 'E'); // default cat dir
 	kissa->cats[cat]->dir->x = cos(kissa->cats[cat]->rot);
 	kissa->cats[cat]->dir->y = sin(kissa->cats[cat]->rot);
+	// kissa->cats[cat]->cat_type++;
+	// if (kissa->cats[cat]->cat_type > 7)
+	// kissa->cats[cat]->cat_type = 0;
 }
 
 /*
