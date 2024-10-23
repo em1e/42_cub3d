@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 16:33:57 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/22 07:38:38 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/23 11:46:57 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,33 @@ static int	check_radius(t_cub3d *kissa, float ray_x, float ray_y)
 	return (0);
 }
 
+void	loop_pixels(t_cub3d *kissa, int center, int radius, int tile)
+{
+	float	ray_x;
+	float	ray_y;
+	float	player_x;
+	float	player_y;
+	
+	ray_x = center;
+	ray_y = center;
+	player_x = (int)floor(kissa->player->x) * tile;
+	player_y = (int)floor(kissa->player->y) * tile;
+	while (check_radius(kissa, ray_x, ray_y) && (ray_x - center) + radius / 2 * tile > 0
+		&& (ray_y - center) + radius / 2 * tile > 0
+		&& kissa->map->array[(int)floor(player_y  / tile + 0.5)][(int)floor(player_x / tile + 0.5)] != '1')
+	{
+		if (ray_x < 0 || ray_x >= kissa->map->width * tile || ray_y < 0
+			|| ray_y >= kissa->map->height * tile)
+			break;
+		mlx_put_pixel(kissa->view->ray, (ray_x - center + radius * tile / 2) + tile / 2,
+			(ray_y - center + radius * tile / 2) + tile / 2, 0xFF0000FF);
+		ray_x += kissa->player->dir->x;
+		ray_y += kissa->player->dir->y;
+		player_x += kissa->player->dir->x;
+		player_y += kissa->player->dir->y;
+	}
+}
+
 /*
 	Shoots a ray from the player object in the direction of the player object.
 	While the ray is not hitting a wall, the ray is drawn on the screen.
@@ -41,33 +68,15 @@ static int	check_radius(t_cub3d *kissa, float ray_x, float ray_y)
 	0xFFFF00FF = yellow
 
 */
-static void	shoot_ray(t_cub3d *kissa, t_obj *obj)
+static void	shoot_ray(t_cub3d *kissa)
 {
-	int tile = kissa->map->tile_size;
-	int radius = MMRAD * 2;
-	int center_x = 6 * tile + tile / 2;
-	int center_y = 6 * tile + tile / 2;
-	float ray_x = center_x;
-	float ray_y = center_y;
-	float player_x = obj->x * tile;
-	float player_y = obj->y * tile;
+	int	tile;
 
+	tile = kissa->map->tile_size;
 	kissa->view->ray = mlx_new_image(kissa->mlx, tile * 100, tile * 100);
 	if (!kissa->view->ray)
 		quit_perror(kissa, NULL, "MLX42 image creation failed");
-	while (check_radius(kissa, ray_x, ray_y) && (ray_x - center_x) + radius / 2 * tile >= 0
-		&& (ray_y - center_y) + radius / 2 * tile >= 0
-		&& kissa->map->array[(int)floor(player_y / tile)][(int)floor(player_x / tile)] != '1')
-	{
-		if (ray_x < 0 || ray_x >= kissa->map->width * tile || ray_y < 0 || ray_y >= kissa->map->height * tile)
-				break;
-		mlx_put_pixel(kissa->view->ray, (ray_x - center_x + radius * tile / 2) + tile / 2,
-			(ray_y - center_y + radius * tile / 2) + tile / 2, 0xFF0000FF);
-		ray_x += obj->dir->x;
-		ray_y += obj->dir->y;
-		player_x += obj->dir->x;
-		player_y += obj->dir->y;
-	}
+	loop_pixels(kissa, 6 * tile + tile / 2, MMRAD * 2, tile);
 	if (mlx_image_to_window(kissa->mlx, kissa->view->ray, 0, 0) < 0)
 		quit_perror(kissa, NULL, "MLX42 image to window failed");
 	mlx_set_instance_depth(kissa->view->mlx_start->instances, Z_MINIMAP);
@@ -133,7 +142,7 @@ void	refresh_minimap(t_cub3d *kissa)
 			refresh_map_line(kissa, line_i, 0);
 		line_i++;
 	}
-	shoot_ray(kissa, kissa->player);
+	shoot_ray(kissa);
 }
 
 void	populate_minimap_instances(t_cub3d *kissa)
