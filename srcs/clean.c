@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clean.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 12:07:09 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/23 07:10:35 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/23 10:24:55 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,6 +148,7 @@ void	clean_kissa(t_cub3d *kissa)
 		if (kissa->cats)
 			clean_cats(kissa, kissa->cats);
 		clean_file_content(kissa);
+		mlx_close_window(kissa->mlx);
 		free(kissa);
 	}
 }
