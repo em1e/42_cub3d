@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:49:02 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/22 15:20:12 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/23 15:24:30 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,29 @@ void	calculate_values(t_cub3d *kissa, t_ray *ray)
 		ray->img_start->x = floor(ray->scaled_height * (ray->y - floor(ray->y)));
 }
 
+void	check_for_cats(t_cub3d *kissa, t_ray *ray)
+{
+	int		i;
+	float	x;
+	float	y;
+	t_obj	*cat;
+
+	i = 0;
+	x = floor(ray->x);
+	y = floor(ray->y);
+	while (i < kissa->cat_count)
+	{
+		cat = kissa->cats[i];
+		if (cat->x >= x && cat->x < x + 1 && cat->y >= y && cat->y < y + 1)
+		{
+			cat->seen_by = ray;
+			cat->distance = calc_distance(cat->x, kissa->player->x, cat->y, kissa->player->y);
+			cat->view_dir = fix_rot(kissa->player->rot - cat->rot);
+		}
+		i++;
+	}
+}
+
 /*
 	Shoots a ray from the player object in the direction of the player object
 	using the DDA algo. While the ray is not hitting a wall, the ray is drawn on the screen.
@@ -160,6 +183,7 @@ void	cast_ray(t_cub3d *kissa, t_ray *ray)
 			// if (ray->rot == kissa->player->rot)
 			// 	printf("Y: Line len %f, ray_x %f, ray_y %f, ray_len x %f, ray_len y %f\n", ray->line_len, ray->x, ray->y, ray->ray_len->x, ray->ray_len->y);
 		}
+		check_for_cats(kissa, ray);
 		// if (ray->rot == kissa->player->rot)
 		// 	printf("LINE_LEN = %f, ray->x = %f, ray->y = %f\n--\n", ray->line_len, ray->x, ray->y);
 	}

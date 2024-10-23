@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 13:43:44 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/22 15:49:13 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/23 15:47:30 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,9 @@ static void	cast_rays(t_cub3d *kissa)
 	float	start_rot;
 	t_ray	*ray;
 
+	i = 0;
+	while (i < kissa->cat_count)
+		kissa->cats[i++]->seen_by = NULL;
 	start_rot = kissa->player->rot - FOV / 2;
 	if (start_rot < 0)
 		start_rot += 2 * M_PI;
@@ -98,6 +101,31 @@ void	draw_column(t_cub3d *kissa, t_ray *ray)
 	}
 }
 
+void	draw_cats(t_cub3d *kissa)
+{
+	int		i;
+	t_obj	*cat;
+
+	i = 0;
+	while (i < kissa->cat_count)
+	{
+		cat = kissa->cats[i];
+		if (cat->seen_by)
+		{
+			if (cat->view_dir >= M_PI / 4 && cat->view_dir < M_PI / 4 * 3)
+				cat->cat_i = 1;
+			else if (cat->view_dir >= M_PI / 4 * 3 && cat->view_dir < M_PI / 4 * 5)
+				cat->cat_i = 0;
+			else if (cat->view_dir >= M_PI / 4 * 5 && cat->view_dir < M_PI / 4 * 7)
+				cat->cat_i = 2;
+			else
+				cat->cat_i = 3;
+			draw_cat(kissa, cat, cat->seen_by);
+		}
+		i++;
+	}
+}
+
 void	reset_scene_image(t_cub3d *kissa)
 {
 	if (kissa->view->mlx_scene)
@@ -119,6 +147,7 @@ void	draw_scene(t_cub3d *kissa)
 		draw_column(kissa, kissa->ray_array[i]);
 		i++;
 	}
+	draw_cats(kissa);
 	if (mlx_image_to_window(kissa->mlx, kissa->view->mlx_scene, 0, 0) < 0)
 		quit_perror(kissa, NULL, "MLX42 failed");
 	mlx_set_instance_depth(kissa->view->mlx_scene->instances, Z_SCENE);

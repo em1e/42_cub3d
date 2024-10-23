@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 20:28:20 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/23 09:30:56 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/23 15:48:38 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,16 +23,22 @@
 # include "../libs/MLX42/include/MLX42/MLX42.h"
 # include <math.h>
 
-// mlx window sizes
+// mlx window size
 # define MLX_WIDTH 1200
 # define MLX_HEIGHT 800
+
+// FPS
+# define FPS 30
+# define DELAY 1 / FPS
 
 // FOV & distance to projection pane
 # define FOV M_PI / 2
 # define PRO_DIST MLX_WIDTH / 2 / tan(FOV)
 
-// height & width of wall
+// wall & object sizes
 # define WALL_HEIGHT MLX_HEIGHT
+# define CAT_SIZE WALL_HEIGHT / 3;
+# define CAT_TEX_SIZE 48
 
 // number of rays to be cast
 # define RAYC 240
@@ -43,7 +49,8 @@
 
 // speeds for moving and rotating
 # define ROT_SPEED M_PI / 20
-# define MOVE_SPEED 0.2
+# define PLAYER_SPEED 0.2
+# define CAT_SPEED 0.05
 
 // minimap radius
 # define MMRAD 5
@@ -62,7 +69,6 @@
 # define Z_START 4
 
 # define START_SCREEN "./textures/start_screen.png"
-# define DELAY 0.2
 
 typedef struct	s_vec
 {
@@ -88,18 +94,6 @@ typedef struct	s_view
 	int			**floor_inst;
 	t_vec		*scene;
 } t_view;
-
-typedef struct s_obj
-{
-	char	start_dir;
-	float	x;
-	float	y;
-	t_vec	*dir;
-	float	rot;
-	int		cat_type;
-	int		cat_i;
-	int		cat_j;
-} t_obj;
 
 typedef struct	s_map
 {
@@ -134,6 +128,22 @@ typedef struct	s_ray
 	t_vec	*img_start;
 }	t_ray;
 
+typedef struct s_obj
+{
+	char	start_dir;
+	float	x;
+	float	y;
+	t_vec	*dir;
+	float	rot;
+	int		cat_type;
+	int		cat_i;
+	int		cat_j;
+	float	speed;
+	t_ray	*seen_by;
+	float	view_dir;
+	float	distance;
+} t_obj;
+
 typedef struct	s_cub3d
 {
 	mlx_t		*mlx;
@@ -166,7 +176,7 @@ t_map	*new_map(t_cub3d *kissa);
 t_view	*new_view(t_cub3d *kissa);
 t_vec	*new_vec(t_cub3d *kissa);
 t_ray	*new_ray(t_cub3d *kissa);
-t_obj	*init_obj(t_cub3d *kissa);
+t_obj	*init_obj(t_cub3d *kissa, float speed);
 void	init_kissa(t_cub3d *kissa);
 void	init_mlx(t_cub3d *kissa);
 
@@ -197,7 +207,7 @@ void	play_game(t_cub3d *kissa);
 // sprite.c
 void	animate_cat(t_cub3d *kissa);
 void	move_cats(t_cub3d *kissa);
-void	draw_cat(t_cub3d *kissa, t_obj *cat);
+void	draw_cat(t_cub3d *kissa, t_obj *cat, t_ray *ray);
 uint32_t	get_cats_pixel(t_cub3d *kissa, t_obj *cat, int x, int y);
 void	init_cat_ani(t_cub3d *kissa);
 
@@ -213,6 +223,7 @@ void	draw_background(t_cub3d *kissa);
 void	draw_scene(t_cub3d *kissa);
 
 // utils.c
+float	fix_rot(float rot);
 void	clean_array(char **array);
 void	close_fd(t_cub3d *kissa);
 int		is_directory(char *filepath);
@@ -220,6 +231,7 @@ void	check_file(t_cub3d *kissa, char *file, char *ext);
 void	print_map(t_cub3d *kissa);
 void	print_floodfill(t_cub3d *kissa);
 mlx_instance_t	*get_tile(t_view *view, int x, int y, char tile);
+float	calc_distance(float x1, float y1, float x2, float y2);
 
 // img_convert.c
 mlx_image_t	*convert_png(t_cub3d *kissa, char *file);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   game.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:48:49 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/23 08:54:11 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/23 14:11:43 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,11 +77,11 @@ int	move(t_cub3d *kissa, t_obj *obj, int dir_x, int dir_y)
 	// lets look into that at some point
 	// * kissa->mlx->delta_time
 	new_x = obj->x
-	+ (dir_y * MOVE_SPEED * obj->dir->x)
-	+ (dir_x * MOVE_SPEED * -obj->dir->y);
+	+ (dir_y * obj->speed * obj->dir->x)
+	+ (dir_x * obj->speed * -obj->dir->y);
 	new_y = obj->y
-	+ (dir_y * MOVE_SPEED * obj->dir->y)
-	+ (dir_x * MOVE_SPEED * obj->dir->x);
+	+ (dir_y * obj->speed * obj->dir->y)
+	+ (dir_x * obj->speed * obj->dir->x);
 
 	if (bounceback(kissa, obj, new_x, new_y))
 		return (1); // add bounceback
@@ -142,7 +142,6 @@ void	draw_start(t_cub3d *kissa)
 */
 void	play_game(t_cub3d *kissa)
 {
-	(void)kissa;
 	printf("game started\n");
 	draw_start(kissa);
 	setup_minimap(kissa, 0, 0);

@@ -3,14 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 13:04:19 by jajuntti          #+#    #+#             */
-/*   Updated: 2024/10/11 07:46:13 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/23 14:37:07 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+float	fix_rot(float rot)
+{
+	if (rot > 2 * M_PI)
+		rot -= 2 * M_PI;
+	if (rot < 0)
+		rot += 2 * M_PI;
+	return (rot);
+}
+
+float	calc_distance(float x1, float y1, float x2, float y2)
+{
+	float	a;
+	float	b;
+
+	a = x1 - x2;
+	b = y1 - y2;
+	return(sqrt(a * a + b * b));
+}
 
 /*
 	Cleans the given array of strings and sets it to NULL.

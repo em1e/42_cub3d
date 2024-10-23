@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hooks.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:35:39 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/23 09:04:01 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/23 12:53:37 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,12 +108,11 @@ void	update_hook(void *param)
 		return ;
 	
 	timer += kissa->mlx->delta_time;
-	if (timer < (double) 0.05)
+	if (timer < (double) DELAY)
 		return ;
 	timer = 0;
 	draw_scene(kissa);
 	move_cats(kissa);
-	draw_cat(kissa, kissa->cats[1]);
 	if (kissa->player->x == old_loc.x && kissa->player->y == old_loc.y
 		&& kissa->player->rot == old_rot)
 		return ;

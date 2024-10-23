@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 20:38:06 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/23 09:50:26 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/23 15:50:08 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ TASKS:
 
 @ fix drawing east and north walls
 
+@ cat.cub segfaults, something in bounceback and move cats
 
 @ DO THIS TODAY:
 	~> create function that finds and draws the cat on mlx_scene according to the rotation and dir

@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 10:04:17 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/23 09:55:14 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/23 14:18:47 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,8 @@ void	get_cat_texture(t_cub3d *kissa, t_obj *cat, int *x, int *y)
 	grid_x = 0;
 	grid_y = 0;
 	choose_cat_type(kissa, cat->cat_type, &grid_x, &grid_y);
-	*x = grid_x * 48 + cat->cat_j * 48 + *x;
-	*y = grid_y * 48 + cat->cat_i * 48 + *y;
+	*x = grid_x * CAT_TEX_SIZE + cat->cat_j * CAT_TEX_SIZE + *x;
+	*y = grid_y * CAT_TEX_SIZE + cat->cat_i * CAT_TEX_SIZE + *y;
 }
 
 uint32_t	get_cats_pixel(t_cub3d *kissa, t_obj *cat, int x, int y)
@@ -87,21 +87,21 @@ uint32_t	get_cats_pixel(t_cub3d *kissa, t_obj *cat, int x, int y)
 /*
 	draws the cat object's texture pixel by pixel from a larger image
 */
-void	draw_cat(t_cub3d *kissa, t_obj *cat)
+void	draw_cat(t_cub3d *kissa, t_obj *cat, t_ray *ray)
 {
 	uint32_t	pixel;
 	int				x;
 	int				y;
 
 	y = 0;
-	while (y <= 48)
+	while (y <= CAT_TEX_SIZE)
 	{
 		x = 0;
-		while (x <= 48)
+		while (x <= CAT_TEX_SIZE)
 		{
 			pixel = get_cats_pixel(kissa, cat, x, y);
 			if (pixel != 0)
-				mlx_put_pixel(kissa->view->mlx_scene, x + (MLX_WIDTH / 2), y + (MLX_HEIGHT / 2), pixel);
+				mlx_put_pixel(kissa->view->mlx_scene, x + (ray->index * MLX_WIDTH / RAYC), y + MLX_HEIGHT - ray->screen_start->y, pixel);
 			x++;
 		}
 		y++;
@@ -120,15 +120,15 @@ void	move_cats(t_cub3d *kissa)
 		kissa->map->array[(int)kissa->cats[i]->y][(int)kissa->cats[i]->x] = '0';
 		if (move(kissa, kissa->cats[i], 0, 1) == 1)
 		{
-			printf("ROTATE CAT %d\n", i + 1);
+			//printf("ROTATE CAT %d\n", i + 1);
 			rotate(kissa, kissa->cats[i], 1, NORTH);
 		}
 		kissa->map->array[(int)kissa->cats[i]->y][(int)kissa->cats[i]->x] = 'C';
 		i++;
 	}
-	printf("cat 1 : pos (%d, %d), rot = %f, dir->x %f, dir->y %f\n", (int)kissa->cats[0]->x, (int)kissa->cats[0]->y, kissa->cats[0]->rot, kissa->cats[0]->dir->x, kissa->cats[0]->dir->y);
-	printf("cat 2 : pos (%d, %d), rot = %f, dir->x %f, dir->y %f\n", (int)kissa->cats[1]->x, (int)kissa->cats[1]->y, kissa->cats[1]->rot, kissa->cats[1]->dir->x, kissa->cats[1]->dir->y);
-	print_map(kissa);
+	// printf("cat 1 : pos (%d, %d), rot = %f, dir->x %f, dir->y %f\n", (int)kissa->cats[0]->x, (int)kissa->cats[0]->y, kissa->cats[0]->rot, kissa->cats[0]->dir->x, kissa->cats[0]->dir->y);
+	// printf("cat 2 : pos (%d, %d), rot = %f, dir->x %f, dir->y %f\n", (int)kissa->cats[1]->x, (int)kissa->cats[1]->y, kissa->cats[1]->rot, kissa->cats[1]->dir->x, kissa->cats[1]->dir->y);
+	//print_map(kissa);
 	// check player dir and cat dir
 
 }
@@ -168,7 +168,7 @@ void	create_cat_objs(t_cub3d *kissa)
 		{
 			if (kissa->map->array[y][x] == 'C')
 			{
-				kissa->cats[cat] = init_obj(kissa);
+				kissa->cats[cat] = init_obj(kissa, CAT_SPEED);
 				init_cat_pos(kissa, cat, x, y);
 				cat++;
 			}

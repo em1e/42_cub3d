@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:25:48 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/23 09:32:54 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/23 14:19:47 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ void	init_rays(t_cub3d *kissa)
 /*
 	Initializes a new obj struct.
 */
-t_obj	*init_obj(t_cub3d *kissa)
+t_obj	*init_obj(t_cub3d *kissa, float speed)
 {
 	t_obj	*obj;
 
@@ -127,6 +127,8 @@ t_obj	*init_obj(t_cub3d *kissa)
 	obj->cat_i = 0;
 	obj->cat_j = 0;
 	obj->cat_type = 0;
+	obj->dir = NULL;
+	obj->speed = speed;
 	obj->dir = new_vec(kissa);
 	return (obj);
 }
@@ -159,7 +161,7 @@ void	init_kissa(t_cub3d *kissa)
 	kissa->f[0] = -1;
 	kissa->map = new_map(kissa);
 	kissa->view = new_view(kissa);
-	kissa->player = init_obj(kissa);
+	kissa->player = init_obj(kissa, PLAYER_SPEED);
 	init_rays(kissa);
 }
 
