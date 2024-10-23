@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 10:04:17 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/23 14:18:47 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/23 16:02:20 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,9 +90,13 @@ uint32_t	get_cats_pixel(t_cub3d *kissa, t_obj *cat, int x, int y)
 void	draw_cat(t_cub3d *kissa, t_obj *cat, t_ray *ray)
 {
 	uint32_t	pixel;
-	int				x;
-	int				y;
+	int			x;
+	int			y;
+	int			start_x;
+	int			start_y;
 
+	start_x = ray->index * MLX_WIDTH / RAYC;
+	start_y = MLX_HEIGHT - ray->screen_start->y;
 	y = 0;
 	while (y <= CAT_TEX_SIZE)
 	{
@@ -100,8 +104,8 @@ void	draw_cat(t_cub3d *kissa, t_obj *cat, t_ray *ray)
 		while (x <= CAT_TEX_SIZE)
 		{
 			pixel = get_cats_pixel(kissa, cat, x, y);
-			if (pixel != 0)
-				mlx_put_pixel(kissa->view->mlx_scene, x + (ray->index * MLX_WIDTH / RAYC), y + MLX_HEIGHT - ray->screen_start->y, pixel);
+			if (pixel != 0 && start_x + x < MLX_WIDTH)
+				mlx_put_pixel(kissa->view->mlx_scene, start_x + x, start_y + y, pixel);
 			x++;
 		}
 		y++;

@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:49:02 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/23 15:24:30 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/23 16:05:32 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,8 @@ void	check_for_cats(t_cub3d *kissa, t_ray *ray)
 	while (i < kissa->cat_count)
 	{
 		cat = kissa->cats[i];
-		if (cat->x >= x && cat->x < x + 1 && cat->y >= y && cat->y < y + 1)
+		if (!cat->seen_by && cat->x >= x && cat->x < x + 1 && cat->y >= y 
+			&& cat->y < y + 1)
 		{
 			cat->seen_by = ray;
 			cat->distance = calc_distance(cat->x, kissa->player->x, cat->y, kissa->player->y);
