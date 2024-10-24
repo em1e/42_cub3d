@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 13:43:44 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/24 11:09:28 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/24 15:53:37 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,14 @@ int32_t	rgb_to_pixel(int *rgb)
 	return (rgb[0] << 24 | rgb[1] << 16 | rgb[2] << 8 | 255);
 }
 
-uint32_t	get_imgs_pixel(mlx_image_t *img, int x, int y, float scale_factor)
+uint32_t	get_imgs_pixel(mlx_image_t *img, t_ray *ray, int x, int y)
 {
 	int			pixel_index;
 	uint8_t		*pixel;
 	uint32_t	color;
 
-	x = floor(x * scale_factor);
-	y = floor(y * scale_factor);
+	x = x * ray->scale_factor;
+	y = y * ray->scale_factor;
 	if ((uint32_t)x >= img->width)
 		x = x % img->width;
 	pixel_index = (y * img->width + x) * (32 / 8);
@@ -52,6 +52,8 @@ uint32_t	get_imgs_pixel(mlx_image_t *img, int x, int y, float scale_factor)
 	color = (pixel[0] << 24) | (pixel[1] << 16) | (pixel[2] << 8) | 255;
 	return (color);
 }
+
+
 
 void	draw_column(t_cub3d *kissa, t_ray *ray)
 {
@@ -71,10 +73,10 @@ void	draw_column(t_cub3d *kissa, t_ray *ray)
 		{
 			if (y < ray->screen_start->y)
 				pixel = floor;
-			else if (y >= ray->screen_start->y && y < ray->screen_start->y + ray->scaled_height - ray->offset)
-				pixel = get_imgs_pixel(ray->wall_tex, ray->img_start->x + x - ray->screen_start->x, ray->img_start->y + y - ray->screen_start->y, WALL_HEIGHT / ray->scaled_height);
-			else
+			else if (y >= ray->screen_start->y + ray->scaled_height - ray->offset)
 				pixel = ceiling;
+			else
+				pixel = get_imgs_pixel(ray->wall_tex, ray, ray->img_start->x + x - ray->screen_start->x, ray->img_start->y + y - ray->screen_start->y);
 			mlx_put_pixel(kissa->view->mlx_scene, (uint32_t)x, (uint32_t)y, pixel);
 			x++;
 		}

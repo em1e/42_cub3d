@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 20:28:20 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/24 11:14:53 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/24 15:53:05 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 # define MLX_HEIGHT 800
 
 // FPS
-# define FPS 90
+# define FPS 60
 # define DELAY 1 / FPS
 
 // FOV & distance to projection pane
@@ -49,8 +49,8 @@
 
 // speeds for moving and rotating
 # define ROT_SPEED M_PI / 20
-# define PLAYER_SPEED 0.25
-# define CAT_SPEED 0.01
+# define PLAYER_SPEED 0.3
+# define CAT_SPEED 0.05
 
 // minimap radius
 # define MMRAD 5
@@ -128,6 +128,7 @@ typedef struct	s_ray
 	float	line_len;
 	float	initial_step;
 	float	scaled_height;
+	float	scale_factor;
 	int		offset;
 	t_vec	*dir;
 	t_vec	*ray_len;
