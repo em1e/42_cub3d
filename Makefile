@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+         #
+#    By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/25 19:49:37 by vkettune          #+#    #+#              #
-#    Updated: 2024/10/23 15:49:04 by jajuntti         ###   ########.fr        #
+#    Updated: 2024/10/24 08:39:31 by vkettune         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@
 
 NAME = cub3D
 CC = cc
-FLAGS = -Wall -Wextra -Werror $(HEADERS) -g -fsanitize=address 
+FLAGS = -Wall -Wextra -Werror $(HEADERS) -g #-fsanitize=address 
 HEADERS = -I ./incs/ -I ./libs/MLX42/include/MLX42
 
 LIBFT = ./libs/libft/libft.a

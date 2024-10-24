@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 20:28:20 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/24 07:35:35 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/24 08:48:30 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,11 @@
 
 # define START_SCREEN "./textures/start_screen.png"
 # define VICTORY_SCREEN "./textures/victory_screen.png"
+# define WALL_TEXTURE "./textures/21black.png"
+# define FLOOR_TEXTURE "./textures/21white.png"
+# define PLAYER_TEXTURE "./textures/21player.png"
+# define MINI_CAT_TEXTURE "./textures/21cat.png"
+# define SPRITE_CAT_TEXTURE "./textures/cat_sprite_1.png"
 
 typedef struct	s_vec
 {
@@ -252,7 +257,7 @@ void	init_mlx(t_cub3d *kissa);
 
 // clean.c
 void	clean_map(t_map *map);
-void	clean_view(t_map *map, t_view *view);
+void	clean_view(t_cub3d *kissa, t_map *map, t_view *view);
 void	clean_obj(t_obj *obj);
 void	clean_kissa(t_cub3d *kissa);
 

@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:25:48 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/24 07:30:08 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/24 08:55:55 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,20 @@ t_view	*new_view(t_cub3d *kissa)
 	view->cat_inst = NULL;
 	view->wall_inst = NULL;
 	view->mlx_scene = NULL;
+	view->original_cat = NULL;
+	view->mlx_start = NULL;
+	view->mlx_victory = NULL;
+	view->ray = NULL;
+	view->mlx_no = NULL;
+	view->mlx_we = NULL;
+	view->mlx_so = NULL;
+	view->mlx_ea = NULL;
+	view->mlx_wall = NULL;
+	view->mlx_floor = NULL;
+	view->mlx_player = NULL;
+	view->mlx_cat = NULL;
+	view->mlx_bg = NULL;
+	view->mlx_scene = NULL;
 	return (view);
 }
 
@@ -153,15 +167,7 @@ void	init_kissa(t_cub3d *kissa)
 	kissa->so = NULL;
 	kissa->ea = NULL;
 	kissa->we = NULL;
-	kissa->wall_tex = NULL;
-	kissa->floor_tex = NULL;
-	kissa->player_tex = NULL;
 	kissa->ray_array = NULL;
-	kissa->wall_tex = ft_strdup("./textures/21black.png");
-	kissa->floor_tex = ft_strdup("./textures/21white.png");
-	kissa->player_tex = ft_strdup("./textures/21player.png");
-	if (!kissa->wall_tex || !kissa->floor_tex || !kissa->player_tex)
-		quit_error(kissa, NULL, "memory allocation failure");
 	kissa->c[0] = -1;
 	kissa->f[0] = -1;
 	kissa->map = new_map(kissa);
@@ -178,11 +184,11 @@ void	convert_textures(t_cub3d *kissa)
 	kissa->view->mlx_we = convert_png(kissa, kissa->we);
 	kissa->view->mlx_so = convert_png(kissa, kissa->so);
 	kissa->view->mlx_ea = convert_png(kissa, kissa->ea);
-	kissa->view->mlx_wall = convert_png(kissa, kissa->wall_tex);
-	kissa->view->mlx_floor = convert_png(kissa, kissa->floor_tex);
-	kissa->view->mlx_player = convert_png(kissa, kissa->player_tex);
-	kissa->view->mlx_cat = convert_png(kissa, "./textures/21cat.png");
-	kissa->view->original_cat = convert_png(kissa, "./textures/cat_sprite_1.png");
+	kissa->view->mlx_wall = convert_png(kissa, WALL_TEXTURE);
+	kissa->view->mlx_floor = convert_png(kissa, FLOOR_TEXTURE);
+	kissa->view->mlx_player = convert_png(kissa, PLAYER_TEXTURE);
+	kissa->view->mlx_cat = convert_png(kissa, MINI_CAT_TEXTURE);
+	kissa->view->original_cat = convert_png(kissa, SPRITE_CAT_TEXTURE);
 }
 
 /*
