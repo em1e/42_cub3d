@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 12:07:09 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/24 10:18:30 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/24 10:21:58 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,8 +110,6 @@ void	clean_ray(t_cub3d *kissa, t_ray *ray)
 		free(ray->screen_start);
 	if (ray->img_start)
 		free(ray->img_start);
-	// if (ray->wall_tex)
-	// 	mlx_delete_image(kissa->mlx, ray->wall_tex);
 	free(ray);
 }
 

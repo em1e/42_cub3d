@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   game.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:48:49 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/24 10:12:35 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/24 10:25:14 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,12 +56,10 @@ int	bounceback(t_cub3d *kissa, t_obj *obj, float new_x, float new_y)
 		|| is_wall(kissa, new_x, new_y - BUMPER_SIZE)
 		|| kissa->map->array[(int)new_y][(int)new_x] == 'C'
 		|| (kissa->map->array[(int)new_y][(int)new_x] == 'P' && obj->size != 0))
-	{
-		// printf("new x %f, new y %f\n", new_x, new_y);
 		return (1);
-	}
 	return (0);
 }
+
 /*
 Moves the player object in the direction of the player object by the given
 
@@ -74,9 +72,6 @@ int	move(t_cub3d *kissa, t_obj *obj, int dir_x, int dir_y)
 	float	new_x;
 	float	new_y;
 
-	// using the delta time was recommended for performance reasns by others,
-	// lets look into that at some point
-	// * kissa->mlx->delta_time
 	new_x = obj->x
 	+ (dir_y * obj->speed * obj->dir->x)
 	+ (dir_x * obj->speed * -obj->dir->y);
@@ -85,8 +80,7 @@ int	move(t_cub3d *kissa, t_obj *obj, int dir_x, int dir_y)
 	+ (dir_x * obj->speed * obj->dir->x);
 
 	if (bounceback(kissa, obj, new_x, new_y))
-		return (1); // add bounceback
-	// kissa->map->array[(int)obj->y][(int)obj->y] = '0';
+		return (1);
 	obj->x = new_x;
 	obj->y = new_y;
 	return (0);

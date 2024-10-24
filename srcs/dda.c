@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dda.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:49:02 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/24 10:05:25 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/24 10:23:47 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,19 +21,19 @@
 */
 static int	check_dir(float rot, int flag)
 {
-	if (flag == 0) // y -------------------------------
+	if (flag == 0)
 	{
 		if (rot > (float)WEST)
-			return (-1); // y is negative
+			return (-1);
 		else 
-			return (1); // y is positive or 0
+			return (1);
 	}
-	else if (flag == 1) // x ---------------------------
+	else if (flag == 1)
 	{
 		if (rot > (float)NORTH && rot < (float)SOUTH)
-			return (-1); // x is negative
+			return (-1);
 		else 
-			return (1); // x is positive or 0
+			return (1);
 	}
 	return (-10);
 }
@@ -48,10 +48,8 @@ static void	init_dda(t_cub3d *kissa, t_ray *ray)
 	ray->dir->x = cos(ray->rot);
 	ray->dir->y = sin(ray->rot);
 	ray->line_len = 0;
-	ray->step_len->x = fabs(1/ray->dir->x); // far faster way to calculate lens
-	ray->step_len->y = fabs(1/ray->dir->y); // far faster way to calculate lens
-	// ray->step_len->x = sqrt(1 + (ray->dir->y / ray->dir->x) * (ray->dir->y / ray->dir->x));
-	// ray->step_len->y = sqrt(1 + (ray->dir->x / ray->dir->y) * (ray->dir->x / ray->dir->y));
+	ray->step_len->x = fabs(1/ray->dir->x);
+	ray->step_len->y = fabs(1/ray->dir->y);
 	ray->side = -1;
 
 	ray->step_dir->x = check_dir(ray->rot, 1);
@@ -103,7 +101,7 @@ void	calculate_values(t_cub3d *kissa, t_ray *ray)
 	{
 		ray->offset = ray->scaled_height - MLX_HEIGHT;
 		ray->screen_start->y = 0;
-		ray->img_start->y = ray->offset / 2; //(int)floor((ray->scaled_height - MLX_HEIGHT) / 2);
+		ray->img_start->y = ray->offset / 2;
 	}
 	if (ray->side)
 		ray->img_start->x = floor(ray->scaled_height * (ray->x - floor(ray->x)));
@@ -145,62 +143,26 @@ void	check_for_cats(t_cub3d *kissa, t_ray *ray)
 void	cast_ray(t_cub3d *kissa, t_ray *ray)
 {
 	init_dda(kissa, ray);
-	
-	// these do the same thing ---------------------------------------
-	// set_ray_len(&ray->ray_len->x, ray->step_dir->x, ray, 1);
-	// set_ray_len(&ray->ray_len->y, ray->step_dir->y, ray, 0);
-	
-	// if (ray->step_dir->x < 0)
-	// 	ray->ray_len->x = 0;
-	// else
-	// 	ray->ray_len->x = ray->step_len->x;
-	// if (ray->step_dir->y < 0)
-	// 	ray->ray_len->y = 0;
-	// else
-	// 	ray->ray_len->y = ray->step_len->y;
-	// ---------------------------------------------------------------
-	
 	while (is_wall(kissa, ray->x, ray->y) == 0)
 	{
 		if (ray->ray_len->x < ray->ray_len->y)
 		{
 			ray->x += ray->step_dir->x;
 			ray->line_len = ray->ray_len->x;
-			// if (ray->rot == kissa->player->rot)
-			// 	printf("BB ray->ray_len->x = %f\n", ray->ray_len->x);
 			ray->ray_len->x += ray->step_len->x;
 			ray->side = 0;
-			// if (ray->rot == kissa->player->rot)
-			// 	printf("X: Line len %f, ray_x %f, ray_y %f, ray_len x %f, ray_len y %f\n", ray->line_len, ray->x, ray->y, ray->ray_len->x, ray->ray_len->y);
 		}
 		else
 		{
 			ray->y += ray->step_dir->y;
 			ray->line_len = ray->ray_len->y;
-			// if (ray->rot == kissa->player->rot)
-			// 	printf("CC ray->ray_len->y = %f\n", ray->ray_len->y);
 			ray->ray_len->y += ray->step_len->y;
 			ray->side = 1;
-			// if (ray->rot == kissa->player->rot)
-			// 	printf("Y: Line len %f, ray_x %f, ray_y %f, ray_len x %f, ray_len y %f\n", ray->line_len, ray->x, ray->y, ray->ray_len->x, ray->ray_len->y);
 		}
 		check_for_cats(kissa, ray);
-		// if (ray->rot == kissa->player->rot)
-		// 	printf("LINE_LEN = %f, ray->x = %f, ray->y = %f\n--\n", ray->line_len, ray->x, ray->y);
 	}
-	
-	// this should not be needed -------------------------------------
-	// if (ray->rot == kissa->player->rot)
-	// 	printf("OLD POS (x %f, y %f)\n", ray->x, ray->y);
 	ray->x = kissa->player->x + ray->dir->x * ray->line_len;
 	ray->y = kissa->player->y + ray->dir->y * ray->line_len;
-	// if (ray->rot == kissa->player->rot)
-	// {
-	// 	printf("NEW POS (x %f, y %f)\n", ray->x, ray->y);
-	// 	printf("PLAYER POS (x %f, y %f)\n", kissa->player->x, kissa->player->y);
-	// }
-	// ---------------------------------------------------------------
-	
 	set_wall_texture(kissa, ray);
 	calculate_values(kissa, ray);
 }
