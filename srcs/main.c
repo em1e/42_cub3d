@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 20:38:06 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/23 15:50:08 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/24 07:51:28 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,14 @@
 
 TASKS:
 
-@ fix collision checks (player -> cat && cat -> player) && check bounceback
+@ check bounceback
 
 @ check map parsing
 
 @ fix drawing east and north walls
 
-@ cat.cub segfaults, something in bounceback and move cats
-
 @ DO THIS TODAY:
-	~> create function that finds and draws the cat on mlx_scene according to the rotation and dir
-		of cat and player.
-	~> add different cat textures onto the window (CAT into the struct and increment that)
-	~> fix minimap ray
+	~> add different cat textures onto the window
 
 */
 
