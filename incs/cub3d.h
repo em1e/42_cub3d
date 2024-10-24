@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 20:28:20 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/24 08:48:30 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/24 09:05:55 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,13 +172,10 @@ typedef struct	s_cub3d
 	char		*so;
 	char		*we;
 	char		*ea;
-	char		*wall_tex;
-	char		*floor_tex;
-	char		*player_tex;
 	int			f[3];
 	int			c[3];
 	int			tile_count;
-	int			cat_count;
+	int			total_cats;
 } t_cub3d;
 
 // main.c

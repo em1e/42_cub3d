@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 13:43:44 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/24 06:29:21 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/24 09:05:59 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void	cast_rays(t_cub3d *kissa)
 	t_ray	*ray;
 
 	i = 0;
-	while (i < kissa->cat_count)
+	while (i < kissa->total_cats)
 		kissa->cats[i++]->seen_by = NULL;
 	start_rot = kissa->player->rot - FOV / 2;
 	if (start_rot < 0)
@@ -107,7 +107,7 @@ void	draw_cats(t_cub3d *kissa)
 	t_obj	*cat;
 
 	i = 0;
-	while (i < kissa->cat_count)
+	while (i < kissa->total_cats)
 	{
 		cat = kissa->cats[i];
 		if (cat->seen_by)

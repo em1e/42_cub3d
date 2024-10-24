@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dda.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:49:02 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/23 16:42:37 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/24 09:05:59 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ void	check_for_cats(t_cub3d *kissa, t_ray *ray)
 	i = 0;
 	x = floor(ray->x);
 	y = floor(ray->y);
-	while (i < kissa->cat_count)
+	while (i < kissa->total_cats)
 	{
 		cat = kissa->cats[i];
 		if (!cat->seen_by && cat->x >= x && cat->x < x + 1 && cat->y >= y 

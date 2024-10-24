@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 10:04:17 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/24 07:45:44 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/24 09:05:59 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	animate_cat(t_cub3d *kissa)
 	int	i;
 
 	i = 0;
-	while (i < kissa->cat_count)
+	while (i < kissa->total_cats)
 	{
 		kissa->cats[i]->cat_j++;
 		if (kissa->cats[i]->cat_j > 2)
@@ -149,7 +149,7 @@ void	catch_cats(t_cub3d *kissa)
 	int	i;
 
 	i = 0;
-	while (i < kissa->cat_count)
+	while (i < kissa->total_cats)
 	{
 		if (kissa->cats[i]->caught == 0 && cat_is_near(kissa, kissa->cats[i]))
 		{
@@ -167,7 +167,7 @@ void	move_cats(t_cub3d *kissa)
 	int	i;
 
 	i = 0;
-	while (i < kissa->cat_count)
+	while (i < kissa->total_cats)
 	{
 		if (kissa->cats[i]->caught <= 0)
 		{
@@ -205,7 +205,7 @@ void	create_cat_objs(t_cub3d *kissa)
 
 	y = 0;
 	cat = 0;
-	kissa->cats = malloc(sizeof(t_obj*) * kissa->cat_count);
+	kissa->cats = malloc(sizeof(t_obj*) * kissa->total_cats);
 	if (!kissa->cats)
 		quit_error(kissa, NULL, "memory allocation failure");
 	while (y < kissa->map->height)
@@ -224,7 +224,7 @@ void	create_cat_objs(t_cub3d *kissa)
 		}
 		y++;
 	}
-	if (cat != kissa->cat_count)
+	if (cat != kissa->total_cats)
 		quit_error(kissa, NULL, "cat count issue");
 }
 
@@ -254,7 +254,7 @@ void	place_cats_down(t_cub3d *kissa)
 			{
 				i = 0;
 				kissa->map->array[y][x] = 'C';
-				kissa->cat_count++;
+				kissa->total_cats++;
 			}
 			x++;
 		}
@@ -290,4 +290,3 @@ void	init_cat_ani(t_cub3d *kissa)
 	calcuate_tile_count(kissa);
 	place_cats_down(kissa);
 }
-

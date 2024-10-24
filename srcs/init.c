@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:25:48 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/24 08:55:55 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/24 09:05:59 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,7 +158,7 @@ void	init_kissa(t_cub3d *kissa)
 	kissa->fd = -1;
 	kissa->paused = true;
 	kissa->tile_count = 0;
-	kissa->cat_count = 0;
+	kissa->total_cats = 0;
 	kissa->cats_caught = 0;
 	kissa->wall_height = WALL_HEIGHT;
 	kissa->map = NULL;

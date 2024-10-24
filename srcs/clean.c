@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 12:07:09 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/24 08:55:08 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/24 09:05:59 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,7 +149,7 @@ void	clean_cats(t_cub3d *kissa, t_obj **cats)
 	int	i;
 
 	i = 0;
-	while (i < kissa->cat_count)
+	while (i < kissa->total_cats)
 	{
 		clean_obj(cats[i]);
 		i++;
