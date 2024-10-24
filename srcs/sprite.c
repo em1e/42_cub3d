@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 10:04:17 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/24 09:05:59 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/24 10:11:24 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,12 @@ void	draw_cat(t_cub3d *kissa, t_obj *cat, t_ray *ray)
 	x = 0;
 	// this happens when cat and player try moving at the same time to the same square ------------
 	if (round(CAT_SIZE / ray->scaled_height) == 0)
-		quit_error(kissa, NULL, "CAT ATTACKED THE PLAYER!!!"); // make this a feature? C:
+	{
+		kissa->paused = true;
+		kissa->cats_caught++;
+		draw_game_state(kissa, kissa->view->mlx_dead);
+		return ;
+	}
 	// --------------------------------------------------------------------------------------------
 	while (y <= CAT_TEX_SIZE / round(CAT_SIZE / ray->scaled_height))
 	{
