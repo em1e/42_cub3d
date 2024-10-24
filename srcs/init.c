@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:25:48 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/24 10:12:04 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/24 10:19:02 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ t_view	*new_view(t_cub3d *kissa)
 	view->original_cat = NULL;
 	view->mlx_start = NULL;
 	view->mlx_victory = NULL;
+	view->mlx_dead = NULL;
 	view->ray = NULL;
 	view->mlx_no = NULL;
 	view->mlx_we = NULL;
@@ -181,6 +182,7 @@ void	convert_textures(t_cub3d *kissa)
 {
 	kissa->view->mlx_start = convert_png(kissa, START_SCREEN);
 	kissa->view->mlx_victory = convert_png(kissa, VICTORY_SCREEN);
+	kissa->view->mlx_dead = convert_png(kissa, DEAD_SCREEN);
 	kissa->view->mlx_no = convert_png(kissa, kissa->no);
 	kissa->view->mlx_we = convert_png(kissa, kissa->we);
 	kissa->view->mlx_so = convert_png(kissa, kissa->so);

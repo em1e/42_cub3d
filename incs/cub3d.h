@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 20:28:20 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/24 10:11:40 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/24 10:18:14 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@
 
 # define START_SCREEN "./textures/start_screen.png"
 # define VICTORY_SCREEN "./textures/victory_screen.png"
+# define DEAD_SCREEN "./textures/dead_screen.png"
 # define WALL_TEXTURE "./textures/21black.png"
 # define FLOOR_TEXTURE "./textures/21white.png"
 # define PLAYER_TEXTURE "./textures/21player.png"
@@ -87,6 +88,7 @@ typedef struct	s_view
 	mlx_image_t	*original_cat;
 	mlx_image_t	*mlx_start;
 	mlx_image_t	*mlx_victory;
+	mlx_image_t	*mlx_dead;
 	mlx_image_t	*ray;
 	mlx_image_t	*mlx_no;
 	mlx_image_t	*mlx_we;
