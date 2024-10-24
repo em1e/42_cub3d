@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sprite.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 10:04:17 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/23 16:56:57 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/24 06:43:06 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,14 +59,22 @@ void	get_cat_texture(t_cub3d *kissa, t_obj *cat, int *x, int *y)
 	int	grid_x;
 	int	grid_y;
 
-	grid_x = 0;
-	grid_y = 0;
+	grid_x = cat->cat_j;
+	grid_y = cat->cat_i;
 	choose_cat_type(kissa, cat->cat_type, &grid_x, &grid_y);
 	*x = grid_x * CAT_TEX_SIZE + cat->cat_j * CAT_TEX_SIZE + *x;
 	*y = grid_y * CAT_TEX_SIZE + cat->cat_i * CAT_TEX_SIZE + *y;
 }
 
-uint32_t	get_cats_pixel(t_cub3d *kissa, t_obj *cat, int x, int y)
+void	scale_cat_values(int *x, int *y, int scale_factor)
+{
+	*x = floor(*x * scale_factor);
+	*y = floor(*y * scale_factor);
+	if (*x >= CAT_TEX_SIZE)
+		*x = *x % CAT_TEX_SIZE;
+}
+
+uint32_t	get_cats_pixel(t_cub3d *kissa, t_obj *cat, int x, int y, t_ray *ray) // this is too many args
 {
 	(void)kissa;
 	int			pixel_index;
@@ -75,6 +83,7 @@ uint32_t	get_cats_pixel(t_cub3d *kissa, t_obj *cat, int x, int y)
 	mlx_image_t	*img;
 
 	img = kissa->view->original_cat;
+	scale_cat_values(&x, &y, round(CAT_SIZE / ray->scaled_height));
 	get_cat_texture(kissa, cat, &x, &y);
 	pixel_index = (y * img->width + x) * (32 / 8);
 	pixel = img->pixels + pixel_index;
@@ -98,12 +107,17 @@ void	draw_cat(t_cub3d *kissa, t_obj *cat, t_ray *ray)
 	start_x = ray->index * MLX_WIDTH / RAYC;
 	start_y = MLX_HEIGHT - ray->screen_start->y;
 	y = 0;
-	while (y <= CAT_TEX_SIZE)
+	x = 0;
+	// this happens when cat and player try moving at the same time to the same square ------------
+	if (round(CAT_SIZE / ray->scaled_height) == 0)
+		quit_error(kissa, NULL, "CAT ATTACKED THE PLAYER!!!"); // make this a feature? C:
+	// --------------------------------------------------------------------------------------------
+	while (y <= CAT_TEX_SIZE / round(CAT_SIZE / ray->scaled_height))
 	{
 		x = 0;
-		while (x <= CAT_TEX_SIZE)
+		while (x <= CAT_TEX_SIZE / round(CAT_SIZE / ray->scaled_height))
 		{
-			pixel = get_cats_pixel(kissa, cat, x, y);
+			pixel = get_cats_pixel(kissa, cat, x, y, ray);
 			if (pixel != 0 && start_x + x < MLX_WIDTH)
 				mlx_put_pixel(kissa->view->mlx_scene, start_x + x, start_y + y, pixel);
 			x++;
@@ -114,6 +128,39 @@ void	draw_cat(t_cub3d *kissa, t_obj *cat, t_ray *ray)
 
 // ------------------- CAT MOVEMENT -------------------
 
+int	cat_is_near(t_cub3d *kissa, t_obj *cat)
+{
+	if (kissa->map->array[(int)cat->y][(int)cat->x] == 'P'
+	|| kissa->map->array[(int)cat->y + 1][(int)cat->x] == 'P'
+	|| kissa->map->array[(int)cat->y - 1][(int)cat->x] == 'P'
+	|| kissa->map->array[(int)cat->y][(int)cat->x + 1] == 'P'
+	|| kissa->map->array[(int)cat->y][(int)cat->x - 1] == 'P'
+	|| kissa->map->array[(int)cat->y - 1][(int)cat->x - 1] == 'P'
+	|| kissa->map->array[(int)cat->y + 1][(int)cat->x - 1] == 'P'
+	|| kissa->map->array[(int)cat->y - 1][(int)cat->x + 1] == 'P'
+	|| kissa->map->array[(int)cat->y + 1][(int)cat->x + 1] == 'P'
+	)
+		return (1);
+	return (0);
+}
+
+void	catch_cats(t_cub3d *kissa)
+{
+	int	i;
+
+	i = 0;
+	while (i < kissa->cat_count)
+	{
+		if (cat_is_near(kissa, kissa->cats[i]))
+		{
+			kissa->cats[i]->caught++;
+			kissa->cats_caught++;
+			kissa->map->array[(int)kissa->cats[i]->y][(int)kissa->cats[i]->x] = '0';
+		}
+		i++;
+	}
+}
+
 void	move_cats(t_cub3d *kissa)
 {
 	int	i;
@@ -121,20 +168,15 @@ void	move_cats(t_cub3d *kissa)
 	i = 0;
 	while (i < kissa->cat_count)
 	{
-		kissa->map->array[(int)kissa->cats[i]->y][(int)kissa->cats[i]->x] = '0';
-		if (move(kissa, kissa->cats[i], 0, 1) == 1)
+		if (kissa->cats[i]->caught <= 0)
 		{
-			//printf("ROTATE CAT %d\n", i + 1);
-			rotate(kissa, kissa->cats[i], 1, NORTH);
+			kissa->map->array[(int)kissa->cats[i]->y][(int)kissa->cats[i]->x] = '0';
+			if (move(kissa, kissa->cats[i], 0, 1) == 1)
+				rotate(kissa, kissa->cats[i], 1, NORTH);
+			kissa->map->array[(int)kissa->cats[i]->y][(int)kissa->cats[i]->x] = 'C';
 		}
-		kissa->map->array[(int)kissa->cats[i]->y][(int)kissa->cats[i]->x] = 'C';
 		i++;
 	}
-	// printf("cat 1 : pos (%d, %d), rot = %f, dir->x %f, dir->y %f\n", (int)kissa->cats[0]->x, (int)kissa->cats[0]->y, kissa->cats[0]->rot, kissa->cats[0]->dir->x, kissa->cats[0]->dir->y);
-	// printf("cat 2 : pos (%d, %d), rot = %f, dir->x %f, dir->y %f\n", (int)kissa->cats[1]->x, (int)kissa->cats[1]->y, kissa->cats[1]->rot, kissa->cats[1]->dir->x, kissa->cats[1]->dir->y);
-	//print_map(kissa);
-	// check player dir and cat dir
-
 }
 
 // ------------------- INIT CAT -------------------
@@ -148,7 +190,7 @@ void	init_cat_pos(t_cub3d *kissa, int cat, int x, int y)
 	kissa->cats[cat]->dir->y = sin(kissa->cats[cat]->rot);
 	// kissa->cats[cat]->cat_type++;
 	// if (kissa->cats[cat]->cat_type > 7)
-	// kissa->cats[cat]->cat_type = 0;
+	// 	kissa->cats[cat]->cat_type = 0;
 }
 
 /*
@@ -217,7 +259,6 @@ void	place_cats_down(t_cub3d *kissa)
 		}
 		y++;
 	}
-	print_map(kissa);
 	create_cat_objs(kissa);
 }
 

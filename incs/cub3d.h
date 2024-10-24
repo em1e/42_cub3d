@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 20:28:20 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/23 16:41:14 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/24 06:25:32 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +135,7 @@ typedef struct s_obj
 	float	y;
 	t_vec	*dir;
 	float	rot;
+	int		caught;
 	int		cat_type;
 	int		cat_i;
 	int		cat_j;
@@ -155,6 +156,7 @@ typedef struct	s_cub3d
 	t_obj		**cats;
 	t_view		*view;
 	bool		start;
+	int			cats_caught;
 	int			wall_height;
 	int			fd;
 	char		*no;
@@ -209,8 +211,9 @@ void	play_game(t_cub3d *kissa);
 // sprite.c
 void	animate_cat(t_cub3d *kissa);
 void	move_cats(t_cub3d *kissa);
+void	catch_cats(t_cub3d *kissa);
 void	draw_cat(t_cub3d *kissa, t_obj *cat, t_ray *ray);
-uint32_t	get_cats_pixel(t_cub3d *kissa, t_obj *cat, int x, int y);
+uint32_t	get_cats_pixel(t_cub3d *kissa, t_obj *cat, int x, int y, t_ray *ray);
 void	init_cat_ani(t_cub3d *kissa);
 
 // minimap.c

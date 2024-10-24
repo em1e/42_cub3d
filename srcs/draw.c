@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 13:43:44 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/23 15:47:30 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/24 06:29:21 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,8 @@ void	draw_cats(t_cub3d *kissa)
 				cat->cat_i = 2;
 			else
 				cat->cat_i = 3;
-			draw_cat(kissa, cat, cat->seen_by);
+			if (!cat->caught)
+				draw_cat(kissa, cat, cat->seen_by);
 		}
 		i++;
 	}

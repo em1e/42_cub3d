@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hooks.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:35:39 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/23 12:53:37 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/24 06:48:47 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,14 @@ void	move_keyhook(mlx_key_data_t keydata, void *param)
 	}
 	if (!kissa->start)
 		return ;
+	if (keydata.action == MLX_PRESS && keydata.key == MLX_KEY_SPACE)
+	{
+		// make sure to only catch cats that are in view
+			// -> remmeber to reset disctance each time rays are casted
+			// -> if cat->distance is 0 then don't catch the cat
+		catch_cats(kissa);
+		return ;
+	}
 	if (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT)
 	{
 		if (keydata.key == MLX_KEY_W)
@@ -85,7 +93,9 @@ void	move_keyhook(mlx_key_data_t keydata, void *param)
 			rotate_flag -= 1;
 		if (keydata.key == MLX_KEY_RIGHT)
 			rotate_flag += 1;
+		kissa->map->array[(int)kissa->player->y][(int)kissa->player->x] = '0';
 		move(kissa, kissa->player, dir_x, dir_y);
+		kissa->map->array[(int)kissa->player->y][(int)kissa->player->x] = 'P';
 		rotate(kissa, kissa->player, rotate_flag, ROT_SPEED);
 	}
 }
@@ -113,6 +123,7 @@ void	update_hook(void *param)
 	timer = 0;
 	draw_scene(kissa);
 	move_cats(kissa);
+	print_map(kissa);
 	if (kissa->player->x == old_loc.x && kissa->player->y == old_loc.y
 		&& kissa->player->rot == old_rot)
 		return ;

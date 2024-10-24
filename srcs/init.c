@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:25:48 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/23 14:19:47 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/24 06:27:28 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,8 @@ t_obj	*init_obj(t_cub3d *kissa, float speed)
 	obj->cat_i = 0;
 	obj->cat_j = 0;
 	obj->cat_type = 0;
+	obj->caught = 0;
+	obj->size = 0;
 	obj->dir = NULL;
 	obj->speed = speed;
 	obj->dir = new_vec(kissa);
@@ -141,6 +143,7 @@ void	init_kissa(t_cub3d *kissa)
 	kissa->fd = -1;
 	kissa->tile_count = 0;
 	kissa->cat_count = 0;
+	kissa->cats_caught = 0;
 	kissa->wall_height = WALL_HEIGHT;
 	kissa->map = NULL;
 	kissa->view = NULL;

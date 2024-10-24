@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   game.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:48:49 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/23 14:11:43 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/24 05:21:59 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,8 @@ int	bounceback(t_cub3d *kissa, t_obj *obj, float new_x, float new_y)
 		|| is_wall(kissa, new_x - BUMPER_SIZE, new_y)
 		|| is_wall(kissa, new_x, new_y + BUMPER_SIZE) 
 		|| is_wall(kissa, new_x, new_y - BUMPER_SIZE)
-		|| kissa->map->array[(int)new_y][(int)new_x] == 'C')
+		|| kissa->map->array[(int)new_y][(int)new_x] == 'C'
+		|| (kissa->map->array[(int)new_y][(int)new_x] == 'P' && obj->size != 0))
 	{
 		// printf("new x %f, new y %f\n", new_x, new_y);
 		return (1);
@@ -85,6 +86,7 @@ int	move(t_cub3d *kissa, t_obj *obj, int dir_x, int dir_y)
 
 	if (bounceback(kissa, obj, new_x, new_y))
 		return (1); // add bounceback
+	// kissa->map->array[(int)obj->y][(int)obj->y] = '0';
 	obj->x = new_x;
 	obj->y = new_y;
 	return (0);
