@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 10:04:17 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/24 06:43:06 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/24 07:45:44 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,8 +151,9 @@ void	catch_cats(t_cub3d *kissa)
 	i = 0;
 	while (i < kissa->cat_count)
 	{
-		if (cat_is_near(kissa, kissa->cats[i]))
+		if (kissa->cats[i]->caught == 0 && cat_is_near(kissa, kissa->cats[i]))
 		{
+			printf("caught cat %d\n", i);
 			kissa->cats[i]->caught++;
 			kissa->cats_caught++;
 			kissa->map->array[(int)kissa->cats[i]->y][(int)kissa->cats[i]->x] = '0';

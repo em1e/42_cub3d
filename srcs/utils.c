@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 13:04:19 by jajuntti          #+#    #+#             */
-/*   Updated: 2024/10/23 14:37:07 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/24 07:08:37 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,6 +163,11 @@ mlx_instance_t	*get_tile(t_view *view, int x, int y, char tile)
 	{
 		image = view->mlx_floor;
 		inst = view->floor_inst[y][x];
+	}
+	else if (tile == 'C')
+	{
+		image = view->mlx_cat;
+		inst = view->cat_inst[y][x];
 	}
 	if (image == 0)
 		return (0);

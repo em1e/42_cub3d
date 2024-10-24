@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 20:28:20 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/24 06:25:32 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/24 07:35:35 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@
 # define Z_START 4
 
 # define START_SCREEN "./textures/start_screen.png"
+# define VICTORY_SCREEN "./textures/victory_screen.png"
 
 typedef struct	s_vec
 {
@@ -80,6 +81,7 @@ typedef struct	s_view
 {
 	mlx_image_t	*original_cat;
 	mlx_image_t	*mlx_start;
+	mlx_image_t	*mlx_victory;
 	mlx_image_t	*ray;
 	mlx_image_t	*mlx_no;
 	mlx_image_t	*mlx_we;
@@ -88,10 +90,12 @@ typedef struct	s_view
 	mlx_image_t	*mlx_wall;
 	mlx_image_t	*mlx_floor;
 	mlx_image_t	*mlx_player;
+	mlx_image_t	*mlx_cat;
 	mlx_image_t	*mlx_bg;
 	mlx_image_t	*mlx_scene;
 	int			**wall_inst;
 	int			**floor_inst;
+	int			**cat_inst;
 	t_vec		*scene;
 } t_view;
 
@@ -155,7 +159,7 @@ typedef struct	s_cub3d
 	t_obj		*player;
 	t_obj		**cats;
 	t_view		*view;
-	bool		start;
+	bool		paused;
 	int			cats_caught;
 	int			wall_height;
 	int			fd;
@@ -205,6 +209,7 @@ void	anim_update_hook(void *param);
 void	set_rot(t_obj *obj, char rot_char);
 int		is_wall(t_cub3d *kissa, float x, float y);
 int		move(t_cub3d *kissa, t_obj *obj, int dir_x, int dir_y);
+void	draw_game_state(t_cub3d *kissa, mlx_image_t *img);
 void	rotate(t_cub3d *kissa, t_obj *obj, int rot, float amount);
 void	play_game(t_cub3d *kissa);
 

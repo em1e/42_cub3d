@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:48:49 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/24 05:21:59 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/24 07:35:20 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,23 +120,25 @@ void	rotate(t_cub3d *kissa, t_obj *obj, int rot, float amount)
 	obj->dir->y = sin(obj->rot);
 }
 
-void	draw_start(t_cub3d *kissa)
+void	draw_game_state(t_cub3d *kissa, mlx_image_t *img)
 {
 	int	start_x;
 	int	start_y;
 
 	start_x = 0;
 	start_y = 0;
-	if (kissa->view->mlx_start->width >= MLX_WIDTH || kissa->view->mlx_start->height >= MLX_HEIGHT)
-		mlx_resize_image(kissa->view->mlx_start, MLX_WIDTH, MLX_HEIGHT);
+	if (img->width >= MLX_WIDTH || img->height >= MLX_HEIGHT)
+	{
+		mlx_resize_image(img, MLX_WIDTH, MLX_HEIGHT);
+	}
 	else
 	{
-		start_x = (MLX_WIDTH - kissa->view->mlx_start->width) / 2;
-		start_y = (MLX_HEIGHT - kissa->view->mlx_start->height) / 2;
+		start_x = (MLX_WIDTH - img->width) / 2;
+		start_y = (MLX_HEIGHT - img->height) / 2;
 	}
-	if (mlx_image_to_window(kissa->mlx, kissa->view->mlx_start, start_x, start_y) < 0)
+	if (mlx_image_to_window(kissa->mlx, img, start_x, start_y) < 0)
 		quit_perror(kissa, NULL, "MLX42 failed");
-	mlx_set_instance_depth(kissa->view->mlx_start->instances, Z_START);
+	mlx_set_instance_depth(img->instances, Z_START);
 }
 
 /*
@@ -145,7 +147,7 @@ void	draw_start(t_cub3d *kissa)
 void	play_game(t_cub3d *kissa)
 {
 	printf("game started\n");
-	draw_start(kissa);
+	draw_game_state(kissa, kissa->view->mlx_start);
 	setup_minimap(kissa, 0, 0);
 	draw_background(kissa);
 	draw_scene(kissa);

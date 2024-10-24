@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:35:39 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/24 06:48:47 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/24 07:46:59 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,12 +64,12 @@ void	move_keyhook(mlx_key_data_t keydata, void *param)
 	rotate_flag = 0;
 	dir_x = 0;
 	dir_y = 0;
-	if (!kissa->start && keydata.action == MLX_PRESS && keydata.key == MLX_KEY_ENTER)
+	if (kissa->paused && kissa->cats_caught == 0 && keydata.action == MLX_PRESS && keydata.key == MLX_KEY_ENTER)
 	{
-		kissa->start = true;
+		kissa->paused = false;
 		kissa->view->mlx_start->enabled = false;
 	}
-	if (!kissa->start)
+	if (kissa->paused)
 		return ;
 	if (keydata.action == MLX_PRESS && keydata.key == MLX_KEY_SPACE)
 	{
@@ -108,29 +108,22 @@ void	update_hook(void *param)
 {
 	t_cub3d			*kissa;
 	static double		timer;
-	// remove these if you can after taking away printfs ---------------
-	static t_vec	old_loc;
-	static double	old_rot;
-	// ------------------------------------------------------------------
 
 	kissa = (t_cub3d *) param;
-	if (!kissa->start)
+	if (kissa->paused)
 		return ;
-	
 	timer += kissa->mlx->delta_time;
 	if (timer < (double) DELAY)
 		return ;
 	timer = 0;
 	draw_scene(kissa);
 	move_cats(kissa);
-	print_map(kissa);
-	if (kissa->player->x == old_loc.x && kissa->player->y == old_loc.y
-		&& kissa->player->rot == old_rot)
-		return ;
-	old_loc.x = kissa->player->x;
-	old_loc.y = kissa->player->y;
-	old_rot = kissa->player->rot;
 	refresh_minimap(kissa);
+	if (kissa->cats_caught == kissa->cat_count)
+	{
+		kissa->paused = true;
+		draw_game_state(kissa, kissa->view->mlx_victory);
+	}
 }
 
 void	mouse_hook(double xpos, double ypos, void *param)
@@ -140,6 +133,8 @@ void	mouse_hook(double xpos, double ypos, void *param)
 	(void)ypos;
 
 	kissa = param;
+	if (kissa->paused)
+		return ;
 	if (xpos == old_x)
 		return ;
 	old_x = xpos;
@@ -166,7 +161,7 @@ void	anim_update_hook(void *param)
 	static int			direction;
 
 	kissa = param;
-	if (!kissa->start)
+	if (kissa->paused)
 		return ;
 	timer += kissa->mlx->delta_time;
 	if (timer < (double) DELAY)

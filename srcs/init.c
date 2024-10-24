@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:25:48 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/24 06:27:28 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/24 07:30:08 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ t_view	*new_view(t_cub3d *kissa)
 	if (!view)
 		quit_error(kissa, NULL, "memory allocation failure");
 	view->floor_inst = NULL;
+	view->cat_inst = NULL;
 	view->wall_inst = NULL;
 	view->mlx_scene = NULL;
 	return (view);
@@ -141,6 +142,7 @@ t_obj	*init_obj(t_cub3d *kissa, float speed)
 void	init_kissa(t_cub3d *kissa)
 {
 	kissa->fd = -1;
+	kissa->paused = true;
 	kissa->tile_count = 0;
 	kissa->cat_count = 0;
 	kissa->cats_caught = 0;
@@ -171,6 +173,7 @@ void	init_kissa(t_cub3d *kissa)
 void	convert_textures(t_cub3d *kissa)
 {
 	kissa->view->mlx_start = convert_png(kissa, START_SCREEN);
+	kissa->view->mlx_victory = convert_png(kissa, VICTORY_SCREEN);
 	kissa->view->mlx_no = convert_png(kissa, kissa->no);
 	kissa->view->mlx_we = convert_png(kissa, kissa->we);
 	kissa->view->mlx_so = convert_png(kissa, kissa->so);
@@ -178,6 +181,7 @@ void	convert_textures(t_cub3d *kissa)
 	kissa->view->mlx_wall = convert_png(kissa, kissa->wall_tex);
 	kissa->view->mlx_floor = convert_png(kissa, kissa->floor_tex);
 	kissa->view->mlx_player = convert_png(kissa, kissa->player_tex);
+	kissa->view->mlx_cat = convert_png(kissa, "./textures/21cat.png");
 	kissa->view->original_cat = convert_png(kissa, "./textures/cat_sprite_1.png");
 }
 
