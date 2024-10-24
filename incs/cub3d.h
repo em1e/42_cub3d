@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 20:28:20 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/24 10:30:34 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/24 11:14:53 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@
 
 // speeds for moving and rotating
 # define ROT_SPEED M_PI / 20
-# define PLAYER_SPEED 0.1
+# define PLAYER_SPEED 0.25
 # define CAT_SPEED 0.01
 
 // minimap radius
@@ -233,7 +233,6 @@ void	setup_minimap(t_cub3d *kissa, int i, int j);
 void	cast_ray(t_cub3d *kissa, t_ray *ray);
 
 // draw.c
-void	draw_background(t_cub3d *kissa);
 void	draw_scene(t_cub3d *kissa);
 
 // utils.c

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   game.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:48:49 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/24 10:25:14 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/24 11:19:19 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,17 +99,10 @@ void	rotate(t_cub3d *kissa, t_obj *obj, int rot, float amount)
 	if (!rot)
 		return ;
 	if (rot > 0)
-	{
 		obj->rot += amount;
-		if (obj->rot > 2 * M_PI)
-			obj->rot -= 2 * M_PI;
-	}
 	else
-	{
 		obj->rot -= amount;
-		if (obj->rot < 0)
-			obj->rot += 2 * M_PI;
-	}
+	obj->rot = fix_rot(obj->rot);
 	obj->dir->x = cos(obj->rot);
 	obj->dir->y = sin(obj->rot);
 }
