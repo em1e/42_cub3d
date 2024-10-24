@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clean.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 12:07:09 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/24 09:05:59 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/24 10:11:45 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,6 @@ void	clean_view(t_cub3d *kissa, t_map *map, t_view *view)
 		mlx_delete_image(kissa->mlx, view->mlx_player);
 	if (view->mlx_cat)
 		mlx_delete_image(kissa->mlx, view->mlx_cat);
-	if (view->mlx_bg)
-		mlx_delete_image(kissa->mlx, view->mlx_bg);
 	if (view->mlx_scene)
 		mlx_delete_image(kissa->mlx, view->mlx_scene);
 	free(view);

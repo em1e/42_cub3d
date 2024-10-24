@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dda.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:49:02 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/24 09:05:59 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/24 10:05:25 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,6 @@ void	calculate_values(t_cub3d *kissa, t_ray *ray)
 
 	fishey_adjust = cos(fabs(kissa->player->rot - ray->rot));
 	ray->scaled_height = floor(kissa->wall_height / (ray->line_len * fishey_adjust));
-	ray->screen_start->x = ray->index * MLX_WIDTH / RAYC;
 	if (ray->scaled_height < MLX_HEIGHT)
 	{
 		ray->offset = 0;

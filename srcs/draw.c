@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 13:43:44 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/24 09:05:59 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/24 10:10:48 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,30 +41,6 @@ int32_t	rgb_to_pixel(int *rgb)
 	return (rgb[0] << 24 | rgb[1] << 16 | rgb[2] << 8 | 255);
 }
 
-void	draw_background(t_cub3d *kissa)
-{
-	mlx_image_t	*bg;
-	uint32_t	i;
-	uint32_t	j;
-
-	bg = kissa->view->mlx_bg;
-	i = 0;
-	while (i < bg->height / 2)
-	{
-		j = 0;
-		while (j < bg->width)
-		{
-			mlx_put_pixel(bg, j, i, rgb_to_pixel(kissa->c));
-			mlx_put_pixel(bg, j, i + bg->height / 2, rgb_to_pixel(kissa->f));
-			j++;
-		}
-		i++;
-	}
-	if (mlx_image_to_window(kissa->mlx, bg, 0, 0) < 0)
-		quit_perror(kissa, NULL, "MLX42 failed");
-	mlx_set_instance_depth(bg->instances, Z_BACKGROUND);
-}
-
 uint32_t	get_imgs_pixel(mlx_image_t *img, int x, int y, float scale_factor)
 {
 	int			pixel_index;
@@ -86,15 +62,24 @@ void	draw_column(t_cub3d *kissa, t_ray *ray)
 	int			y;
 	int			x;
 	uint32_t	pixel;
+	uint32_t	floor;
+	uint32_t	ceiling;
 	
+	floor = rgb_to_pixel(kissa->c);
+	ceiling = rgb_to_pixel(kissa->f);
 	y = 0;
-	while (y < ray->scaled_height - ray->offset)
+	while (y < MLX_HEIGHT)
 	{
-		x = 0;
-		while (x < MLX_WIDTH / RAYC)
+		x = ray->screen_start->x;
+		while (x < ray->screen_start->x + kissa->column_width)
 		{
-			pixel = get_imgs_pixel(ray->wall_tex, ray->img_start->x + x, ray->img_start->y + y, WALL_HEIGHT / ray->scaled_height);
-			mlx_put_pixel(kissa->view->mlx_scene, (uint32_t)ray->screen_start->x + x, (uint32_t)ray->screen_start->y + y, pixel);
+			if (y < ray->screen_start->y)
+				pixel = floor;
+			else if (y >= ray->screen_start->y && y < ray->screen_start->y + ray->scaled_height - ray->offset)
+				pixel = get_imgs_pixel(ray->wall_tex, ray->img_start->x + x - ray->screen_start->x, ray->img_start->y + y - ray->screen_start->y, WALL_HEIGHT / ray->scaled_height);
+			else
+				pixel = ceiling;
+			mlx_put_pixel(kissa->view->mlx_scene, (uint32_t)x, (uint32_t)y, pixel);
 			x++;
 		}
 		y++;
@@ -127,29 +112,13 @@ void	draw_cats(t_cub3d *kissa)
 	}
 }
 
-void	reset_scene_image(t_cub3d *kissa)
-{
-	if (kissa->view->mlx_scene)
-		mlx_delete_image(kissa->mlx, kissa->view->mlx_scene);
-	kissa->view->mlx_scene = mlx_new_image(kissa->mlx, kissa->mlx->width, kissa->mlx->height);
-	if (!kissa->view->mlx_scene)
-		quit_perror(kissa, NULL, "MLX42 failed");
-}
-
 void	draw_scene(t_cub3d *kissa)
 {
 	int	i;
 
 	i = 0;
 	cast_rays(kissa);
-	reset_scene_image(kissa);
 	while (i < RAYC)
-	{
-		draw_column(kissa, kissa->ray_array[i]);
-		i++;
-	}
+		draw_column(kissa, kissa->ray_array[i++]);
 	draw_cats(kissa);
-	if (mlx_image_to_window(kissa->mlx, kissa->view->mlx_scene, 0, 0) < 0)
-		quit_perror(kissa, NULL, "MLX42 failed");
-	mlx_set_instance_depth(kissa->view->mlx_scene->instances, Z_SCENE);
 }

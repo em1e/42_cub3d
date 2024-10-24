@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 20:28:20 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/24 09:05:55 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/24 10:11:40 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,6 @@ typedef struct	s_view
 	mlx_image_t	*mlx_floor;
 	mlx_image_t	*mlx_player;
 	mlx_image_t	*mlx_cat;
-	mlx_image_t	*mlx_bg;
 	mlx_image_t	*mlx_scene;
 	int			**wall_inst;
 	int			**floor_inst;
@@ -165,6 +164,7 @@ typedef struct	s_cub3d
 	t_obj		**cats;
 	t_view		*view;
 	bool		paused;
+	int			column_width;
 	int			cats_caught;
 	int			wall_height;
 	int			fd;

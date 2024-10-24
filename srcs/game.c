@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   game.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:48:49 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/24 07:35:20 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/24 10:12:35 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,7 +149,6 @@ void	play_game(t_cub3d *kissa)
 	printf("game started\n");
 	draw_game_state(kissa, kissa->view->mlx_start);
 	setup_minimap(kissa, 0, 0);
-	draw_background(kissa);
 	draw_scene(kissa);
 	mlx_loop_hook(kissa->mlx, escape_hook, kissa);
 	mlx_close_hook(kissa->mlx, quit_hook, kissa);

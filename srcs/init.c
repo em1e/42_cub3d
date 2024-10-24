@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:25:48 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/24 09:05:59 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/24 10:12:04 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,6 @@ t_view	*new_view(t_cub3d *kissa)
 	view->mlx_floor = NULL;
 	view->mlx_player = NULL;
 	view->mlx_cat = NULL;
-	view->mlx_bg = NULL;
 	view->mlx_scene = NULL;
 	return (view);
 }
@@ -121,6 +120,7 @@ void	init_rays(t_cub3d *kissa)
 	{
 		kissa->ray_array[i] = new_ray(kissa);
 		kissa->ray_array[i]->index = i;
+		kissa->ray_array[i]->screen_start->x = i * MLX_WIDTH / RAYC;
 		i++;
 	}
 }
@@ -160,6 +160,7 @@ void	init_kissa(t_cub3d *kissa)
 	kissa->tile_count = 0;
 	kissa->total_cats = 0;
 	kissa->cats_caught = 0;
+	kissa->column_width = MLX_WIDTH / RAYC;
 	kissa->wall_height = WALL_HEIGHT;
 	kissa->map = NULL;
 	kissa->view = NULL;
@@ -202,8 +203,11 @@ void	init_mlx(t_cub3d *kissa)
 	if (!kissa->mlx)
 		quit_perror(kissa, NULL, "mlx_init failed");
 	convert_textures(kissa);
-	kissa->view->mlx_bg = mlx_new_image(kissa->mlx, kissa->mlx->width, kissa->mlx->height);
-	if (!kissa->view->mlx_bg)
-		quit_perror(kissa, NULL, "MLX42 failed");
 	init_cat_ani(kissa);
+	kissa->view->mlx_scene = mlx_new_image(kissa->mlx, kissa->mlx->width, kissa->mlx->height);
+	if (!kissa->view->mlx_scene)
+		quit_perror(kissa, NULL, "MLX42 failed");
+	if (mlx_image_to_window(kissa->mlx, kissa->view->mlx_scene, 0, 0) < 0)
+		quit_perror(kissa, NULL, "MLX42 failed");
+	mlx_set_instance_depth(kissa->view->mlx_scene->instances, Z_SCENE);
 }
