@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:25:48 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/24 10:19:02 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/25 13:03:43 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,8 @@ void	init_rays(t_cub3d *kissa)
 		kissa->ray_array[i] = new_ray(kissa);
 		kissa->ray_array[i]->index = i;
 		kissa->ray_array[i]->screen_start->x = i * MLX_WIDTH / RAYC;
+		kissa->ray_array[i]->rot_diff = (RAYC / 2  - i) * RAYDIFF;
+		kissa->ray_array[i]->fishey_adjust = cos(fabs(kissa->ray_array[i]->rot_diff));
 		i++;
 	}
 }

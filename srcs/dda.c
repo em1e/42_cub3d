@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:49:02 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/25 10:23:45 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/25 12:41:11 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,10 +87,7 @@ void	set_wall_texture(t_cub3d *kissa, t_ray *ray)
 
 void	calculate_values(t_cub3d *kissa, t_ray *ray)
 {
-	float	fishey_adjust;
-
-	fishey_adjust = cos(fabs(kissa->player->rot - ray->rot));
-	ray->scaled_height = floor(kissa->wall_height / (ray->line_len * fishey_adjust));
+	ray->scaled_height = floor(kissa->wall_height / (ray->line_len * ray->fishey_adjust));
 	ray->scale_factor = WALL_HEIGHT / ray->scaled_height;
 	if (ray->scaled_height < MLX_HEIGHT)
 	{
@@ -129,6 +126,7 @@ void	check_for_cats(t_cub3d *kissa, t_ray *ray)
 			cat->seen_by = ray;
 			cat->distance = calc_distance(cat->x, kissa->player->x, cat->y, kissa->player->y);
 			cat->scaled_size = cat->size / cat->distance;
+			cat->screen_start_x = ray->screen_start->x;
 			cat->view_dir = fix_rot(kissa->player->rot - cat->rot);
 		}
 		i++;

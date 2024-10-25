@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 13:43:44 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/25 10:38:23 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/25 13:04:02 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,17 @@
 
 static void	cast_rays(t_cub3d *kissa)
 {
-	int	i;
-	float	start_rot;
+	int		i;
 	t_ray	*ray;
 
 	i = 0;
 	while (i < kissa->total_cats)
 		kissa->cats[i++]->seen_by = NULL;
-	start_rot = fix_rot(kissa->player->rot - FOV / 2);
 	i = 0;
 	while (i < RAYC)
 	{
 		ray = kissa->ray_array[i];
-		ray->rot = fix_rot(start_rot + i * RAYDIFF);
+		ray->rot = fix_rot(kissa->player->rot - ray->rot_diff);
 		cast_ray(kissa, ray);
 		i++;
 	}

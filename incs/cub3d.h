@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 20:28:20 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/24 15:53:05 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/25 12:49:56 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,8 @@ typedef struct	s_ray
 	float	initial_step;
 	float	scaled_height;
 	float	scale_factor;
+	float	rot_diff;
+	float	fishey_adjust;
 	int		offset;
 	t_vec	*dir;
 	t_vec	*ray_len;
@@ -156,6 +158,8 @@ typedef struct s_obj
 	float	distance;
 	float	size;
 	float	scaled_size;
+	int		screen_start_x;
+	int		screen_start_y;
 } t_obj;
 
 typedef struct	s_cub3d
