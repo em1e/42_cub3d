@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:49:02 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/24 15:40:28 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/25 10:23:45 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,9 @@ void	set_wall_texture(t_cub3d *kissa, t_ray *ray)
 	if (ray->side == 0)
 	{
 		if (ray->dir->x > 0)
-			ray->wall_tex = kissa->view->mlx_ea;
-		else
 			ray->wall_tex = kissa->view->mlx_we;
+		else
+			ray->wall_tex = kissa->view->mlx_ea;
 	}
 	else
 	{

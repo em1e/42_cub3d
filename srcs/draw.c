@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 13:43:44 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/24 15:53:37 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/25 10:23:36 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,18 +37,22 @@ int32_t	rgb_to_pixel(int *rgb)
 	return (rgb[0] << 24 | rgb[1] << 16 | rgb[2] << 8 | 255);
 }
 
-uint32_t	get_imgs_pixel(mlx_image_t *img, t_ray *ray, int x, int y)
+uint32_t	get_wall_pixel(t_cub3d *kissa, t_ray *ray, int x, int y)
 {
 	int			pixel_index;
 	uint8_t		*pixel;
 	uint32_t	color;
 
+
+	x = ray->img_start->x + x;
 	x = x * ray->scale_factor;
 	y = y * ray->scale_factor;
-	if ((uint32_t)x >= img->width)
-		x = x % img->width;
-	pixel_index = (y * img->width + x) * (32 / 8);
-	pixel = img->pixels + pixel_index;
+	if ((uint32_t)x >= ray->wall_tex->width)
+		x = x % ray->wall_tex->width;
+	if (ray->wall_tex == kissa->view->mlx_no || ray->wall_tex == kissa->view->mlx_ea)
+		x = ray->wall_tex->width - x - 1;
+	pixel_index = (y * ray->wall_tex->width + x) * (32 / 8);
+	pixel = ray->wall_tex->pixels + pixel_index;
 	color = (pixel[0] << 24) | (pixel[1] << 16) | (pixel[2] << 8) | 255;
 	return (color);
 }
@@ -76,7 +80,7 @@ void	draw_column(t_cub3d *kissa, t_ray *ray)
 			else if (y >= ray->screen_start->y + ray->scaled_height - ray->offset)
 				pixel = ceiling;
 			else
-				pixel = get_imgs_pixel(ray->wall_tex, ray, ray->img_start->x + x - ray->screen_start->x, ray->img_start->y + y - ray->screen_start->y);
+				pixel = get_wall_pixel(kissa, ray, x - ray->screen_start->x, ray->img_start->y + y - ray->screen_start->y);
 			mlx_put_pixel(kissa->view->mlx_scene, (uint32_t)x, (uint32_t)y, pixel);
 			x++;
 		}
