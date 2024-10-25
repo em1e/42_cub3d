@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 20:28:20 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/25 12:49:56 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/25 16:06:21 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@
 
 // wall & object sizes
 # define WALL_HEIGHT MLX_HEIGHT
-# define CAT_SIZE WALL_HEIGHT / 3
+# define CAT_SIZE WALL_HEIGHT / 4
 # define CAT_TEX_SIZE 48
 
 // number of rays to be cast
@@ -45,7 +45,7 @@
 # define RAYDIFF M_PI / 2 / RAYC
 
 // radius of collision bumper
-# define BUMPER_SIZE 0.3
+# define BUMPER_SIZE 0.1
 
 // speeds for moving and rotating
 # define ROT_SPEED M_PI / 20
@@ -149,7 +149,7 @@ typedef struct s_obj
 	t_vec	*dir;
 	float	rot;
 	int		caught;
-	int		cat_type;
+	int		type;
 	int		cat_i;
 	int		cat_j;
 	float	speed;
@@ -227,7 +227,6 @@ void	animate_cat(t_cub3d *kissa);
 void	move_cats(t_cub3d *kissa);
 void	catch_cats(t_cub3d *kissa);
 void	draw_cat(t_cub3d *kissa, t_obj *cat, t_ray *ray);
-uint32_t	get_cats_pixel(t_cub3d *kissa, t_obj *cat, int x, int y, t_ray *ray);
 void	init_cat_ani(t_cub3d *kissa);
 
 // minimap.c

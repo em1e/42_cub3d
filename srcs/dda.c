@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:49:02 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/25 12:41:11 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/25 16:43:44 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,9 +124,9 @@ void	check_for_cats(t_cub3d *kissa, t_ray *ray)
 			&& cat->y < y + 1)
 		{
 			cat->seen_by = ray;
-			cat->distance = calc_distance(cat->x, kissa->player->x, cat->y, kissa->player->y);
+			cat->distance = calc_distance(cat->x, cat->y, kissa->player->x, kissa->player->y);
 			cat->scaled_size = cat->size / cat->distance;
-			cat->screen_start_x = ray->screen_start->x;
+			cat->screen_start_x = ray->screen_start->x + (cat->x - floor(cat->x) / cat->distance); // needs to be fixed to use x/y depending on view direction
 			cat->view_dir = fix_rot(kissa->player->rot - cat->rot);
 		}
 		i++;

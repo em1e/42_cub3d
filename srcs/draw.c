@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 13:43:44 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/25 13:04:02 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/25 16:34:27 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,6 @@ static void	cast_rays(t_cub3d *kissa)
 	int		i;
 	t_ray	*ray;
 
-	i = 0;
-	while (i < kissa->total_cats)
-		kissa->cats[i++]->seen_by = NULL;
 	i = 0;
 	while (i < RAYC)
 	{
@@ -108,6 +105,7 @@ void	draw_cats(t_cub3d *kissa)
 				cat->cat_i = 3;
 			if (!cat->caught)
 				draw_cat(kissa, cat, cat->seen_by);
+			cat->seen_by = NULL;
 		}
 		i++;
 	}

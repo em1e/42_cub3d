@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:25:48 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/25 13:03:43 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/25 16:12:01 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,10 +144,11 @@ t_obj	*init_obj(t_cub3d *kissa, float speed)
 	obj->start_dir = 0;
 	obj->cat_i = 0;
 	obj->cat_j = 0;
-	obj->cat_type = 0;
+	obj->type = 0;
 	obj->caught = 0;
 	obj->size = 0;
 	obj->dir = NULL;
+	obj->seen_by = NULL;
 	obj->speed = speed;
 	obj->dir = new_vec(kissa);
 	return (obj);

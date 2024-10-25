@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 10:04:17 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/24 12:01:31 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/25 16:33:58 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,20 +61,12 @@ void	get_cat_texture(t_cub3d *kissa, t_obj *cat, int *x, int *y)
 
 	grid_x = cat->cat_j;
 	grid_y = cat->cat_i;
-	choose_cat_type(kissa, cat->cat_type, &grid_x, &grid_y);
+	choose_cat_type(kissa, cat->type, &grid_x, &grid_y);
 	*x = grid_x * CAT_TEX_SIZE + cat->cat_j * CAT_TEX_SIZE + *x;
 	*y = grid_y * CAT_TEX_SIZE + cat->cat_i * CAT_TEX_SIZE + *y;
 }
 
-void	scale_cat_values(int *x, int *y, int scale_factor)
-{
-	*x = floor(*x * scale_factor);
-	*y = floor(*y * scale_factor);
-	if (*x >= CAT_TEX_SIZE)
-		*x = *x % CAT_TEX_SIZE;
-}
-
-uint32_t	get_cats_pixel(t_cub3d *kissa, t_obj *cat, int x, int y, t_ray *ray) // this is too many args
+uint32_t	get_cats_pixel(t_cub3d *kissa, t_obj *cat, int x, int y)
 {
 	int			pixel_index;
 	uint8_t		*pixel;
@@ -82,7 +74,8 @@ uint32_t	get_cats_pixel(t_cub3d *kissa, t_obj *cat, int x, int y, t_ray *ray) //
 	mlx_image_t	*img;
 
 	img = kissa->view->original_cat;
-	scale_cat_values(&x, &y, round(CAT_SIZE / ray->scaled_height));
+	x = floor(x / cat->scaled_size * CAT_TEX_SIZE);
+	y = floor(y / cat->scaled_size * CAT_TEX_SIZE);
 	get_cat_texture(kissa, cat, &x, &y);
 	pixel_index = (y * img->width + x) * (32 / 8);
 	pixel = img->pixels + pixel_index;
@@ -100,15 +93,12 @@ void	draw_cat(t_cub3d *kissa, t_obj *cat, t_ray *ray)
 	uint32_t	pixel;
 	int			x;
 	int			y;
-	int			start_x;
-	int			start_y;
 
-	start_x = ray->index * MLX_WIDTH / RAYC;
-	start_y = MLX_HEIGHT - ray->screen_start->y;
+	cat->screen_start_y = (MLX_HEIGHT - ray->screen_start->y) + ((MLX_HEIGHT - ray->screen_start->y) / cat->distance);
 	y = 0;
 	x = 0;
 	// this happens when cat and player try moving at the same time to the same square ------------
-	if (round(CAT_SIZE / ray->scaled_height) == 0)
+	if (round(cat->scaled_size) > cat->size)
 	{
 		kissa->paused = true;
 		kissa->cats_caught++;
@@ -116,14 +106,14 @@ void	draw_cat(t_cub3d *kissa, t_obj *cat, t_ray *ray)
 		return ;
 	}
 	// --------------------------------------------------------------------------------------------
-	while (y <= CAT_TEX_SIZE / round(CAT_SIZE / ray->scaled_height))
+	while (y < cat->scaled_size && cat->screen_start_y < MLX_HEIGHT)
 	{
 		x = 0;
-		while (x <= CAT_TEX_SIZE / round(CAT_SIZE / ray->scaled_height))
+		while (x < cat->scaled_size && cat->screen_start_x + x < MLX_WIDTH)
 		{
-			pixel = get_cats_pixel(kissa, cat, x, y, ray);
-			if (pixel != 0 && start_x + x < MLX_WIDTH)
-				mlx_put_pixel(kissa->view->mlx_scene, start_x + x, start_y + y, pixel);
+			pixel = get_cats_pixel(kissa, cat, x, y);
+			if (pixel != 0)
+				mlx_put_pixel(kissa->view->mlx_scene, cat->screen_start_x + x, cat->screen_start_y + y, pixel);
 			x++;
 		}
 		y++;
@@ -205,10 +195,10 @@ void	create_cat_objs(t_cub3d *kissa)
 {
 	int		y;
 	int		x;
-	int		cat;
+	int		i;
 
 	y = 0;
-	cat = 0;
+	i = 0;
 	kissa->cats = malloc(sizeof(t_obj*) * kissa->total_cats);
 	if (!kissa->cats)
 		quit_error(kissa, NULL, "memory allocation failure");
@@ -219,16 +209,17 @@ void	create_cat_objs(t_cub3d *kissa)
 		{
 			if (kissa->map->array[y][x] == 'C')
 			{
-				kissa->cats[cat] = init_obj(kissa, CAT_SPEED);
-				kissa->cats[cat]->size = CAT_SIZE;
-				init_cat_pos(kissa, cat, x, y);
-				cat++;
+				kissa->cats[i] = init_obj(kissa, CAT_SPEED);
+				kissa->cats[i]->size = CAT_SIZE;
+				kissa->cats[i]->type = i;
+				init_cat_pos(kissa, i, x, y);
+				i++;
 			}
 			x++;
 		}
 		y++;
 	}
-	if (cat != kissa->total_cats)
+	if (i != kissa->total_cats)
 		quit_error(kissa, NULL, "cat count issue");
 }
 
@@ -236,7 +227,7 @@ void	create_cat_objs(t_cub3d *kissa)
 	places down cats or "C" on the map, and creates as many cat objects
 	into kissa->cats as needed
 */
-void	place_cats_down(t_cub3d *kissa)
+void	place_cats(t_cub3d *kissa)
 {
 	int	distance;
 	int	i;
@@ -292,5 +283,5 @@ void	calcuate_tile_count(t_cub3d *kissa)
 void	init_cat_ani(t_cub3d *kissa)
 {
 	calcuate_tile_count(kissa);
-	place_cats_down(kissa);
+	place_cats(kissa);
 }
