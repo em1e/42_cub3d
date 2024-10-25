@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 13:43:44 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/25 10:23:36 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/25 10:38:23 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@ uint32_t	get_wall_pixel(t_cub3d *kissa, t_ray *ray, int x, int y)
 	uint8_t		*pixel;
 	uint32_t	color;
 
-
+	if (ray->wall_tex == kissa->view->mlx_no || ray->wall_tex == kissa->view->mlx_ea)
+		x = kissa->column_width - x -1;
 	x = ray->img_start->x + x;
 	x = x * ray->scale_factor;
 	y = y * ray->scale_factor;
