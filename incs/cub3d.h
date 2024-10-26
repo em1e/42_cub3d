@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 20:28:20 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/25 16:06:21 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/26 16:49:49 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,11 @@
 # include <math.h>
 
 // mlx window size
-# define MLX_WIDTH 1200
-# define MLX_HEIGHT 800
+# define MLX_WIDTH 2400
+# define MLX_HEIGHT 1600
 
 // FPS
-# define FPS 60
+# define FPS 90
 # define DELAY 1 / FPS
 
 // FOV & distance to projection pane
@@ -41,7 +41,7 @@
 # define CAT_TEX_SIZE 48
 
 // number of rays to be cast
-# define RAYC 240
+# define RAYC 480
 # define RAYDIFF M_PI / 2 / RAYC
 
 // radius of collision bumper
@@ -259,7 +259,7 @@ void	init_mlx(t_cub3d *kissa);
 
 // clean.c
 void	clean_map(t_map *map);
-void	clean_view(t_cub3d *kissa, t_map *map, t_view *view);
+void	clean_view(t_cub3d *kissa, t_view *view);
 void	clean_obj(t_obj *obj);
 void	clean_kissa(t_cub3d *kissa);
 

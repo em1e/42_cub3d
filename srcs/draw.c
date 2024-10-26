@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 13:43:44 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/25 16:34:27 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/26 16:44:45 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,6 @@ uint32_t	get_wall_pixel(t_cub3d *kissa, t_ray *ray, int x, int y)
 	return (color);
 }
 
-
-
 void	draw_column(t_cub3d *kissa, t_ray *ray)
 {
 	int			y;
@@ -71,10 +69,10 @@ void	draw_column(t_cub3d *kissa, t_ray *ray)
 		x = ray->screen_start->x;
 		while (x < ray->screen_start->x + kissa->column_width)
 		{
-			if (y < ray->screen_start->y)
-				pixel = floor;
-			else if (y >= ray->screen_start->y + ray->scaled_height - ray->offset)
+			if (y >= ray->screen_start->y + ray->scaled_height - ray->offset)
 				pixel = ceiling;
+			else if (ray->img_start->y + y - ray->scaled_height < MLX_HEIGHT)
+				pixel = floor;
 			else
 				pixel = get_wall_pixel(kissa, ray, x - ray->screen_start->x, ray->img_start->y + y - ray->screen_start->y);
 			mlx_put_pixel(kissa->view->mlx_scene, (uint32_t)x, (uint32_t)y, pixel);
@@ -118,6 +116,9 @@ void	draw_scene(t_cub3d *kissa)
 	i = 0;
 	cast_rays(kissa);
 	while (i < RAYC)
+	{
+		// printf("i = %d\n", i);
 		draw_column(kissa, kissa->ray_array[i++]);
+	}
 	draw_cats(kissa);
 }

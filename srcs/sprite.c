@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sprite.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 10:04:17 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/25 16:33:58 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/26 16:36:25 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	choose_cat_type(t_cub3d *kissa, int cat_type, int *grid_x, int *grid_y)
 	if (cat_type > 3)
 	{
 		*grid_y = 1;
-		*grid_x = cat_type - 4;
+		*grid_x = (cat_type - 4);
 	}
 	else
 	{
@@ -62,8 +62,8 @@ void	get_cat_texture(t_cub3d *kissa, t_obj *cat, int *x, int *y)
 	grid_x = cat->cat_j;
 	grid_y = cat->cat_i;
 	choose_cat_type(kissa, cat->type, &grid_x, &grid_y);
-	*x = grid_x * CAT_TEX_SIZE + cat->cat_j * CAT_TEX_SIZE + *x;
-	*y = grid_y * CAT_TEX_SIZE + cat->cat_i * CAT_TEX_SIZE + *y;
+	*x = (grid_x * CAT_TEX_SIZE * 3) + cat->cat_j * CAT_TEX_SIZE + *x;
+	*y = (grid_y * CAT_TEX_SIZE * 4) + cat->cat_i * CAT_TEX_SIZE + *y;
 }
 
 uint32_t	get_cats_pixel(t_cub3d *kissa, t_obj *cat, int x, int y)
@@ -98,7 +98,7 @@ void	draw_cat(t_cub3d *kissa, t_obj *cat, t_ray *ray)
 	y = 0;
 	x = 0;
 	// this happens when cat and player try moving at the same time to the same square ------------
-	if (round(cat->scaled_size) > cat->size)
+	if (round(cat->scaled_size) > cat->size && round(cat->scaled_size) <= 0)
 	{
 		kissa->paused = true;
 		kissa->cats_caught++;
@@ -106,7 +106,7 @@ void	draw_cat(t_cub3d *kissa, t_obj *cat, t_ray *ray)
 		return ;
 	}
 	// --------------------------------------------------------------------------------------------
-	while (y < cat->scaled_size && cat->screen_start_y < MLX_HEIGHT)
+	while (y < cat->scaled_size && cat->screen_start_y + y < MLX_HEIGHT)
 	{
 		x = 0;
 		while (x < cat->scaled_size && cat->screen_start_x + x < MLX_WIDTH)
@@ -183,9 +183,6 @@ void	init_cat_pos(t_cub3d *kissa, int cat, int x, int y)
 	set_rot(kissa->cats[cat], 'E'); // default cat dir
 	kissa->cats[cat]->dir->x = cos(kissa->cats[cat]->rot);
 	kissa->cats[cat]->dir->y = sin(kissa->cats[cat]->rot);
-	// kissa->cats[cat]->cat_type++;
-	// if (kissa->cats[cat]->cat_type > 7)
-	// 	kissa->cats[cat]->cat_type = 0;
 }
 
 /*
@@ -211,7 +208,7 @@ void	create_cat_objs(t_cub3d *kissa)
 			{
 				kissa->cats[i] = init_obj(kissa, CAT_SPEED);
 				kissa->cats[i]->size = CAT_SIZE;
-				kissa->cats[i]->type = i;
+				kissa->cats[i]->type = i + 3;
 				init_cat_pos(kissa, i, x, y);
 				i++;
 			}

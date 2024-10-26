@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:25:48 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/25 16:12:01 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/26 14:08:41 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -209,6 +209,7 @@ void	init_mlx(t_cub3d *kissa)
 		quit_perror(kissa, NULL, "mlx_init failed");
 	convert_textures(kissa);
 	init_cat_ani(kissa);
+	printf("mlx_width = %d, mlx_height = %d\n", kissa->mlx->width, kissa->mlx->height);
 	kissa->view->mlx_scene = mlx_new_image(kissa->mlx, kissa->mlx->width, kissa->mlx->height);
 	if (!kissa->view->mlx_scene)
 		quit_perror(kissa, NULL, "MLX42 failed");

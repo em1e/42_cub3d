@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 12:07:09 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/24 10:21:58 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/26 16:48:25 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,35 +26,8 @@ void	clean_map(t_map *map)
 	free(map);
 }
 
-/*
-	Cleans the view struct.
-*/
-void	clean_view(t_cub3d *kissa, t_map *map, t_view *view)
+void	delete_views_mlx(t_cub3d *kissa, t_view *view)
 {
-	int	i;
-
-	(void)map;
-	i = 0;
-	while (i <= MMRAD * 2)
-	{
-		if (view->floor_inst && view->floor_inst[i])
-			free(view->floor_inst[i]);
-		if (view->wall_inst && view->wall_inst[i])
-			free(view->wall_inst[i]);
-		if (view->cat_inst && view->cat_inst[i])
-			free(view->cat_inst[i]);
-		i++;
-	}
-	if (view->wall_inst)
-		free(view->wall_inst);
-	if (view->floor_inst)
-		free(view->floor_inst);
-	if (view->cat_inst)
-		free(view->cat_inst);
-	if (view->original_cat)
-		mlx_delete_image(kissa->mlx, view->original_cat);
-	if (view->mlx_start)
-		mlx_delete_image(kissa->mlx, view->mlx_start);
 	if (view->mlx_victory)
 		mlx_delete_image(kissa->mlx, view->mlx_victory);
 	if (view->mlx_dead)
@@ -79,6 +52,37 @@ void	clean_view(t_cub3d *kissa, t_map *map, t_view *view)
 		mlx_delete_image(kissa->mlx, view->mlx_cat);
 	if (view->mlx_scene)
 		mlx_delete_image(kissa->mlx, view->mlx_scene);
+}
+
+/*
+	Cleans the view struct.
+*/
+void	clean_view(t_cub3d *kissa, t_view *view)
+{
+	int	i;
+
+	i = 0;
+	while (i <= MMRAD * 2)
+	{
+		if (view->floor_inst && view->floor_inst[i])
+			free(view->floor_inst[i]);
+		if (view->wall_inst && view->wall_inst[i])
+			free(view->wall_inst[i]);
+		if (view->cat_inst && view->cat_inst[i])
+			free(view->cat_inst[i]);
+		i++;
+	}
+	if (view->wall_inst)
+		free(view->wall_inst);
+	if (view->floor_inst)
+		free(view->floor_inst);
+	if (view->cat_inst)
+		free(view->cat_inst);
+	if (view->original_cat)
+		mlx_delete_image(kissa->mlx, view->original_cat);
+	if (view->mlx_start)
+		mlx_delete_image(kissa->mlx, view->mlx_start);
+	delete_views_mlx(kissa, view);
 	free(view);
 }
 
@@ -165,7 +169,7 @@ void	clean_kissa(t_cub3d *kissa)
 	if (kissa)
 	{
 		if (kissa->view)
-			clean_view(kissa, kissa->map, kissa->view);
+			clean_view(kissa, kissa->view);
 		if (kissa->map)
 			clean_map(kissa->map);
 		if (kissa->player)
