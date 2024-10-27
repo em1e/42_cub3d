@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 13:43:44 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/26 16:44:45 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/27 16:56:20 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void	draw_column(t_cub3d *kissa, t_ray *ray)
 		{
 			if (y >= ray->screen_start->y + ray->scaled_height - ray->offset)
 				pixel = ceiling;
-			else if (ray->img_start->y + y - ray->scaled_height < MLX_HEIGHT)
+			else if (y < ray->screen_start->y)//(ray->img_start->y + y - ray->scaled_height < MLX_HEIGHT)
 				pixel = floor;
 			else
 				pixel = get_wall_pixel(kissa, ray, x - ray->screen_start->x, ray->img_start->y + y - ray->screen_start->y);
