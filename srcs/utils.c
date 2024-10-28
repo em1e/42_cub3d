@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 13:04:19 by jajuntti          #+#    #+#             */
-/*   Updated: 2024/10/25 16:15:07 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/28 11:28:15 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ void	check_file(t_cub3d *kissa, char *file, char *ext)
 		while (ext_len)
 		{
 			if (file[len - ext_len] != *ext)
-				quit_error(kissa, NULL, "map file missing \".cub\" extension");
+				quit_error(kissa, file, "incorrect file extension");
 			ext_len--;
 			ext++;
 		}

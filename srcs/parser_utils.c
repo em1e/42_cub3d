@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 18:13:48 by jajuntti          #+#    #+#             */
-/*   Updated: 2024/10/28 10:06:17 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/28 11:27:31 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	get_texture(t_cub3d *kissa, char **texture, char *line)
 		if (line[i] == ' ')
 			line[i] = 0;
 	}
-	check_file(kissa, line, NULL);
+	check_file(kissa, line, ".png");
 	*texture = ft_strdup(line);
 	if (!*texture)
 		quit_perror(kissa, NULL, "memory allocation failure");
