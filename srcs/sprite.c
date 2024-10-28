@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 10:04:17 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/26 16:36:25 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/28 11:03:45 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -240,7 +240,7 @@ void	place_cats(t_cub3d *kissa)
 		distance += 2;
 		while (x < kissa->map->width)
 		{
-			if (!is_wall(kissa, x, y) || (x != kissa->player->x && y != kissa->player->y))
+			if (!is_wall(kissa, x, y))
 				i++;
 			if (i >= distance && x != kissa->player->x && y != kissa->player->y)
 			{

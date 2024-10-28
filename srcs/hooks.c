@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:35:39 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/24 09:05:59 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/28 11:04:54 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ void	update_hook(void *param)
 	draw_scene(kissa);
 	move_cats(kissa);
 	refresh_minimap(kissa);
-	if (kissa->cats_caught == kissa->total_cats)
+	if (kissa->total_cats != 0 && kissa->cats_caught == kissa->total_cats)
 	{
 		kissa->paused = true;
 		draw_game_state(kissa, kissa->view->mlx_victory);

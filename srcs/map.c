@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 04:12:10 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/28 11:09:37 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/28 11:17:19 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,10 +103,10 @@ static void	check_tile(t_cub3d *kissa, int i, int j)
 		init_player_pos(kissa, this, i, j);
 	if (i == 0 || i == kissa->map->height -1 \
 		|| j == 0 || j == kissa->map->width -1)
-		quit_error(kissa, NULL, "map is not surrounded by walls");
+		quit_error(kissa, NULL, "map element is not surrounded by walls");
 	if (array[i - 1][j] == ' ' || array[i][j + 1] == ' '
 		|| array[i + 1][j] == ' ' || array[i][j - 1] == ' ')
-		quit_error(kissa, NULL, "map is not surrounded by walls");
+		quit_error(kissa, NULL, "map element is not surrounded by walls");
 }
 
 /*
@@ -133,7 +133,7 @@ static void	check_map(t_cub3d *kissa)
 		i++;
 	}
 	if (!kissa->player->start_dir)
-		quit_error(kissa, NULL, "map file missing player start");
+		quit_error(kissa, NULL, "map element missing player start");
 }
 
 /*

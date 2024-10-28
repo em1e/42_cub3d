@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 20:26:56 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/28 10:57:15 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/28 11:15:58 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,7 +146,7 @@ void	parse_kissa(t_cub3d *kissa)
 	kissa->fd = open(kissa->map->file, O_RDONLY);
 	kissa->map->line = ft_get_next_line(kissa->fd);
 	if (!kissa->map->line)
-		quit_error(kissa, NULL, "nothing in map");
+		quit_error(kissa, NULL, "nothing in scene file");
 	while (kissa->map->line)
 	{
 		if (kissa->map->line[ft_strlen(kissa->map->line) - 1] == '\n')
@@ -159,5 +159,7 @@ void	parse_kissa(t_cub3d *kissa)
 		kissa->map->line = ft_get_next_line(kissa->fd);
 		line_i++;
 	}
+	if (!kissa->map->first_map_line)
+		quit_error(kissa, NULL, "no map in scene file");
 	close_fd(kissa);
 }

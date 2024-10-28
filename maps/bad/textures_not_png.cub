@@ -1,5 +1,5 @@
-NO ./textures/cat_1.png
-SO ./textures/cat_2.png
+NO ./textures/cat_1.pnk
+SO ./textures/cat_2.xpm
 WE ./textures/cat_3.png
 EA ./textures/cat_4.png
 
