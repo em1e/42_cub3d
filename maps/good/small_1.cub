@@ -1,0 +1,11 @@
+F 139,99,58
+C 171,154,137
+
+NO ./textures/cat_4.png
+SO ./textures/cat_5.png
+WE ./textures/pattern_1.png
+EA ./textures/duck.png
+
+111
+1N1
+111
