@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 20:26:56 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/28 09:34:14 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/28 10:56:24 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,16 +63,22 @@
 void	handle_map_line(t_cub3d *kissa, char *line)
 {
 	int	i;
+	int	contains_one;
 
 	i = 0;
+	contains_one = 0;
 	if (!*line)
 		quit_error(kissa, NULL, "empty line within or after map element");
 	while (line[i])
 	{
 		if (!ft_strchr(" 01NESW", line[i]))
 			quit_error(kissa, NULL, "invalid line in map element");
+		if (line[i] == '1')
+			contains_one = 1;
 		i++;
 	}
+	if (!contains_one)
+		quit_error(kissa, NULL, "invalid line in map element");
 	if (ft_strlen(line) > (size_t)kissa->map->width)
 		kissa->map->width = ft_strlen(line);
 	kissa->map->height++;
