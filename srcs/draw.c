@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 13:43:44 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/28 11:57:32 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/28 12:10:49 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,14 @@ uint32_t	get_wall_pixel(t_cub3d *kissa, t_ray *ray, int x, int y)
 	int			pixel_index;
 	uint8_t		*pixel;
 	uint32_t	color;
-	float		tile_factor;
+	float		scale_factor;
 
-	tile_factor = (float)ray->wall_tex->height / (float)kissa->wall_height;
+	scale_factor = (float)ray->wall_tex->height / ray->scaled_height;
 	if (ray->wall_tex == kissa->view->mlx_no || ray->wall_tex == kissa->view->mlx_ea)
 		x = kissa->column_width - x -1;
 	x = ray->img_start->x + x;
-	x = x * ray->scale_factor * tile_factor;
-	y = y * ray->scale_factor * tile_factor;
+	x = x * scale_factor;
+	y = y * scale_factor;
 	if ((uint32_t)x >= ray->wall_tex->width)
 		x = x % ray->wall_tex->width;
 	if (ray->wall_tex == kissa->view->mlx_no || ray->wall_tex == kissa->view->mlx_ea)

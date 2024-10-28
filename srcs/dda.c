@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:49:02 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/25 16:43:44 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/28 12:11:09 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,6 @@ void	set_wall_texture(t_cub3d *kissa, t_ray *ray)
 void	calculate_values(t_cub3d *kissa, t_ray *ray)
 {
 	ray->scaled_height = floor(kissa->wall_height / (ray->line_len * ray->fishey_adjust));
-	ray->scale_factor = WALL_HEIGHT / ray->scaled_height;
 	if (ray->scaled_height < MLX_HEIGHT)
 	{
 		ray->offset = 0;

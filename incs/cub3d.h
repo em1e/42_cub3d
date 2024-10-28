@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 20:28:20 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/28 09:54:34 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/28 12:11:03 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@
 # include <math.h>
 
 // mlx window size
-# define MLX_WIDTH 1200
-# define MLX_HEIGHT 800
+# define MLX_WIDTH 2400
+# define MLX_HEIGHT 1600
 
 // FPS
 # define FPS 90
@@ -41,7 +41,7 @@
 # define CAT_TEX_SIZE 48
 
 // number of rays to be cast
-# define RAYC 240
+# define RAYC 480
 # define RAYDIFF M_PI / 2 / RAYC
 
 // radius of collision bumper
@@ -128,7 +128,6 @@ typedef struct	s_ray
 	float	line_len;
 	float	initial_step;
 	float	scaled_height;
-	float	scale_factor;
 	float	rot_diff;
 	float	fishey_adjust;
 	int		offset;
