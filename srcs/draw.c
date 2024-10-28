@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 13:43:44 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/27 16:56:20 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/28 11:57:32 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,16 +37,20 @@ uint32_t	get_wall_pixel(t_cub3d *kissa, t_ray *ray, int x, int y)
 	int			pixel_index;
 	uint8_t		*pixel;
 	uint32_t	color;
+	float		tile_factor;
 
+	tile_factor = (float)ray->wall_tex->height / (float)kissa->wall_height;
 	if (ray->wall_tex == kissa->view->mlx_no || ray->wall_tex == kissa->view->mlx_ea)
 		x = kissa->column_width - x -1;
 	x = ray->img_start->x + x;
-	x = x * ray->scale_factor;
-	y = y * ray->scale_factor;
+	x = x * ray->scale_factor * tile_factor;
+	y = y * ray->scale_factor * tile_factor;
 	if ((uint32_t)x >= ray->wall_tex->width)
 		x = x % ray->wall_tex->width;
 	if (ray->wall_tex == kissa->view->mlx_no || ray->wall_tex == kissa->view->mlx_ea)
 		x = ray->wall_tex->width - x - 1;
+	if (y >= (int)ray->wall_tex->height)
+		return (0);
 	pixel_index = (y * ray->wall_tex->width + x) * (32 / 8);
 	pixel = ray->wall_tex->pixels + pixel_index;
 	color = (pixel[0] << 24) | (pixel[1] << 16) | (pixel[2] << 8) | 255;
@@ -69,13 +73,14 @@ void	draw_column(t_cub3d *kissa, t_ray *ray)
 		x = ray->screen_start->x;
 		while (x < ray->screen_start->x + kissa->column_width)
 		{
-			if (y >= ray->screen_start->y + ray->scaled_height - ray->offset)
-				pixel = ceiling;
-			else if (y < ray->screen_start->y)//(ray->img_start->y + y - ray->scaled_height < MLX_HEIGHT)
+			if (y < ray->screen_start->y)//(ray->img_start->y + y - ray->scaled_height < MLX_HEIGHT)
 				pixel = floor;
-			else
+			else if (y >= ray->screen_start->y && y < ray->screen_start->y + ray->scaled_height)
 				pixel = get_wall_pixel(kissa, ray, x - ray->screen_start->x, ray->img_start->y + y - ray->screen_start->y);
-			mlx_put_pixel(kissa->view->mlx_scene, (uint32_t)x, (uint32_t)y, pixel);
+			else
+				pixel = ceiling;
+			if (pixel)
+				mlx_put_pixel(kissa->view->mlx_scene, (uint32_t)x, (uint32_t)y, pixel);
 			x++;
 		}
 		y++;
