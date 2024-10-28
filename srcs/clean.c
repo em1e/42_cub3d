@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 12:07:09 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/26 16:48:25 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/28 09:47:37 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,10 +153,12 @@ void	clean_cats(t_cub3d *kissa, t_obj **cats)
 	i = 0;
 	while (i < kissa->total_cats)
 	{
-		clean_obj(cats[i]);
+		if (cats[i])
+			clean_obj(cats[i]);
 		i++;
 	}
-	free(cats);
+	if (cats)
+		free(cats);
 	cats = NULL;
 }
 
@@ -179,7 +181,6 @@ void	clean_kissa(t_cub3d *kissa)
 		if (kissa->cats)
 			clean_cats(kissa, kissa->cats);
 		clean_file_content(kissa);
-		mlx_close_window(kissa->mlx);
 		free(kissa);
 	}
 }

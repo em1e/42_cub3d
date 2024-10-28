@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 20:28:20 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/26 16:49:49 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/28 09:54:34 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@
 # include <math.h>
 
 // mlx window size
-# define MLX_WIDTH 2400
-# define MLX_HEIGHT 1600
+# define MLX_WIDTH 1200
+# define MLX_HEIGHT 800
 
 // FPS
 # define FPS 90
@@ -41,7 +41,7 @@
 # define CAT_TEX_SIZE 48
 
 // number of rays to be cast
-# define RAYC 480
+# define RAYC 240
 # define RAYDIFF M_PI / 2 / RAYC
 
 // radius of collision bumper

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 20:26:56 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/28 10:56:24 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/28 10:57:15 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,6 +145,8 @@ void	parse_kissa(t_cub3d *kissa)
 	check_file(kissa, kissa->map->file, ".cub");
 	kissa->fd = open(kissa->map->file, O_RDONLY);
 	kissa->map->line = ft_get_next_line(kissa->fd);
+	if (!kissa->map->line)
+		quit_error(kissa, NULL, "nothing in map");
 	while (kissa->map->line)
 	{
 		if (kissa->map->line[ft_strlen(kissa->map->line) - 1] == '\n')

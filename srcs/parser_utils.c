@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 18:13:48 by jajuntti          #+#    #+#             */
-/*   Updated: 2024/10/21 16:52:37 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/28 10:06:17 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,13 +81,13 @@ void	get_rgb(t_cub3d *kissa, int *rgb, char *line)
 		quit_perror(kissa, NULL, "memory allocation failure");
 	while (rgb_arr[i])
 	{
-		if (i > 2)
-		{
-			clean_array(rgb_arr);
-			quit_error(kissa, NULL, "too many values in RGB element");
-		}
 		set_rgb(kissa, rgb, rgb_arr, i);
 		i++;
+	}
+	if (i != 3)
+	{
+		clean_array(rgb_arr);
+		quit_error(kissa, NULL, "wrong values in RGB element");
 	}
 	clean_array(rgb_arr);
 }
