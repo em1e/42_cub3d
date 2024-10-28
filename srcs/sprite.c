@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sprite.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 10:04:17 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/28 11:03:45 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/28 12:37:04 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,15 +97,6 @@ void	draw_cat(t_cub3d *kissa, t_obj *cat, t_ray *ray)
 	cat->screen_start_y = (MLX_HEIGHT - ray->screen_start->y) + ((MLX_HEIGHT - ray->screen_start->y) / cat->distance);
 	y = 0;
 	x = 0;
-	// this happens when cat and player try moving at the same time to the same square ------------
-	if (round(cat->scaled_size) > cat->size && round(cat->scaled_size) <= 0)
-	{
-		kissa->paused = true;
-		kissa->cats_caught++;
-		draw_game_state(kissa, kissa->view->mlx_dead);
-		return ;
-	}
-	// --------------------------------------------------------------------------------------------
 	while (y < cat->scaled_size && cat->screen_start_y + y < MLX_HEIGHT)
 	{
 		x = 0;
@@ -124,6 +115,8 @@ void	draw_cat(t_cub3d *kissa, t_obj *cat, t_ray *ray)
 
 int	cat_is_near(t_cub3d *kissa, t_obj *cat)
 {
+	// if (!cat->seen_by)
+	// 	return (0);
 	if (kissa->map->array[(int)cat->y][(int)cat->x] == 'P'
 	|| kissa->map->array[(int)cat->y + 1][(int)cat->x] == 'P'
 	|| kissa->map->array[(int)cat->y - 1][(int)cat->x] == 'P'
@@ -140,17 +133,26 @@ int	cat_is_near(t_cub3d *kissa, t_obj *cat)
 
 void	catch_cats(t_cub3d *kissa)
 {
-	int	i;
+	int		i;
+	t_obj	*cat;
 
 	i = 0;
 	while (i < kissa->total_cats)
 	{
-		if (kissa->cats[i]->caught == 0 && cat_is_near(kissa, kissa->cats[i]))
+		cat = kissa->cats[i];
+		if (cat->caught == 0 && cat_is_near(kissa, cat))
 		{
+			if (cat->view_dir <= M_PI / 4 || cat->view_dir > M_PI / 4 * 7)
+			{
+				kissa->paused = true;
+				kissa->cats_caught++;
+				draw_game_state(kissa, kissa->view->mlx_dead);
+				return ;
+			}
 			printf("caught cat %d\n", i);
-			kissa->cats[i]->caught++;
+			cat->caught++;
 			kissa->cats_caught++;
-			kissa->map->array[(int)kissa->cats[i]->y][(int)kissa->cats[i]->x] = '0';
+			kissa->map->array[(int)cat->y][(int)cat->x] = '0';
 		}
 		i++;
 	}
