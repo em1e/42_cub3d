@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 04:12:10 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/24 04:43:08 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/28 11:09:37 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,6 +132,8 @@ static void	check_map(t_cub3d *kissa)
 		}
 		i++;
 	}
+	if (!kissa->player->start_dir)
+		quit_error(kissa, NULL, "map file missing player start");
 }
 
 /*
