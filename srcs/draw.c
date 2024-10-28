@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 13:43:44 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/28 12:10:49 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/28 12:51:27 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,11 +98,11 @@ void	draw_cats(t_cub3d *kissa)
 		cat = kissa->cats[i];
 		if (cat->seen_by)
 		{
-			if (cat->view_dir >= M_PI / 4 && cat->view_dir < M_PI / 4 * 3)
+			if (cat->view_dir >= M_PI * 0.25 && cat->view_dir < M_PI * 0.75)
 				cat->cat_i = 1;
-			else if (cat->view_dir >= M_PI / 4 * 3 && cat->view_dir < M_PI / 4 * 5)
+			else if (cat->view_dir >= M_PI * 0.75 && cat->view_dir < M_PI * 1.25)
 				cat->cat_i = 0;
-			else if (cat->view_dir >= M_PI / 4 * 5 && cat->view_dir < M_PI / 4 * 7)
+			else if (cat->view_dir >= M_PI * 1.25 && cat->view_dir < M_PI * 1.75)
 				cat->cat_i = 2;
 			else
 				cat->cat_i = 3;

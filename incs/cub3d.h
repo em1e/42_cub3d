@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 20:28:20 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/28 12:11:03 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/28 13:25:44 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,15 @@
 # include <math.h>
 
 // mlx window size
-# define MLX_WIDTH 2400
-# define MLX_HEIGHT 1600
+# define MLX_WIDTH 1200
+# define MLX_HEIGHT 800
 
 // FPS
 # define FPS 90
 # define DELAY 1 / FPS
 
 // FOV & distance to projection pane
-# define FOV M_PI / 2
+# define FOV M_PI * 0.3333
 # define PRO_DIST MLX_WIDTH / 2 / tan(FOV)
 
 // wall & object sizes
@@ -41,14 +41,14 @@
 # define CAT_TEX_SIZE 48
 
 // number of rays to be cast
-# define RAYC 480
-# define RAYDIFF M_PI / 2 / RAYC
+# define RAYC 240
+# define RAYDIFF M_PI * 0.5 / RAYC
 
 // radius of collision bumper
 # define BUMPER_SIZE 0.1
 
 // speeds for moving and rotating
-# define ROT_SPEED M_PI / 20
+# define ROT_SPEED 0.15
 # define PLAYER_SPEED 0.3
 # define CAT_SPEED 0.05
 
@@ -130,6 +130,7 @@ typedef struct	s_ray
 	float	scaled_height;
 	float	rot_diff;
 	float	fishey_adjust;
+	float	perp_dist;
 	int		offset;
 	t_vec	*dir;
 	t_vec	*ray_len;

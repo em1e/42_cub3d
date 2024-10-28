@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hooks.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:35:39 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/28 11:04:54 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/28 14:02:47 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,15 +138,15 @@ void	mouse_hook(double xpos, double ypos, void *param)
 	if (xpos == old_x)
 		return ;
 	old_x = xpos;
-	if (xpos > MLX_WIDTH / 2)
+	if (xpos > MLX_WIDTH * 0.5)
 	{
-		kissa->player->rot += ROT_SPEED / 15;
+		kissa->player->rot += ROT_SPEED * 0.15;
 		if (kissa->player->rot > 2 * M_PI)
 			kissa->player->rot -= 2 * M_PI;
 	}
 	else
 	{
-		kissa->player->rot -= ROT_SPEED / 15;
+		kissa->player->rot -= ROT_SPEED * 0.15;
 		if (kissa->player->rot < 0)
 			kissa->player->rot += 2 * M_PI;
 	}

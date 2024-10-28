@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 10:04:17 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/28 12:37:04 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/28 13:29:08 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,7 +142,7 @@ void	catch_cats(t_cub3d *kissa)
 		cat = kissa->cats[i];
 		if (cat->caught == 0 && cat_is_near(kissa, cat))
 		{
-			if (cat->view_dir <= M_PI / 4 || cat->view_dir > M_PI / 4 * 7)
+			if (cat->view_dir <= M_PI * 0.25 || cat->view_dir > M_PI * 0.25 * 7)
 			{
 				kissa->paused = true;
 				kissa->cats_caught++;
