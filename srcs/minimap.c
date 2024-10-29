@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minimap.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 16:33:57 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/29 10:36:28 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/29 11:18:43 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,7 +144,28 @@ void	populate_minimap_instances(t_cub3d *kissa)
 	}
 }
 
-//void	init_minimap_tile_image(t_cub3d *kissa, )
+static int	init_minimap_tile_image(t_cub3d *kissa, int i, int j, char c)
+{
+	mlx_image_t	*img;
+	int					inst;
+
+	img = NULL;
+	if (c == '1')
+		img = kissa->view->mlx_wall;
+	else if (c == '0')
+		img = kissa->view->mlx_floor;
+	else if (c == 'C')
+		img = kissa->view->mlx_cat;
+	if (!img)
+		quit_error(kissa, NULL, "something wrong in code");
+	inst = mlx_image_to_window(kissa->mlx,
+		img, j * kissa->map->tile_size, i * kissa->map->tile_size);
+	if (inst < 0)
+		quit_perror(kissa, NULL, "MLX42 failed");
+	mlx_set_instance_depth(&img->instances[inst], Z_MINIMAP);
+	img->instances[inst].enabled = 0;
+	return (inst);
+}
 
 void	setup_minimap(t_cub3d *kissa, int i, int j)
 {
@@ -154,24 +175,9 @@ void	setup_minimap(t_cub3d *kissa, int i, int j)
 		j = 0;
 		while (j <= MMRAD * 2)
 		{
-			kissa->view->wall_inst[i][j] = mlx_image_to_window(kissa->mlx,
-				kissa->view->mlx_wall, j * kissa->map->tile_size, i * kissa->map->tile_size);
-			if (kissa->view->wall_inst[i][j] < 0)
-				quit_perror(kissa, NULL, "MLX42 failed");
-			mlx_set_instance_depth(get_tile(kissa->view, j, i, '1'), Z_MINIMAP);
-			kissa->view->floor_inst[i][j] = mlx_image_to_window(kissa->mlx,
-				kissa->view->mlx_floor, j * kissa->map->tile_size, i * kissa->map->tile_size);
-			if (kissa->view->floor_inst[i][j] < 0)
-				quit_perror(kissa, NULL, "MLX42 failed");
-			mlx_set_instance_depth(get_tile(kissa->view, j, i, '0'), Z_MINIMAP);
-			kissa->view->cat_inst[i][j] = mlx_image_to_window(kissa->mlx,
-				kissa->view->mlx_cat, j * kissa->map->tile_size, i * kissa->map->tile_size);
-			if (kissa->view->cat_inst[i][j] < 0)
-				quit_perror(kissa, NULL, "MLX42 failed");
-			mlx_set_instance_depth(get_tile(kissa->view, j, i, 'C'), Z_MINIMAP);
-			get_tile(kissa->view, j, i, '0')->enabled = 0;
-			get_tile(kissa->view, j, i, '1')->enabled = 0;
-			get_tile(kissa->view, j, i, 'C')->enabled = 0;
+			kissa->view->wall_inst[i][j] = init_minimap_tile_image(kissa, i, j, '1');
+			kissa->view->floor_inst[i][j] = init_minimap_tile_image(kissa, i, j, '0');
+			kissa->view->cat_inst[i][j] = init_minimap_tile_image(kissa, i, j, 'C');
 			j++;
 		}
 		i++;
