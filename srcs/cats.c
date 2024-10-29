@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cats.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 10:04:17 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/29 12:37:37 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/29 13:17:18 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,15 +112,10 @@ void	create_cat_objs(t_cub3d *kissa)
 	places down cats or "C" on the map, and creates as many cat objects
 	into kissa->cats as needed
 */
-void	place_cats(t_cub3d *kissa)
+void	place_cats(t_cub3d *kissa, int i, int y, int x)
 {
 	int	distance;
-	int	i;
-	int	y;
-	int	x;
 
-	y = 0;
-	i = 0;
 	distance = kissa->tile_count / 3;
 	while (y < kissa->map->height)
 	{

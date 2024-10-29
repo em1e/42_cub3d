@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:25:48 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/29 12:52:58 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/29 13:12:17 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,4 +57,24 @@ void	init_kissa(t_cub3d *kissa)
 	kissa->view = new_view(kissa);
 	kissa->player = new_obj(kissa, PLAYER_SPEED);
 	init_rays(kissa);
+}
+
+/*
+Initializes MLX and stores the required images.
+*/
+void	init_mlx(t_cub3d *kissa)
+{
+	kissa->map->tile_size = 21;
+	mlx_set_setting(MLX_STRETCH_IMAGE, 1);
+	kissa->mlx = mlx_init(MLX_WIDTH, MLX_HEIGHT, "KISSA^3", true);
+	if (!kissa->mlx)
+		quit_perror(kissa, NULL, "mlx_init failed");
+	convert_textures(kissa);
+	kissa->view->mlx_scene = mlx_new_image(kissa->mlx, kissa->mlx->width,
+			kissa->mlx->height);
+	if (!kissa->view->mlx_scene)
+		quit_perror(kissa, NULL, "MLX42 failed");
+	if (mlx_image_to_window(kissa->mlx, kissa->view->mlx_scene, 0, 0) < 0)
+		quit_perror(kissa, NULL, "MLX42 failed");
+	mlx_set_instance_depth(kissa->view->mlx_scene->instances, Z_SCENE);
 }

@@ -3,53 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   minimap.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 16:33:57 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/29 12:44:24 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/29 13:13:15 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-/*
-	puts direction pixels on screen from the player object in the direction of 
-	the player object.
-
-	0xFF0000FF = red
-	0x00FF00FF = green
-	0x0000FFFF = blue
-	0x00FFFFFF = white
-	0x000000FF = black
-	0xFF00FFFF = purple
-	0xFFFF00FF = yellow
-
-*/
-void	draw_direction(t_cub3d *kissa)
-{
-	t_vec	*point;
-	int		distance;
-
-	point = new_vec(kissa);
-	point->x = 5 * kissa->map->tile_size + kissa->map->tile_size / 2;
-	point->y = 5 * kissa->map->tile_size + kissa->map->tile_size / 2;
-	distance = 0;
-	if (kissa->view->ray)
-		mlx_delete_image(kissa->mlx, kissa->view->ray);
-	kissa->view->ray = mlx_new_image(kissa->mlx, MLX_WIDTH, MLX_HEIGHT);
-	while (distance <= kissa->map->tile_size / 2)
-	{
-		point->x = (5 * kissa->map->tile_size + kissa->map->tile_size / 2)
-			+ distance * cos(kissa->player->rot);
-		point->y = (5 * kissa->map->tile_size + kissa->map->tile_size / 2)
-			+ distance * sin(kissa->player->rot);
-		mlx_put_pixel(kissa->view->ray, point->x, point->y, 0x000000FF);
-		distance++;
-	}
-	free(point);
-	mlx_image_to_window(kissa->mlx, kissa->view->ray, 0, 0);
-	mlx_set_instance_depth(kissa->view->ray->instances, Z_MINIMAP + 1);
-}
 
 /*
 	Draws the image for the provided character at the given coordinate, which 
@@ -141,29 +102,6 @@ void	populate_minimap_instances(t_cub3d *kissa)
 			quit_error(kissa, NULL, "memory allocation failure");
 		i++;
 	}
-}
-
-static int	init_minimap_tile(t_cub3d *kissa, int i, int j, char c)
-{
-	mlx_image_t	*img;
-	int			inst;
-
-	img = NULL;
-	if (c == '1')
-		img = kissa->view->mlx_wall;
-	else if (c == '0')
-		img = kissa->view->mlx_floor;
-	else if (c == 'C')
-		img = kissa->view->mlx_cat;
-	if (!img)
-		quit_error(kissa, NULL, "something wrong in code");
-	inst = mlx_image_to_window(kissa->mlx,
-			img, j * kissa->map->tile_size, i * kissa->map->tile_size);
-	if (inst < 0)
-		quit_perror(kissa, NULL, "MLX42 failed");
-	mlx_set_instance_depth(&img->instances[inst], Z_MINIMAP);
-	img->instances[inst].enabled = 0;
-	return (inst);
 }
 
 void	setup_minimap(t_cub3d *kissa, int i, int j)

@@ -6,7 +6,7 @@
 #    By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/25 19:49:37 by vkettune          #+#    #+#              #
-#    Updated: 2024/10/29 10:26:58 by jajuntti         ###   ########.fr        #
+#    Updated: 2024/10/29 13:11:38 by jajuntti         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,7 @@ FILES = main.c \
 		quit.c \
 		utils.c \
 		utils2.c \
-		mlx.c \
+		mlx_utils.c \
 		map.c \
 		map_utils.c \
 		parser.c \

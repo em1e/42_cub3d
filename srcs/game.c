@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   game.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:48:49 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/29 12:29:45 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/29 13:06:53 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ void	rotate(t_cub3d *kissa, t_obj *obj, int rot, float amount)
 void	play_game(t_cub3d *kissa)
 {
 	calcuate_tile_count(kissa);
-	place_cats(kissa);
+	place_cats(kissa, 0, 0, 0);
 	draw_game_state(kissa, kissa->view->mlx_start);
 	setup_minimap(kissa, 0, 0);
 	draw_scene(kissa);

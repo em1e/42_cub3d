@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 20:28:20 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/29 12:53:00 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/29 13:15:53 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,15 +185,16 @@ typedef struct	s_cub3d
 	int			total_cats;
 } t_cub3d;
 
-// main.c
-
 // init.c
 void	init_kissa(t_cub3d *kissa);
-
-// mlx.c
 void	init_mlx(t_cub3d *kissa);
+
+// mlx_utils.c
+void	convert_textures(t_cub3d *kissa);
 mlx_image_t	*convert_png(t_cub3d *kissa, char *file);
 void	delete_views_mlx(t_cub3d *kissa, t_view *view);
+int		init_minimap_tile(t_cub3d *kissa, int i, int j, char c);
+void	draw_direction(t_cub3d *kissa);
 
 // new.c
 t_map	*new_map(t_cub3d *kissa);
@@ -230,7 +231,7 @@ void	play_game(t_cub3d *kissa);
 // cats.c
 void	move_cats(t_cub3d *kissa);
 void	catch_cats(t_cub3d *kissa);
-void	place_cats(t_cub3d *kissa);
+void	place_cats(t_cub3d *kissa, int i, int y, int x);
 
 // draw_cat.c
 void	animate_cat(t_cub3d *kissa);
