@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:35:39 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/29 10:26:30 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/29 12:18:10 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	quit_hook(void *param)
 	t_cub3d	*kissa;
 
 	kissa = param;
-	quit_success(kissa, "Closing the window is not a victory!");
+	quit_success(kissa, "Bye!");
 }
 
 /*
@@ -38,12 +38,14 @@ void	update_hook(void *param)
 	timer += kissa->mlx->delta_time;
 	if (timer < (double) DELAY)
 		return ;
+	kissa->time_adjust = timer;
 	timer = 0;
 	draw_scene(kissa);
 	move_cats(kissa);
 	refresh_minimap(kissa);
 	if (kissa->total_cats != 0 && kissa->cats_caught == kissa->total_cats)
 	{
+		printf("PURRFECT! You found all the cats!\n");
 		kissa->paused = true;
 		draw_game_state(kissa, kissa->view->mlx_victory);
 	}

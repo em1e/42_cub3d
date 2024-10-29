@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 04:40:55 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/29 10:18:25 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/29 12:10:56 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,6 @@ void	init_mlx(t_cub3d *kissa)
 	if (!kissa->mlx)
 		quit_perror(kissa, NULL, "mlx_init failed");
 	convert_textures(kissa);
-	printf("mlx_width = %d, mlx_height = %d\n", kissa->mlx->width, kissa->mlx->height);
 	kissa->view->mlx_scene = mlx_new_image(kissa->mlx, kissa->mlx->width, kissa->mlx->height);
 	if (!kissa->view->mlx_scene)
 		quit_perror(kissa, NULL, "MLX42 failed");

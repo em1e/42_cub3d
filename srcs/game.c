@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:48:49 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/29 10:18:08 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/29 12:14:22 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,11 @@ int	move(t_cub3d *kissa, t_obj *obj, int dir_x, int dir_y)
 	float	new_y;
 
 	new_x = obj->x
-	+ (dir_y * obj->speed * obj->dir->x)
-	+ (dir_x * obj->speed * -obj->dir->y);
+	+ (dir_y * kissa->time_adjust * obj->speed * obj->dir->x)
+	+ (dir_x * kissa->time_adjust * obj->speed * -obj->dir->y);
 	new_y = obj->y
-	+ (dir_y * obj->speed * obj->dir->y)
-	+ (dir_x * obj->speed * obj->dir->x);
+	+ (dir_y * kissa->time_adjust * obj->speed * obj->dir->y)
+	+ (dir_x * kissa->time_adjust * obj->speed * obj->dir->x);
 
 	if (bounceback(kissa, obj, new_x, new_y))
 		return (1);
@@ -78,9 +78,9 @@ void	rotate(t_cub3d *kissa, t_obj *obj, int rot, float amount)
 	if (!rot)
 		return ;
 	if (rot > 0)
-		obj->rot += amount;
+		obj->rot += amount * kissa->time_adjust;
 	else
-		obj->rot -= amount;
+		obj->rot -= amount * kissa->time_adjust;
 	obj->rot = fix_rot(obj->rot);
 	obj->dir->x = cos(obj->rot);
 	obj->dir->y = sin(obj->rot);
@@ -102,5 +102,6 @@ void	play_game(t_cub3d *kissa)
 	mlx_cursor_hook(kissa->mlx, (mlx_cursorfunc)mouse_hook, kissa);
 	mlx_loop_hook(kissa->mlx, update_hook, kissa);
 	mlx_loop_hook(kissa->mlx, &anim_update_hook, kissa);
+	printf("Game started! There are %d cats to catch!\n", kissa->total_cats);
 	mlx_loop(kissa->mlx);
 }

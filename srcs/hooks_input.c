@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 10:25:06 by jajuntti          #+#    #+#             */
-/*   Updated: 2024/10/29 10:26:28 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/29 12:09:54 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,9 @@ void	escape_hook(void *param)
 	t_cub3d	*kissa;
 
 	kissa = param;
-	if (mlx_is_key_down(kissa->mlx, MLX_KEY_ESCAPE))
-		quit_success(kissa, "Escape is not a victory!");
-	if (mlx_is_key_down(kissa->mlx, MLX_KEY_Q))
-		quit_success(kissa, "Quitting is not a victory!");
+	if (mlx_is_key_down(kissa->mlx, MLX_KEY_ESCAPE) ||
+		mlx_is_key_down(kissa->mlx, MLX_KEY_Q))
+		quit_success(kissa, "Bye!");
 }
 
 /*
@@ -91,13 +90,13 @@ void	mouse_hook(double xpos, double ypos, void *param)
 	old_x = xpos;
 	if (xpos > MLX_WIDTH * 0.5)
 	{
-		kissa->player->rot += ROT_SPEED * 0.15;
+		kissa->player->rot += ROT_SPEED * kissa->time_adjust * 0.25;
 		if (kissa->player->rot > 2 * M_PI)
 			kissa->player->rot -= 2 * M_PI;
 	}
 	else
 	{
-		kissa->player->rot -= ROT_SPEED * 0.15;
+		kissa->player->rot -= ROT_SPEED * kissa->time_adjust * 0.25;
 		if (kissa->player->rot < 0)
 			kissa->player->rot += 2 * M_PI;
 	}

@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 20:28:20 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/29 10:38:51 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/29 12:03:27 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@
 # define DELAY 1 / FPS
 
 // FOV & distance to projection pane
-# define FOV M_PI * 0.3333
+# define FOV M_PI * 0.3
 
 // wall & object sizes
 # define WALL_HEIGHT MLX_HEIGHT
@@ -47,9 +47,9 @@
 # define BUMPER_SIZE 0.1
 
 // speeds for moving and rotating
-# define ROT_SPEED 0.15
-# define PLAYER_SPEED 0.3
-# define CAT_SPEED 0.05
+# define ROT_SPEED 2 
+# define PLAYER_SPEED 5
+# define CAT_SPEED 3
 
 // minimap radius
 # define MMRAD 5
@@ -173,6 +173,7 @@ typedef struct	s_cub3d
 	int			column_width;
 	int			cats_caught;
 	int			wall_height;
+	double		time_adjust;
 	int			fd;
 	char		*no;
 	char		*so;

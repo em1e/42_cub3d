@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 10:04:17 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/29 10:22:35 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/29 12:19:35 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,15 +42,17 @@ void	catch_cats(t_cub3d *kissa)
 		{
 			if (cat->view_dir <= M_PI * 0.25 || cat->view_dir > M_PI * 0.25 * 7)
 			{
+				printf("Oh no! You grabbed a cat from behind. GAME OVER!\n");
 				kissa->paused = true;
 				kissa->cats_caught++;
 				draw_game_state(kissa, kissa->view->mlx_dead);
 				return ;
 			}
-			printf("caught cat %d\n", i);
 			cat->caught++;
 			kissa->cats_caught++;
 			kissa->map->array[(int)cat->y][(int)cat->x] = '0';
+			printf("Caught cat %d. %d cats left.\n", i,
+				kissa->total_cats - kissa->cats_caught);
 		}
 		i++;
 	}

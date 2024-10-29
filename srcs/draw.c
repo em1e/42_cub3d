@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 13:43:44 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/29 11:12:32 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/29 12:14:06 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,6 @@ void	draw_scene(t_cub3d *kissa)
 
 void	draw_game_state(t_cub3d *kissa, mlx_image_t *img)
 {
-	
 	mlx_resize_image(img, MLX_WIDTH, MLX_HEIGHT);
 	if (mlx_image_to_window(kissa->mlx, img, 0, 0) < 0)
 		quit_perror(kissa, NULL, "MLX42 failed");
