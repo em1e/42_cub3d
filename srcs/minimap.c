@@ -6,58 +6,20 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 16:33:57 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/24 07:41:17 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/29 09:38:15 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-/*
-	Returns 1 if coordinate ray_x and ray_y are within the minimap radius
-	from player pos (6, 6), else returns 0.
-*/
-static int	check_radius(t_cub3d *kissa, float ray_x, float ray_y)
+void calc_coordinates(t_cub3d *kissa, t_vec *point, float rot, int distance)
 {
-	int center_x;
-	int center_y;
-
-	center_x = 6 * kissa->map->tile_size + kissa->map->tile_size / 2;
-	center_y = 6 * kissa->map->tile_size + kissa->map->tile_size / 2;
-	if (sqrt(pow((ray_x - center_x), 2) + pow((ray_y - center_y), 2)) <= MMRAD * kissa->map->tile_size)
-		return (1);
-	return (0);
-}
-
-void	loop_pixels(t_cub3d *kissa, int center, int radius, int tile)
-{
-	float	ray_x;
-	float	ray_y;
-	float	player_x;
-	float	player_y;
-	
-	ray_x = center;
-	ray_y = center;
-	player_x = (int)floor(kissa->player->x) * tile;
-	player_y = (int)floor(kissa->player->y) * tile;
-	while (check_radius(kissa, ray_x, ray_y) && (ray_x - center) + radius / 2 * tile > 0
-		&& (ray_y - center) + radius / 2 * tile > 0
-		&& kissa->map->array[(int)floor(player_y  / tile + 0.5)][(int)floor(player_x / tile + 0.5)] != '1')
-	{
-		if (ray_x < 0 || ray_x >= kissa->map->width * tile || ray_y < 0
-			|| ray_y >= kissa->map->height * tile)
-			break;
-		mlx_put_pixel(kissa->view->ray, (ray_x - center + radius * tile / 2) + tile / 2,
-			(ray_y - center + radius * tile / 2) + tile / 2, 0xFF0000FF);
-		ray_x += kissa->player->dir->x;
-		ray_y += kissa->player->dir->y;
-		player_x += kissa->player->dir->x;
-		player_y += kissa->player->dir->y;
-	}
+	point->x = (5 * kissa->map->tile_size + kissa->map->tile_size / 2) + distance * cos(rot);
+	point->y = (5 * kissa->map->tile_size + kissa->map->tile_size / 2) + distance * sin(rot);
 }
 
 /*
-	Shoots a ray from the player object in the direction of the player object.
-	While the ray is not hitting a wall, the ray is drawn on the screen.
+	puts direction pixels on screen from the player object in the direction of the player object.
 
 	0xFF0000FF = red
 	0x00FF00FF = green
@@ -68,21 +30,31 @@ void	loop_pixels(t_cub3d *kissa, int center, int radius, int tile)
 	0xFFFF00FF = yellow
 
 */
-static void	shoot_ray(t_cub3d *kissa)
+void	draw_direction(t_cub3d *kissa)
 {
-	int	tile;
+	t_vec	*point;
+	int		distance;
 
-	tile = kissa->map->tile_size;
-	mlx_delete_image(kissa->mlx, kissa->view->ray);
-	kissa->view->ray = mlx_new_image(kissa->mlx, tile * 100, tile * 100);
-	if (!kissa->view->ray)
-		quit_perror(kissa, NULL, "MLX42 image creation failed");
-	loop_pixels(kissa, 6 * tile + tile / 2, MMRAD * 2, tile);
-	if (mlx_image_to_window(kissa->mlx, kissa->view->ray, 0, 0) < 0)
-		quit_perror(kissa, NULL, "MLX42 image to window failed");
-	mlx_set_instance_depth(kissa->view->ray->instances, Z_MINIMAP);
+	point = new_vec(kissa);
+	point->x = 5 * kissa->map->tile_size + kissa->map->tile_size / 2;
+	point->y = 5 * kissa->map->tile_size + kissa->map->tile_size / 2;
+	distance = 0;
+	if (kissa->view->ray)
+		mlx_delete_image(kissa->mlx, kissa->view->ray);
+	kissa->view->ray = mlx_new_image(kissa->mlx, MLX_WIDTH, MLX_HEIGHT);
+	while (distance <= kissa->map->tile_size)
+	{
+		calc_coordinates(kissa, point, kissa->player->rot, distance);
+		if (distance <= 10)
+			mlx_put_pixel(kissa->view->ray, point->x, point->y, 0xFF0000FF);
+		else
+			mlx_put_pixel(kissa->view->ray, point->x, point->y, 0x0000FFFF);
+		distance++;
+	}
+	free(point);
+	mlx_image_to_window(kissa->mlx, kissa->view->ray, 0, 0);
+	mlx_set_instance_depth(kissa->view->ray->instances, Z_START);
 }
-
 
 /*
 	Draws the image for the provided character at the given coordinate, which is 
@@ -150,7 +122,7 @@ void	refresh_minimap(t_cub3d *kissa)
 			refresh_map_line(kissa, line_i, 0);
 		line_i++;
 	}
-	shoot_ray(kissa);
+	draw_direction(kissa);
 }
 
 void	populate_minimap_instances(t_cub3d *kissa)
