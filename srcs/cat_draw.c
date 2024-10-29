@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 10:14:26 by jajuntti          #+#    #+#             */
-/*   Updated: 2024/10/29 10:14:37 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/29 15:02:30 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ uint32_t	get_cats_pixel(t_cub3d *kissa, t_obj *cat, int x, int y)
 	uint32_t	color;
 	mlx_image_t	*img;
 
+	color = 0;
 	img = kissa->view->original_cat;
 	x = floor(x / cat->scaled_size * CAT_TEX_SIZE);
 	y = floor(y / cat->scaled_size * CAT_TEX_SIZE);
@@ -97,9 +98,9 @@ void	draw_cat(t_cub3d *kissa, t_obj *cat, t_ray *ray)
 	uint32_t	pix_x;
 	uint32_t	pix_y;
 
+	pixel = 0;
 	cat->screen_start_y = (MLX_HEIGHT - ray->screen_start->y)
 		+ ((MLX_HEIGHT - ray->screen_start->y) / cat->distance);
-	x = 0;
 	y = 0;
 	while (y < cat->scaled_size && cat->screen_start_y + y < MLX_HEIGHT)
 	{

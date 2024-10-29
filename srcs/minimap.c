@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 16:33:57 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/29 13:13:15 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/29 15:10:12 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ void	populate_minimap_instances(t_cub3d *kissa)
 	view->wall_inst = ft_calloc(sizeof(int *), MMRAD * 2 + 1);
 	view->floor_inst = ft_calloc(sizeof(int *), MMRAD * 2 + 1);
 	view->cat_inst = ft_calloc(sizeof(int *), MMRAD * 2 + 1);
-	if (!view->wall_inst || !view->floor_inst)
+	if (!view->wall_inst || !view->floor_inst || !view->cat_inst)
 		quit_error(kissa, NULL, "memory allocation failure");
 	while (i <= MMRAD * 2)
 	{

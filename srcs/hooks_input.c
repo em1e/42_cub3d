@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hooks_input.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 10:25:06 by jajuntti          #+#    #+#             */
-/*   Updated: 2024/10/29 12:28:05 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/29 14:00:21 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void	mouse_hook(double xpos, double ypos, void *param)
 	if (xpos == old_x)
 		return ;
 	old_x = xpos;
-	if (xpos > MLX_WIDTH * 0.5)
+	if (xpos > kissa->mlx->width * 0.5)
 	{
 		kissa->player->rot += ROT_SPEED * kissa->time_adjust * 0.25;
 		if (kissa->player->rot > 2 * M_PI)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 20:38:06 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/24 07:51:28 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/29 15:00:08 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ TASKS:
 void	check_args(int argc)
 {
 	if (argc < 2)
-		quit_error(NULL, NULL, "map is required");
+		quit_error(NULL, NULL, "please provide scene file");
 	else if (argc > 2)
 		quit_error(NULL, NULL, "too many arguments");
 }

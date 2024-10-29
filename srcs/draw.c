@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 13:43:44 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/29 12:34:59 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/29 14:30:22 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ uint32_t	get_wall_pixel(t_cub3d *kissa, t_ray *ray, int x, int y)
 	uint32_t	color;
 	float		scale_factor;
 
+	color = 0;
 	scale_factor = (float)ray->wall_tex->height / ray->scaled_height;
 	if (ray->wall_tex == kissa->view->mlx_no
 		|| ray->wall_tex == kissa->view->mlx_ea)

@@ -6,7 +6,7 @@
 #    By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/25 19:49:37 by vkettune          #+#    #+#              #
-#    Updated: 2024/10/29 13:11:38 by jajuntti         ###   ########.fr        #
+#    Updated: 2024/10/29 14:07:17 by jajuntti         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@
 
 NAME = cub3D
 CC = cc
-FLAGS = -Wall -Wextra -Werror $(HEADERS) -g -fsanitize=address 
+FLAGS = -Wall -Wextra -Werror $(HEADERS) -g #-fsanitize=address 
 HEADERS = -I ./incs/ -I ./libs/MLX42/include/MLX42
 
 LIBFT = ./libs/libft/libft.a
