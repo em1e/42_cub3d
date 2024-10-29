@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:25:48 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/28 09:46:05 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/29 09:18:31 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ void	init_rays(t_cub3d *kissa)
 		kissa->ray_array[i]->index = i;
 		kissa->ray_array[i]->screen_start->x = i * MLX_WIDTH / RAYC;
 		kissa->ray_array[i]->rot_diff = (RAYC / 2  - i) * RAYDIFF;
-		kissa->ray_array[i]->fishey_adjust = cos(fabs(kissa->ray_array[i]->rot_diff));
+		kissa->ray_array[i]->fishey_adjust = cos(kissa->ray_array[i]->rot_diff);
 		i++;
 	}
 }
@@ -131,7 +131,7 @@ void	init_rays(t_cub3d *kissa)
 /*
 	Initializes a new obj struct.
 */
-t_obj	*init_obj(t_cub3d *kissa, float speed)
+t_obj	*new_obj(t_cub3d *kissa, float speed)
 {
 	t_obj	*obj;
 
@@ -178,7 +178,7 @@ void	init_kissa(t_cub3d *kissa)
 	kissa->f[0] = -1;
 	kissa->map = new_map(kissa);
 	kissa->view = new_view(kissa);
-	kissa->player = init_obj(kissa, PLAYER_SPEED);
+	kissa->player = new_obj(kissa, PLAYER_SPEED);
 	init_rays(kissa);
 }
 

@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:49:02 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/28 15:36:45 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/29 08:57:56 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ static int	check_dir(float rot, int flag)
 }
 
 /*
-	Initializes the DDA algorithm by setting the starting coordinates and step sizes
+	Initializes the DDA algorithm by setting the starting coordinates and 
+	calculating step sizes, directions and angles.
 */
 static void	init_dda(t_cub3d *kissa, t_ray *ray)
 {
@@ -91,7 +92,7 @@ void	calculate_values(t_cub3d *kissa, t_ray *ray)
 		ray->perp_dist = ray->ray_len->y - ray->step_len->y;
 	else
 		ray->perp_dist = ray->ray_len->x - ray->step_len->x;
-	ray->scaled_height = floor(kissa->wall_height / ray->line_len / ray->fishey_adjust); //ray->perp_dist / ray->fishey_adjust);
+	ray->scaled_height = floor(kissa->wall_height / ray->line_len * ray->fishey_adjust); //ray->perp_dist / ray->fishey_adjust);
 	if (ray->scaled_height < MLX_HEIGHT)
 	{
 		ray->offset = 0;

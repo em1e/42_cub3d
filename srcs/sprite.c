@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 10:04:17 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/28 13:29:08 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/29 09:43:35 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ void	choose_cat_type(t_cub3d *kissa, int cat_type, int *grid_x, int *grid_y)
 }
 
 /*
-	changes the x and y so that theyactually find the correct cat texture from view->original_cat image
+	changes the x and y so that theyactually find the correct cat 
+	texture from view->original_cat image
 
 	- cat_i is for what cat animation are we talking
 	- cat_j is for what texture of that animation are we on (changed in ani hook)
@@ -90,21 +91,26 @@ uint32_t	get_cats_pixel(t_cub3d *kissa, t_obj *cat, int x, int y)
 */
 void	draw_cat(t_cub3d *kissa, t_obj *cat, t_ray *ray)
 {
-	uint32_t	pixel;
 	int			x;
 	int			y;
+	uint32_t	pixel;
+	uint32_t	pix_x;
+	uint32_t	pix_y;
 
-	cat->screen_start_y = (MLX_HEIGHT - ray->screen_start->y) + ((MLX_HEIGHT - ray->screen_start->y) / cat->distance);
-	y = 0;
+	cat->screen_start_y = (MLX_HEIGHT - ray->screen_start->y)
+		+ ((MLX_HEIGHT - ray->screen_start->y) / cat->distance);
 	x = 0;
+	y = 0;
 	while (y < cat->scaled_size && cat->screen_start_y + y < MLX_HEIGHT)
 	{
 		x = 0;
 		while (x < cat->scaled_size && cat->screen_start_x + x < MLX_WIDTH)
 		{
+			pix_x = cat->screen_start_x + x;
+			pix_y = cat->screen_start_y + y;
 			pixel = get_cats_pixel(kissa, cat, x, y);
 			if (pixel != 0)
-				mlx_put_pixel(kissa->view->mlx_scene, cat->screen_start_x + x, cat->screen_start_y + y, pixel);
+				mlx_put_pixel(kissa->view->mlx_scene, pix_x, pix_y, pixel);
 			x++;
 		}
 		y++;
@@ -115,8 +121,6 @@ void	draw_cat(t_cub3d *kissa, t_obj *cat, t_ray *ray)
 
 int	cat_is_near(t_cub3d *kissa, t_obj *cat)
 {
-	// if (!cat->seen_by)
-	// 	return (0);
 	if (kissa->map->array[(int)cat->y][(int)cat->x] == 'P'
 	|| kissa->map->array[(int)cat->y + 1][(int)cat->x] == 'P'
 	|| kissa->map->array[(int)cat->y - 1][(int)cat->x] == 'P'
@@ -125,8 +129,7 @@ int	cat_is_near(t_cub3d *kissa, t_obj *cat)
 	|| kissa->map->array[(int)cat->y - 1][(int)cat->x - 1] == 'P'
 	|| kissa->map->array[(int)cat->y + 1][(int)cat->x - 1] == 'P'
 	|| kissa->map->array[(int)cat->y - 1][(int)cat->x + 1] == 'P'
-	|| kissa->map->array[(int)cat->y + 1][(int)cat->x + 1] == 'P'
-	)
+	|| kissa->map->array[(int)cat->y + 1][(int)cat->x + 1] == 'P')
 		return (1);
 	return (0);
 }
@@ -160,17 +163,19 @@ void	catch_cats(t_cub3d *kissa)
 
 void	move_cats(t_cub3d *kissa)
 {
-	int	i;
+	int		i;
+	t_obj	*cat;
 
 	i = 0;
 	while (i < kissa->total_cats)
 	{
-		if (kissa->cats[i]->caught <= 0)
+		cat = kissa->cats[i];
+		if (cat->caught <= 0)
 		{
-			kissa->map->array[(int)kissa->cats[i]->y][(int)kissa->cats[i]->x] = '0';
-			if (move(kissa, kissa->cats[i], 0, 1) == 1)
-				rotate(kissa, kissa->cats[i], 1, NORTH);
-			kissa->map->array[(int)kissa->cats[i]->y][(int)kissa->cats[i]->x] = 'C';
+			kissa->map->array[(int)cat->y][(int)cat->x] = '0';
+			if (move(kissa, cat, 0, 1) == 1)
+				rotate(kissa, cat, 1, NORTH);
+			kissa->map->array[(int)cat->y][(int)cat->x] = 'C';
 		}
 		i++;
 	}
@@ -208,7 +213,7 @@ void	create_cat_objs(t_cub3d *kissa)
 		{
 			if (kissa->map->array[y][x] == 'C')
 			{
-				kissa->cats[i] = init_obj(kissa, CAT_SPEED);
+				kissa->cats[i] = new_obj(kissa, CAT_SPEED);
 				kissa->cats[i]->size = CAT_SIZE;
 				kissa->cats[i]->type = i + 3;
 				init_cat_pos(kissa, i, x, y);
