@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sprite.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 10:04:17 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/29 09:43:35 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/29 09:51:48 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,7 +187,7 @@ void	init_cat_pos(t_cub3d *kissa, int cat, int x, int y)
 {
 	kissa->cats[cat]->x = (float)x + 0.5;
 	kissa->cats[cat]->y = (float)y + 0.5;
-	set_rot(kissa->cats[cat], 'E'); // default cat dir
+	set_rot(kissa->cats[cat], 'E');
 	kissa->cats[cat]->dir->x = cos(kissa->cats[cat]->rot);
 	kissa->cats[cat]->dir->y = sin(kissa->cats[cat]->rot);
 }
