@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 20:28:20 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/29 09:21:53 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/29 09:47:05 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@
 # define Z_BACKGROUND 1
 # define Z_SCENE 2
 # define Z_MINIMAP 3
-# define Z_START 4
+# define Z_START 5
 
 # define START_SCREEN "./textures/start_screen.png"
 # define VICTORY_SCREEN "./textures/victory_screen.png"

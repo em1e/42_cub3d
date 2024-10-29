@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 16:33:57 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/29 09:41:36 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/29 09:45:50 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	draw_direction(t_cub3d *kissa)
 	}
 	free(point);
 	mlx_image_to_window(kissa->mlx, kissa->view->ray, 0, 0);
-	mlx_set_instance_depth(kissa->view->ray->instances, Z_START);
+	mlx_set_instance_depth(kissa->view->ray->instances, Z_MINIMAP + 1);
 }
 
 /*
