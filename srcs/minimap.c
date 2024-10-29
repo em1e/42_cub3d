@@ -3,23 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   minimap.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 16:33:57 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/29 09:45:50 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/29 10:36:28 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void calc_coordinates(t_cub3d *kissa, t_vec *point, float rot, int distance)
-{
-	point->x = (5 * kissa->map->tile_size + kissa->map->tile_size / 2) + distance * cos(rot);
-	point->y = (5 * kissa->map->tile_size + kissa->map->tile_size / 2) + distance * sin(rot);
-}
-
 /*
-	puts direction pixels on screen from the player object in the direction of the player object.
+	puts direction pixels on screen from the player object in the direction of 
+	the player object.
 
 	0xFF0000FF = red
 	0x00FF00FF = green
@@ -44,7 +39,10 @@ void	draw_direction(t_cub3d *kissa)
 	kissa->view->ray = mlx_new_image(kissa->mlx, MLX_WIDTH, MLX_HEIGHT);
 	while (distance <= kissa->map->tile_size / 2)
 	{
-		calc_coordinates(kissa, point, kissa->player->rot, distance);
+		point->x = (5 * kissa->map->tile_size + kissa->map->tile_size / 2) 
+			+ distance * cos(kissa->player->rot);
+		point->y = (5 * kissa->map->tile_size + kissa->map->tile_size / 2) 
+			+ distance * sin(kissa->player->rot);
 		mlx_put_pixel(kissa->view->ray, point->x, point->y, 0x000000FF);
 		distance++;
 	}
@@ -54,8 +52,8 @@ void	draw_direction(t_cub3d *kissa)
 }
 
 /*
-	Draws the image for the provided character at the given coordinate, which is 
-	calculated using provided indexes and the tile size used.
+	Draws the image for the provided character at the given coordinate, which 
+	is calculated using provided indexes and the tile size used.
 */
 static void	toggle_map_tile(t_cub3d *kissa, char c, int x, int y)
 {
@@ -145,6 +143,8 @@ void	populate_minimap_instances(t_cub3d *kissa)
 		i++;
 	}
 }
+
+//void	init_minimap_tile_image(t_cub3d *kissa, )
 
 void	setup_minimap(t_cub3d *kissa, int i, int j)
 {

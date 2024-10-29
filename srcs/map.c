@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 04:12:10 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/28 11:17:19 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/29 10:01:58 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,21 +70,6 @@ static void	fill_map(t_cub3d *kissa)
 }
 
 /*
-	Initializes the player object with the given coordinates and rotation.
-	This is called when the player start (NESW) is found in the map.
-*/
-void	init_player_pos(t_cub3d *kissa, char this, int i, int j)
-{
-	kissa->player->start_dir = this;
-	set_rot(kissa->player, this);
-	kissa->player->x = (float)j + 0.5;
-	kissa->player->y = (float)i + 0.5;
-	kissa->player->dir->x = cos(kissa->player->rot);
-	kissa->player->dir->y = sin(kissa->player->rot);
-	kissa->map->array[i][j] = 'P';
-}
-
-/*
 	Gives an error if:
 	- the map tile is a player start and one has already been found
 	- the map tile is '0' or a player start, and is located on the edge of the map
@@ -134,32 +119,6 @@ static void	check_map(t_cub3d *kissa)
 	}
 	if (!kissa->player->start_dir)
 		quit_error(kissa, NULL, "map element missing player start");
-}
-
-/*
-	Replaces all spaces in the map with '1' to make sure the map is surrounded by
-	walls.
-*/
-void	replace_spaces(t_cub3d *kissa)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	while (i < kissa->map->height)
-	{
-		j = 0;
-		if (i < kissa->map->height)
-		{
-			while (j < kissa->map->width)
-			{
-				if (kissa->map->array[i][j] == ' ')
-					kissa->map->array[i][j] = '1';
-				j++;
-			}
-		}
-		i++;
-	}
 }
 
 /*

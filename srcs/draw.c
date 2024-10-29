@@ -6,31 +6,11 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 13:43:44 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/28 12:51:27 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/29 10:29:28 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-static void	cast_rays(t_cub3d *kissa)
-{
-	int		i;
-	t_ray	*ray;
-
-	i = 0;
-	while (i < RAYC)
-	{
-		ray = kissa->ray_array[i];
-		ray->rot = fix_rot(kissa->player->rot - ray->rot_diff);
-		cast_ray(kissa, ray);
-		i++;
-	}
-}
-
-int32_t	rgb_to_pixel(int *rgb)
-{
-	return (rgb[0] << 24 | rgb[1] << 16 | rgb[2] << 8 | 255);
-}
 
 uint32_t	get_wall_pixel(t_cub3d *kissa, t_ray *ray, int x, int y)
 {
@@ -117,13 +97,39 @@ void	draw_cats(t_cub3d *kissa)
 void	draw_scene(t_cub3d *kissa)
 {
 	int	i;
+	t_ray	*ray;
 
 	i = 0;
-	cast_rays(kissa);
 	while (i < RAYC)
 	{
-		// printf("i = %d\n", i);
-		draw_column(kissa, kissa->ray_array[i++]);
+		ray = kissa->ray_array[i];
+		ray->rot = fix_rot(kissa->player->rot - ray->rot_diff);
+		cast_ray(kissa, ray);
+		i++;
 	}
+	i = 0;
+	while (i < RAYC)
+		draw_column(kissa, kissa->ray_array[i++]);
 	draw_cats(kissa);
+}
+
+void	draw_game_state(t_cub3d *kissa, mlx_image_t *img)
+{
+	int	start_x;
+	int	start_y;
+
+	start_x = 0;
+	start_y = 0;
+	if (img->width >= MLX_WIDTH || img->height >= MLX_HEIGHT)
+	{
+		mlx_resize_image(img, MLX_WIDTH, MLX_HEIGHT);
+	}
+	else
+	{
+		start_x = (MLX_WIDTH - img->width) / 2;
+		start_y = (MLX_HEIGHT - img->height) / 2;
+	}
+	if (mlx_image_to_window(kissa->mlx, img, start_x, start_y) < 0)
+		quit_perror(kissa, NULL, "MLX42 failed");
+	mlx_set_instance_depth(img->instances, Z_START);
 }

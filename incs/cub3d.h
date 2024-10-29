@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 20:28:20 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/29 09:47:05 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/29 10:38:51 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,16 +185,21 @@ typedef struct	s_cub3d
 } t_cub3d;
 
 // main.c
-void	clean_kissa(t_cub3d *kissa);
 
 // init.c
+void	init_kissa(t_cub3d *kissa);
+
+// mlx.c
+void	init_mlx(t_cub3d *kissa);
+mlx_image_t	*convert_png(t_cub3d *kissa, char *file);
+void	delete_views_mlx(t_cub3d *kissa, t_view *view);
+
+// new.c
 t_map	*new_map(t_cub3d *kissa);
 t_view	*new_view(t_cub3d *kissa);
 t_vec	*new_vec(t_cub3d *kissa);
 t_ray	*new_ray(t_cub3d *kissa);
 t_obj	*new_obj(t_cub3d *kissa, float speed);
-void	init_kissa(t_cub3d *kissa);
-void	init_mlx(t_cub3d *kissa);
 
 // parser.c
 void	parse_kissa(t_cub3d *kissa);
@@ -206,27 +211,29 @@ void	set_rgb(t_cub3d *kissa, int *rgb, char **rgb_arr, int rgb_i);
 void	get_rgb(t_cub3d *kissa, int *rgb, char *line);
 
 // hooks.c
-void	escape_hook(void *param);
 void	quit_hook(void *param);
-void	move_keyhook(mlx_key_data_t keykissa, void *param);
 void	update_hook(void *param);
-void	mouse_hook(double xpos, double ypos, void *param);
 void	anim_update_hook(void *param);
 
+// hooks_input.c
+void	escape_hook(void *param);
+void	move_keyhook(mlx_key_data_t keykissa, void *param);
+void	mouse_hook(double xpos, double ypos, void *param);
+
 // game.c
-void	set_rot(t_obj *obj, char rot_char);
 int		is_wall(t_cub3d *kissa, float x, float y);
 int		move(t_cub3d *kissa, t_obj *obj, int dir_x, int dir_y);
-void	draw_game_state(t_cub3d *kissa, mlx_image_t *img);
 void	rotate(t_cub3d *kissa, t_obj *obj, int rot, float amount);
 void	play_game(t_cub3d *kissa);
 
-// sprite.c
-void	animate_cat(t_cub3d *kissa);
+// cats.c
 void	move_cats(t_cub3d *kissa);
 void	catch_cats(t_cub3d *kissa);
+void	place_cats(t_cub3d *kissa);
+
+// draw_cat.c
+void	animate_cat(t_cub3d *kissa);
 void	draw_cat(t_cub3d *kissa, t_obj *cat, t_ray *ray);
-void	init_cat_ani(t_cub3d *kissa);
 
 // minimap.c
 void	refresh_minimap(t_cub3d *kissa);
@@ -237,24 +244,17 @@ void	cast_ray(t_cub3d *kissa, t_ray *ray);
 
 // draw.c
 void	draw_scene(t_cub3d *kissa);
-
-// utils.c
-float	fix_rot(float rot);
-void	clean_array(char **array);
-void	close_fd(t_cub3d *kissa);
-int		is_directory(char *filepath);
-void	check_file(t_cub3d *kissa, char *file, char *ext);
-void	print_map(t_cub3d *kissa);
-void	print_floodfill(t_cub3d *kissa);
-mlx_instance_t	*get_tile(t_view *view, int x, int y, char tile);
-float	calc_distance(float x1, float y1, float x2, float y2);
-
-// img_convert.c
-mlx_image_t	*convert_png(t_cub3d *kissa, char *file);
+void	draw_game_state(t_cub3d *kissa, mlx_image_t *img);
 
 // map.c
 void	init_map(t_cub3d *kissa);
 void	init_mlx(t_cub3d *kissa);
+
+// map_utils.c
+void	init_cat_pos(t_cub3d *kissa, int cat, int x, int y);
+void	init_player_pos(t_cub3d *kissa, char this, int i, int j);
+void	replace_spaces(t_cub3d *kissa);
+void	calcuate_tile_count(t_cub3d *kissa);
 
 // clean.c
 void	clean_map(t_map *map);
@@ -262,9 +262,28 @@ void	clean_view(t_cub3d *kissa, t_view *view);
 void	clean_obj(t_obj *obj);
 void	clean_kissa(t_cub3d *kissa);
 
+// clean_utils.c
+void	clean_file_content(t_cub3d *kissa);
+void	clean_ray_array(t_cub3d *kissa, t_ray **ray_array);
+void	clean_cats(t_cub3d *kissa, t_obj **cats);
+
 // quit.c
 void	quit_perror(t_cub3d *kissa, char *file, char *error_message);
 void	quit_error(t_cub3d *kissa, char *file, char *error_message);
 void	quit_success(t_cub3d *kissa, char *message);
+
+// utils.c
+void	close_fd(t_cub3d *kissa);
+int		is_directory(char *filepath);
+void	check_file(t_cub3d *kissa, char *file, char *ext);
+void	print_map(t_cub3d *kissa);
+mlx_instance_t	*get_tile(t_view *view, int x, int y, char tile);
+
+// utils2.c
+int32_t	rgb_to_pixel(int *rgb);
+float	calc_distance(float x1, float y1, float x2, float y2);
+float	fix_rot(float rot);
+void	clean_array(char **array);
+int		check_dir(float rot, int flag);
 
 #endif

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+         #
+#    By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/25 19:49:37 by vkettune          #+#    #+#              #
-#    Updated: 2024/10/24 09:46:20 by vkettune         ###   ########.fr        #
+#    Updated: 2024/10/29 10:26:58 by jajuntti         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,18 +29,24 @@ LIBS = -lm $(LIBFT) $(MLX42) -I include -lglfw \
 FILES = main.c \
 		quit.c \
 		utils.c \
-		img_convert.c \
+		utils2.c \
+		mlx.c \
 		map.c \
+		map_utils.c \
 		parser.c \
 		parser_utils.c \
 		init.c \
+		new.c \
 		hooks.c \
+		hooks_input.c \
 		game.c \
 		dda.c \
 		draw.c \
 		clean.c \
+		clean_utils.c \
 		minimap.c \
-		sprite.c
+		cats.c \
+		cat_draw.c
 
 #_FILES = put_images.c
 

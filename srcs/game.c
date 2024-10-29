@@ -6,32 +6,11 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:48:49 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/24 11:19:19 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/29 10:18:08 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-/*
-	Sets the initial rotation of the player object based on the given character.
-
-	possible values:
-		N: 90 degrees / 1.5 * M_PI
-		E: 0 degrees / 0
-		S: 270 degrees / 1.5 * M_PI
-		W: 180 degrees / M_PI
-*/
-void	set_rot(t_obj *obj, char rot_char)
-{
-	if (rot_char == 'N')
-		obj->rot = SOUTH;
-	else if (rot_char == 'E')
-		obj->rot = EAST;
-	else if (rot_char == 'S')
-		obj->rot = NORTH;
-	else
-		obj->rot = WEST;
-}
 
 /*
 	Checks if the given coordinates are a wall.
@@ -107,33 +86,13 @@ void	rotate(t_cub3d *kissa, t_obj *obj, int rot, float amount)
 	obj->dir->y = sin(obj->rot);
 }
 
-void	draw_game_state(t_cub3d *kissa, mlx_image_t *img)
-{
-	int	start_x;
-	int	start_y;
-
-	start_x = 0;
-	start_y = 0;
-	if (img->width >= MLX_WIDTH || img->height >= MLX_HEIGHT)
-	{
-		mlx_resize_image(img, MLX_WIDTH, MLX_HEIGHT);
-	}
-	else
-	{
-		start_x = (MLX_WIDTH - img->width) / 2;
-		start_y = (MLX_HEIGHT - img->height) / 2;
-	}
-	if (mlx_image_to_window(kissa->mlx, img, start_x, start_y) < 0)
-		quit_perror(kissa, NULL, "MLX42 failed");
-	mlx_set_instance_depth(img->instances, Z_START);
-}
-
 /*
 	Initializes the game loop and the hooks for the game.
 */
 void	play_game(t_cub3d *kissa)
 {
-	printf("game started\n");
+	calcuate_tile_count(kissa);
+	place_cats(kissa);
 	draw_game_state(kissa, kissa->view->mlx_start);
 	setup_minimap(kissa, 0, 0);
 	draw_scene(kissa);

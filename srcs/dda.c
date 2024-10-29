@@ -3,39 +3,82 @@
 /*                                                        :::      ::::::::   */
 /*   dda.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:49:02 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/29 09:52:31 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/29 10:22:08 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-/*
-	flag = 0 checks for y rotation
-	flag = 1 checks for x rotation
-	rot is kissa->player->rot
-	this function checks if the current rotation going in a
-	positive or negative direction, in either the x or y axis
-*/
-static int	check_dir(float rot, int flag)
+static void	set_wall_texture(t_cub3d *kissa, t_ray *ray)
 {
-	if (flag == 0)
+	if (ray->side == 0)
 	{
-		if (rot > (float)WEST)
-			return (-1);
-		else 
-			return (1);
+		if (ray->dir->x > 0)
+			ray->wall_tex = kissa->view->mlx_we;
+		else
+			ray->wall_tex = kissa->view->mlx_ea;
 	}
-	else if (flag == 1)
+	else
 	{
-		if (rot > (float)NORTH && rot < (float)SOUTH)
-			return (-1);
-		else 
-			return (1);
+		if (ray->dir->y > 0)
+			ray->wall_tex = kissa->view->mlx_no;
+		else
+			ray->wall_tex = kissa->view->mlx_so;
 	}
-	return (-10);
+}
+
+static void	check_for_cats(t_cub3d *kissa, t_ray *ray)
+{
+	int		i;
+	float	x;
+	float	y;
+	t_obj	*cat;
+
+	i = 0;
+	x = floor(ray->x);
+	y = floor(ray->y);
+	while (i < kissa->total_cats)
+	{
+		cat = kissa->cats[i];
+		if (!cat->seen_by && cat->x >= x && cat->x < x + 1 && cat->y >= y 
+			&& cat->y < y + 1)
+		{
+			cat->seen_by = ray;
+			cat->distance = calc_distance(cat->x, cat->y, kissa->player->x, kissa->player->y);
+			cat->scaled_size = cat->size / cat->distance;
+			cat->screen_start_x = ray->screen_start->x + (cat->x - floor(cat->x) / cat->distance); // needs to be fixed to use x/y depending on view direction
+			cat->view_dir = fix_rot(kissa->player->rot - cat->rot);
+		}
+		i++;
+	}
+}
+
+static void	calculate_values(t_cub3d *kissa, t_ray *ray)
+{
+	if (ray->side)
+		ray->perp_dist = ray->ray_len->y - ray->step_len->y;
+	else
+		ray->perp_dist = ray->ray_len->x - ray->step_len->x;
+	ray->scaled_height = floor(kissa->wall_height / ray->line_len / ray->fishey_adjust); //ray->perp_dist / ray->fishey_adjust);
+	if (ray->scaled_height < MLX_HEIGHT)
+	{
+		ray->offset = 0;
+		ray->screen_start->y = MLX_HEIGHT * 0.5 - ray->scaled_height * 0.5;
+		ray->img_start->y = 0;
+	}
+	else
+	{
+		ray->offset = ray->scaled_height - MLX_HEIGHT;
+		ray->screen_start->y = 0;
+		ray->img_start->y = ray->offset / 2;
+	}
+	if (ray->side)
+		ray->img_start->x = floor(ray->scaled_height * (ray->x - floor(ray->x)));
+	else
+		ray->img_start->x = floor(ray->scaled_height * (ray->y - floor(ray->y)));
 }
 
 /*
@@ -66,75 +109,6 @@ static void	init_dda(t_cub3d *kissa, t_ray *ray)
 		ray->ray_len->x = (ray->x - floor(ray->x)) * ray->step_len->x;
 	else
 		ray->ray_len->x = (floor(ray->x) + 1 - ray->x) * ray->step_len->x;
-}
-
-void	set_wall_texture(t_cub3d *kissa, t_ray *ray)
-{
-	if (ray->side == 0)
-	{
-		if (ray->dir->x > 0)
-			ray->wall_tex = kissa->view->mlx_we;
-		else
-			ray->wall_tex = kissa->view->mlx_ea;
-	}
-	else
-	{
-		if (ray->dir->y > 0)
-			ray->wall_tex = kissa->view->mlx_no;
-		else
-			ray->wall_tex = kissa->view->mlx_so;
-	}
-}
-
-void	calculate_values(t_cub3d *kissa, t_ray *ray)
-{
-	if (ray->side)
-		ray->perp_dist = ray->ray_len->y - ray->step_len->y;
-	else
-		ray->perp_dist = ray->ray_len->x - ray->step_len->x;
-	ray->scaled_height = floor(kissa->wall_height / ray->line_len / ray->fishey_adjust); //ray->perp_dist / ray->fishey_adjust);
-	if (ray->scaled_height < MLX_HEIGHT)
-	{
-		ray->offset = 0;
-		ray->screen_start->y = MLX_HEIGHT * 0.5 - ray->scaled_height * 0.5;
-		ray->img_start->y = 0;
-	}
-	else
-	{
-		ray->offset = ray->scaled_height - MLX_HEIGHT;
-		ray->screen_start->y = 0;
-		ray->img_start->y = ray->offset / 2;
-	}
-	if (ray->side)
-		ray->img_start->x = floor(ray->scaled_height * (ray->x - floor(ray->x)));
-	else
-		ray->img_start->x = floor(ray->scaled_height * (ray->y - floor(ray->y)));
-}
-
-void	check_for_cats(t_cub3d *kissa, t_ray *ray)
-{
-	int		i;
-	float	x;
-	float	y;
-	t_obj	*cat;
-
-	i = 0;
-	x = floor(ray->x);
-	y = floor(ray->y);
-	while (i < kissa->total_cats)
-	{
-		cat = kissa->cats[i];
-		if (!cat->seen_by && cat->x >= x && cat->x < x + 1 && cat->y >= y 
-			&& cat->y < y + 1)
-		{
-			cat->seen_by = ray;
-			cat->distance = calc_distance(cat->x, cat->y, kissa->player->x, kissa->player->y);
-			cat->scaled_size = cat->size / cat->distance;
-			cat->screen_start_x = ray->screen_start->x + (cat->x - floor(cat->x) / cat->distance); // needs to be fixed to use x/y depending on view direction
-			cat->view_dir = fix_rot(kissa->player->rot - cat->rot);
-		}
-		i++;
-	}
 }
 
 /*
