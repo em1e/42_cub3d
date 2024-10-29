@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 16:33:57 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/29 09:38:15 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/29 09:41:36 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,10 @@ void	draw_direction(t_cub3d *kissa)
 	if (kissa->view->ray)
 		mlx_delete_image(kissa->mlx, kissa->view->ray);
 	kissa->view->ray = mlx_new_image(kissa->mlx, MLX_WIDTH, MLX_HEIGHT);
-	while (distance <= kissa->map->tile_size)
+	while (distance <= kissa->map->tile_size / 2)
 	{
 		calc_coordinates(kissa, point, kissa->player->rot, distance);
-		if (distance <= 10)
-			mlx_put_pixel(kissa->view->ray, point->x, point->y, 0xFF0000FF);
-		else
-			mlx_put_pixel(kissa->view->ray, point->x, point->y, 0x0000FFFF);
+		mlx_put_pixel(kissa->view->ray, point->x, point->y, 0x000000FF);
 		distance++;
 	}
 	free(point);
