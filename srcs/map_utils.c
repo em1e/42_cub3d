@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 09:59:32 by jajuntti          #+#    #+#             */
-/*   Updated: 2024/10/29 12:37:23 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/29 13:48:10 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,13 @@
 static void	set_rot(t_obj *obj, char rot_char)
 {
 	if (rot_char == 'N')
-		obj->rot = SOUTH;
+		obj->rot = kissa->south;
 	else if (rot_char == 'E')
-		obj->rot = EAST;
+		obj->rot = kissa->east;
 	else if (rot_char == 'S')
-		obj->rot = NORTH;
+		obj->rot = kissa->north;
 	else
-		obj->rot = WEST;
+		obj->rot = kissa->west;
 }
 
 /*
@@ -99,7 +99,7 @@ void	calcuate_tile_count(t_cub3d *kissa)
 void	init_cat_pos(t_cub3d *kissa, int cat, int x, int y)
 {
 	kissa->cats[cat] = new_obj(kissa, CAT_SPEED);
-	kissa->cats[cat]->size = CAT_SIZE;
+	kissa->cats[cat]->size = WALL_HEIGHT * CAT_SIZE_FACTOR;
 	kissa->cats[cat]->type = cat + 3;
 	kissa->cats[cat]->x = (float)x + 0.5;
 	kissa->cats[cat]->y = (float)y + 0.5;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 09:57:32 by jajuntti          #+#    #+#             */
-/*   Updated: 2024/10/29 12:39:47 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/29 13:50:20 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,18 +24,18 @@ int32_t	rgb_to_pixel(int *rgb)
 	this function checks if the current rotation going in a
 	positive or negative direction, in either the x or y axis
 */
-int	check_dir(float rot, int flag)
+int	check_dir(t_cub3d *kissa, float rot, int flag)
 {
 	if (flag == 0)
 	{
-		if (rot > (float)WEST)
+		if (rot > kissa->west)
 			return (-1);
 		else
 			return (1);
 	}
 	else if (flag == 1)
 	{
-		if (rot > (float)NORTH && rot < (float)SOUTH)
+		if (rot > kissa->north && rot < kissa->south)
 			return (-1);
 		else
 			return (1);

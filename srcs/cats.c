@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 10:04:17 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/29 13:17:18 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/29 13:47:13 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	move_cats(t_cub3d *kissa)
 		{
 			kissa->map->array[(int)cat->y][(int)cat->x] = '0';
 			if (move(kissa, cat, 0, 1) == 1)
-				rotate(kissa, cat, 1, NORTH);
+				rotate(kissa, cat, 1, kissa->north);
 			kissa->map->array[(int)cat->y][(int)cat->x] = 'C';
 		}
 		i++;

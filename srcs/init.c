@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:25:48 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/29 13:12:17 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/29 13:46:38 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	init_rays(t_cub3d *kissa)
 		kissa->ray_array[i] = new_ray(kissa);
 		kissa->ray_array[i]->index = i;
 		kissa->ray_array[i]->screen_start->x = i * MLX_WIDTH / RAYC;
-		kissa->ray_array[i]->rot_diff = (RAYC / 2 - i) * RAYDIFF;
+		kissa->ray_array[i]->rot_diff = (RAYC / 2 - i) * (M_PI * 0.5 / RAYC);
 		kissa->ray_array[i]->fisheye = cos(kissa->ray_array[i]->rot_diff);
 		i++;
 	}
@@ -50,6 +50,10 @@ void	init_kissa(t_cub3d *kissa)
 	kissa->so = NULL;
 	kissa->ea = NULL;
 	kissa->we = NULL;
+	kissa->north = M_PI * 0.5;
+	kissa->east = 0;
+	kissa->south = M_PI * 1.5;
+	kissa->west = M_PI;
 	kissa->ray_array = NULL;
 	kissa->c[0] = -1;
 	kissa->f[0] = -1;

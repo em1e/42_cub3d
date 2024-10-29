@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 20:28:20 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/29 13:15:53 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/29 13:50:06 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,19 +29,17 @@
 
 // FPS
 # define FPS 90
-# define DELAY 1 / FPS
 
 // FOV & distance to projection pane
-# define FOV M_PI * 0.5
+# define FOV 1.5
 
 // wall & object sizes
 # define WALL_HEIGHT MLX_HEIGHT
-# define CAT_SIZE WALL_HEIGHT * 0.25
+# define CAT_SIZE_FACTOR 0.25
 # define CAT_TEX_SIZE 48
 
 // number of rays to be cast
 # define RAYC 240
-# define RAYDIFF M_PI * 0.5 / RAYC
 
 // radius of collision bumper
 # define BUMPER_SIZE 0.1
@@ -53,12 +51,6 @@
 
 // minimap radius
 # define MMRAD 5
-
-// radians for directions 
-# define NORTH M_PI * 0.5
-# define EAST 0
-# define SOUTH M_PI * 1.5
-# define WEST M_PI
 
 // depth values for rendering images
 # define Z_HIDDEN 0
@@ -76,13 +68,13 @@
 # define MINI_CAT_TEXTURE "./textures/21cat.png"
 # define SPRITE_CAT_TEXTURE "./textures/cat_sprite_1.png"
 
-typedef struct	s_vec
+typedef struct s_vec
 {
 	float	x;
 	float	y;
-} t_vec;
+}	t_vec;
 
-typedef struct	s_view
+typedef struct s_view
 {
 	mlx_image_t	*original_cat;
 	mlx_image_t	*mlx_start;
@@ -102,9 +94,9 @@ typedef struct	s_view
 	int			**floor_inst;
 	int			**cat_inst;
 	t_vec		*scene;
-} t_view;
+}	t_view;
 
-typedef struct	s_map
+typedef struct s_map
 {
 	int		width;
 	int		height;
@@ -114,30 +106,30 @@ typedef struct	s_map
 	char	*file;
 	char	*line;
 	int		first_map_line;
-} t_map;
+}	t_map;
 
 // remove if dda func is not needed
-typedef struct	s_ray
+typedef struct s_ray
 {
-	int		index;
-	int		side;
-	float	x;
-	float	y;
-	float	rot;
-	float	line_len;
-	float	initial_step;
-	float	scaled_height;
-	float	rot_diff;
-	float	fisheye;
-	float	perp_dist;
-	int		offset;
-	t_vec	*dir;
-	t_vec	*ray_len;
-	t_vec	*step_dir;
-	t_vec	*step_len;
+	int			index;
+	int			side;
+	float		x;
+	float		y;
+	float		rot;
+	float		line_len;
+	float		initial_step;
+	float		scaled_height;
+	float		rot_diff;
+	float		fisheye;
+	float		perp_dist;
+	int			offset;
+	t_vec		*dir;
+	t_vec		*ray_len;
+	t_vec		*step_dir;
+	t_vec		*step_len;
 	mlx_image_t	*wall_tex;
-	t_vec	*screen_start;
-	t_vec	*img_start;
+	t_vec		*screen_start;
+	t_vec		*img_start;
 }	t_ray;
 
 typedef struct s_obj
@@ -159,9 +151,9 @@ typedef struct s_obj
 	float	scaled_size;
 	int		screen_start_x;
 	int		screen_start_y;
-} t_obj;
+}	t_obj;
 
-typedef struct	s_cub3d
+typedef struct s_cub3d
 {
 	mlx_t		*mlx;
 	t_ray		**ray_array;
@@ -179,113 +171,117 @@ typedef struct	s_cub3d
 	char		*so;
 	char		*we;
 	char		*ea;
+	float		north;
+	float		east;
+	float		south;
+	float		west;
 	int			f[3];
 	int			c[3];
 	int			tile_count;
 	int			total_cats;
-} t_cub3d;
+}	t_cub3d;
 
 // init.c
-void	init_kissa(t_cub3d *kissa);
-void	init_mlx(t_cub3d *kissa);
+void			init_kissa(t_cub3d *kissa);
+void			init_mlx(t_cub3d *kissa);
 
 // mlx_utils.c
-void	convert_textures(t_cub3d *kissa);
-mlx_image_t	*convert_png(t_cub3d *kissa, char *file);
-void	delete_views_mlx(t_cub3d *kissa, t_view *view);
-int		init_minimap_tile(t_cub3d *kissa, int i, int j, char c);
-void	draw_direction(t_cub3d *kissa);
+void			convert_textures(t_cub3d *kissa);
+mlx_image_t		*convert_png(t_cub3d *kissa, char *file);
+void			delete_views_mlx(t_cub3d *kissa, t_view *view);
+int				init_minimap_tile(t_cub3d *kissa, int i, int j, char c);
+void			draw_direction(t_cub3d *kissa);
 
 // new.c
-t_map	*new_map(t_cub3d *kissa);
-t_view	*new_view(t_cub3d *kissa);
-t_vec	*new_vec(t_cub3d *kissa);
-t_ray	*new_ray(t_cub3d *kissa);
-t_obj	*new_obj(t_cub3d *kissa, float speed);
+t_map			*new_map(t_cub3d *kissa);
+t_view			*new_view(t_cub3d *kissa);
+t_vec			*new_vec(t_cub3d *kissa);
+t_ray			*new_ray(t_cub3d *kissa);
+t_obj			*new_obj(t_cub3d *kissa, float speed);
 
 // parser.c
-void	parse_kissa(t_cub3d *kissa);
+void			parse_kissa(t_cub3d *kissa);
 
 // parser_utils.c
-void	skip_space(char **str);
-void	get_texture(t_cub3d *kissa, char **texture, char *line);
-void	set_rgb(t_cub3d *kissa, int *rgb, char **rgb_arr, int rgb_i);
-void	get_rgb(t_cub3d *kissa, int *rgb, char *line);
+void			skip_space(char **str);
+void			get_texture(t_cub3d *kissa, char **texture, char *line);
+void			set_rgb(t_cub3d *kissa, int *rgb, char **rgb_arr, int rgb_i);
+void			get_rgb(t_cub3d *kissa, int *rgb, char *line);
 
 // hooks.c
-void	quit_hook(void *param);
-void	update_hook(void *param);
-void	anim_update_hook(void *param);
+void			quit_hook(void *param);
+void			update_hook(void *param);
+void			anim_update_hook(void *param);
 
 // hooks_input.c
-void	escape_hook(void *param);
-void	move_keyhook(mlx_key_data_t keykissa, void *param);
-void	mouse_hook(double xpos, double ypos, void *param);
+void			escape_hook(void *param);
+void			move_keyhook(mlx_key_data_t keykissa, void *param);
+void			mouse_hook(double xpos, double ypos, void *param);
 
 // game.c
-int		is_wall(t_cub3d *kissa, float x, float y);
-int		move(t_cub3d *kissa, t_obj *obj, int dir_x, int dir_y);
-void	rotate(t_cub3d *kissa, t_obj *obj, int rot, float amount);
-void	play_game(t_cub3d *kissa);
+int				is_wall(t_cub3d *kissa, float x, float y);
+int				move(t_cub3d *kissa, t_obj *obj, int dir_x, int dir_y);
+void			rotate(t_cub3d *kissa, t_obj *obj, int rot, float amount);
+void			play_game(t_cub3d *kissa);
 
 // cats.c
-void	move_cats(t_cub3d *kissa);
-void	catch_cats(t_cub3d *kissa);
-void	place_cats(t_cub3d *kissa, int i, int y, int x);
+void			move_cats(t_cub3d *kissa);
+void			catch_cats(t_cub3d *kissa);
+void			place_cats(t_cub3d *kissa, int i, int y, int x);
 
 // draw_cat.c
-void	animate_cat(t_cub3d *kissa);
-void	draw_cat(t_cub3d *kissa, t_obj *cat, t_ray *ray);
+void			animate_cat(t_cub3d *kissa);
+void			draw_cat(t_cub3d *kissa, t_obj *cat, t_ray *ray);
 
 // minimap.c
-void	refresh_minimap(t_cub3d *kissa);
-void	setup_minimap(t_cub3d *kissa, int i, int j);
+void			refresh_minimap(t_cub3d *kissa);
+void			setup_minimap(t_cub3d *kissa, int i, int j);
 
 // dda.c
-void	cast_ray(t_cub3d *kissa, t_ray *ray);
+void			cast_ray(t_cub3d *kissa, t_ray *ray);
 
 // draw.c
-void	draw_scene(t_cub3d *kissa);
-void	draw_game_state(t_cub3d *kissa, mlx_image_t *img);
+void			draw_scene(t_cub3d *kissa);
+void			draw_game_state(t_cub3d *kissa, mlx_image_t *img);
 
 // map.c
-void	init_map(t_cub3d *kissa);
-void	init_mlx(t_cub3d *kissa);
+void			init_map(t_cub3d *kissa);
+void			init_mlx(t_cub3d *kissa);
 
 // map_utils.c
-void	init_cat_pos(t_cub3d *kissa, int cat, int x, int y);
-void	init_player_pos(t_cub3d *kissa, char this, int i, int j);
-void	replace_spaces(t_cub3d *kissa);
-void	calcuate_tile_count(t_cub3d *kissa);
+void			init_cat_pos(t_cub3d *kissa, int cat, int x, int y);
+void			init_player_pos(t_cub3d *kissa, char this, int i, int j);
+void			replace_spaces(t_cub3d *kissa);
+void			calcuate_tile_count(t_cub3d *kissa);
 
 // clean.c
-void	clean_map(t_map *map);
-void	clean_view(t_cub3d *kissa, t_view *view);
-void	clean_obj(t_obj *obj);
-void	clean_kissa(t_cub3d *kissa);
+void			clean_map(t_map *map);
+void			clean_view(t_cub3d *kissa, t_view *view);
+void			clean_obj(t_obj *obj);
+void			clean_kissa(t_cub3d *kissa);
 
 // clean_utils.c
-void	clean_file_content(t_cub3d *kissa);
-void	clean_ray_array(t_cub3d *kissa, t_ray **ray_array);
-void	clean_cats(t_cub3d *kissa, t_obj **cats);
+void			clean_file_content(t_cub3d *kissa);
+void			clean_ray_array(t_cub3d *kissa, t_ray **ray_array);
+void			clean_cats(t_cub3d *kissa, t_obj **cats);
 
 // quit.c
-void	quit_perror(t_cub3d *kissa, char *file, char *error_message);
-void	quit_error(t_cub3d *kissa, char *file, char *error_message);
-void	quit_success(t_cub3d *kissa, char *message);
+void			quit_perror(t_cub3d *kissa, char *file, char *error_message);
+void			quit_error(t_cub3d *kissa, char *file, char *error_message);
+void			quit_success(t_cub3d *kissa, char *message);
 
 // utils.c
-void	close_fd(t_cub3d *kissa);
-int		is_directory(char *filepath);
-void	check_file(t_cub3d *kissa, char *file, char *ext);
-void	print_map(t_cub3d *kissa);
+void			close_fd(t_cub3d *kissa);
+int				is_directory(char *filepath);
+void			check_file(t_cub3d *kissa, char *file, char *ext);
+void			print_map(t_cub3d *kissa);
 mlx_instance_t	*get_tile(t_view *view, int x, int y, char tile);
 
 // utils2.c
-int32_t	rgb_to_pixel(int *rgb);
-float	calc_distance(float x1, float y1, float x2, float y2);
-float	fix_rot(float rot);
-void	clean_array(char **array);
-int		check_dir(float rot, int flag);
+int32_t			rgb_to_pixel(int *rgb);
+float			calc_distance(float x1, float y1, float x2, float y2);
+float			fix_rot(float rot);
+void			clean_array(char **array);
+int				check_dir(t_cub3d *kissa, float rot, int flag);
 
 #endif

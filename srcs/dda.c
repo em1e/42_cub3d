@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:49:02 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/29 12:54:30 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/29 13:49:46 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,15 +95,15 @@ static void	init_dda(t_cub3d *kissa, t_ray *ray)
 	ray->step_len->x = fabs(1 / ray->dir->x);
 	ray->step_len->y = fabs(1 / ray->dir->y);
 	ray->side = -1;
-	ray->step_dir->x = check_dir(ray->rot, 1);
-	ray->step_dir->y = check_dir(ray->rot, 0);
+	ray->step_dir->x = check_dir(kissa, ray->rot, 1);
+	ray->step_dir->y = check_dir(kissa, ray->rot, 0);
 	if (ray->step_dir->x == -10 || ray->step_dir->y == -10)
 		quit_error(kissa, NULL, "math failed in init_ray");
-	if (ray->rot > (float)WEST)
+	if (ray->rot > kissa->west)
 		ray->ray_len->y = (ray->y - floor(ray->y)) * ray->step_len->y;
 	else
 		ray->ray_len->y = (floor(ray->y) + 1 - ray->y) * ray->step_len->y;
-	if (ray->rot > (float)NORTH && ray->rot < (float)SOUTH)
+	if (ray->rot > kissa->north && ray->rot < kissa->south)
 		ray->ray_len->x = (ray->x - floor(ray->x)) * ray->step_len->x;
 	else
 		ray->ray_len->x = (floor(ray->x) + 1 - ray->x) * ray->step_len->x;
