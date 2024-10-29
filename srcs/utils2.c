@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 09:57:32 by jajuntti          #+#    #+#             */
-/*   Updated: 2024/10/29 10:29:43 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/29 12:39:47 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,14 @@ int	check_dir(float rot, int flag)
 	{
 		if (rot > (float)WEST)
 			return (-1);
-		else 
+		else
 			return (1);
 	}
 	else if (flag == 1)
 	{
 		if (rot > (float)NORTH && rot < (float)SOUTH)
 			return (-1);
-		else 
+		else
 			return (1);
 	}
 	return (-10);
@@ -59,7 +59,7 @@ float	calc_distance(float x1, float y1, float x2, float y2)
 
 	a = x1 - x2;
 	b = y1 - y2;
-	return(sqrt(a * a + b * b));
+	return (sqrt(a * a + b * b));
 }
 
 /*

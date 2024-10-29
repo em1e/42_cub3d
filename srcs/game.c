@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   game.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:48:49 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/29 12:14:22 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/29 12:29:45 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,12 @@ int	is_wall(t_cub3d *kissa, float x, float y)
 int	bounceback(t_cub3d *kissa, t_obj *obj, float new_x, float new_y)
 {
 	(void)obj;
-	if (new_x < 0 || new_x >= kissa->map->width 
-		|| new_y < 0 || new_y >= kissa->map->height 
+	if (new_x < 0 || new_x >= kissa->map->width
+		|| new_y < 0 || new_y >= kissa->map->height
 		|| is_wall(kissa, new_x, new_y)
-		|| is_wall(kissa, new_x + BUMPER_SIZE, new_y) 
+		|| is_wall(kissa, new_x + BUMPER_SIZE, new_y)
 		|| is_wall(kissa, new_x - BUMPER_SIZE, new_y)
-		|| is_wall(kissa, new_x, new_y + BUMPER_SIZE) 
+		|| is_wall(kissa, new_x, new_y + BUMPER_SIZE)
 		|| is_wall(kissa, new_x, new_y - BUMPER_SIZE)
 		|| kissa->map->array[(int)new_y][(int)new_x] == 'C'
 		|| (kissa->map->array[(int)new_y][(int)new_x] == 'P' && obj->size != 0))
@@ -52,12 +52,11 @@ int	move(t_cub3d *kissa, t_obj *obj, int dir_x, int dir_y)
 	float	new_y;
 
 	new_x = obj->x
-	+ (dir_y * kissa->time_adjust * obj->speed * obj->dir->x)
-	+ (dir_x * kissa->time_adjust * obj->speed * -obj->dir->y);
+		+ (dir_y * kissa->time_adjust * obj->speed * obj->dir->x)
+		+ (dir_x * kissa->time_adjust * obj->speed * -obj->dir->y);
 	new_y = obj->y
-	+ (dir_y * kissa->time_adjust * obj->speed * obj->dir->y)
-	+ (dir_x * kissa->time_adjust * obj->speed * obj->dir->x);
-
+		+ (dir_y * kissa->time_adjust * obj->speed * obj->dir->y)
+		+ (dir_x * kissa->time_adjust * obj->speed * obj->dir->x);
 	if (bounceback(kissa, obj, new_x, new_y))
 		return (1);
 	obj->x = new_x;

@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   cats.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 10:04:17 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/29 12:19:35 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/29 12:37:37 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-// ------------------- CAT MOVEMENT -------------------
 
 int	cat_is_near(t_cub3d *kissa, t_obj *cat)
 {
@@ -78,21 +76,18 @@ void	move_cats(t_cub3d *kissa)
 	}
 }
 
-// ------------------- INIT CAT -------------------
-
-
 /*
 	creates cat objects if conditions are met
 */
 void	create_cat_objs(t_cub3d *kissa)
 {
-	int		y;
-	int		x;
-	int		i;
+	int	y;
+	int	x;
+	int	i;
 
 	y = 0;
 	i = 0;
-	kissa->cats = malloc(sizeof(t_obj*) * kissa->total_cats);
+	kissa->cats = malloc(sizeof(t_obj *) * kissa->total_cats);
 	if (!kissa->cats)
 		quit_error(kissa, NULL, "memory allocation failure");
 	while (y < kissa->map->height)
@@ -102,9 +97,6 @@ void	create_cat_objs(t_cub3d *kissa)
 		{
 			if (kissa->map->array[y][x] == 'C')
 			{
-				kissa->cats[i] = new_obj(kissa, CAT_SPEED);
-				kissa->cats[i]->size = CAT_SIZE;
-				kissa->cats[i]->type = i + 3;
 				init_cat_pos(kissa, i, x, y);
 				i++;
 			}

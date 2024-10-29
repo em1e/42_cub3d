@@ -6,7 +6,7 @@
 /*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 16:33:57 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/29 11:18:43 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/29 12:44:24 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,9 @@ void	draw_direction(t_cub3d *kissa)
 	kissa->view->ray = mlx_new_image(kissa->mlx, MLX_WIDTH, MLX_HEIGHT);
 	while (distance <= kissa->map->tile_size / 2)
 	{
-		point->x = (5 * kissa->map->tile_size + kissa->map->tile_size / 2) 
+		point->x = (5 * kissa->map->tile_size + kissa->map->tile_size / 2)
 			+ distance * cos(kissa->player->rot);
-		point->y = (5 * kissa->map->tile_size + kissa->map->tile_size / 2) 
+		point->y = (5 * kissa->map->tile_size + kissa->map->tile_size / 2)
 			+ distance * sin(kissa->player->rot);
 		mlx_put_pixel(kissa->view->ray, point->x, point->y, 0x000000FF);
 		distance++;
@@ -104,7 +104,7 @@ static void	refresh_map_line(t_cub3d *kissa, int line_i, int to_skip)
 */
 void	refresh_minimap(t_cub3d *kissa)
 {
-	int line_i;
+	int	line_i;
 
 	line_i = 0;
 	while (line_i <= MMRAD * 2)
@@ -126,11 +126,10 @@ void	populate_minimap_instances(t_cub3d *kissa)
 	t_view	*view;
 
 	view = kissa->view;
-
 	i = 0;
-	view->wall_inst = ft_calloc(sizeof(int*), MMRAD * 2 + 1);
-	view->floor_inst = ft_calloc(sizeof(int*), MMRAD * 2 + 1);
-	view->cat_inst = ft_calloc(sizeof(int*), MMRAD * 2 + 1);
+	view->wall_inst = ft_calloc(sizeof(int *), MMRAD * 2 + 1);
+	view->floor_inst = ft_calloc(sizeof(int *), MMRAD * 2 + 1);
+	view->cat_inst = ft_calloc(sizeof(int *), MMRAD * 2 + 1);
 	if (!view->wall_inst || !view->floor_inst)
 		quit_error(kissa, NULL, "memory allocation failure");
 	while (i <= MMRAD * 2)
@@ -144,10 +143,10 @@ void	populate_minimap_instances(t_cub3d *kissa)
 	}
 }
 
-static int	init_minimap_tile_image(t_cub3d *kissa, int i, int j, char c)
+static int	init_minimap_tile(t_cub3d *kissa, int i, int j, char c)
 {
 	mlx_image_t	*img;
-	int					inst;
+	int			inst;
 
 	img = NULL;
 	if (c == '1')
@@ -159,7 +158,7 @@ static int	init_minimap_tile_image(t_cub3d *kissa, int i, int j, char c)
 	if (!img)
 		quit_error(kissa, NULL, "something wrong in code");
 	inst = mlx_image_to_window(kissa->mlx,
-		img, j * kissa->map->tile_size, i * kissa->map->tile_size);
+			img, j * kissa->map->tile_size, i * kissa->map->tile_size);
 	if (inst < 0)
 		quit_perror(kissa, NULL, "MLX42 failed");
 	mlx_set_instance_depth(&img->instances[inst], Z_MINIMAP);
@@ -175,15 +174,15 @@ void	setup_minimap(t_cub3d *kissa, int i, int j)
 		j = 0;
 		while (j <= MMRAD * 2)
 		{
-			kissa->view->wall_inst[i][j] = init_minimap_tile_image(kissa, i, j, '1');
-			kissa->view->floor_inst[i][j] = init_minimap_tile_image(kissa, i, j, '0');
-			kissa->view->cat_inst[i][j] = init_minimap_tile_image(kissa, i, j, 'C');
+			kissa->view->wall_inst[i][j] = init_minimap_tile(kissa, i, j, '1');
+			kissa->view->floor_inst[i][j] = init_minimap_tile(kissa, i, j, '0');
+			kissa->view->cat_inst[i][j] = init_minimap_tile(kissa, i, j, 'C');
 			j++;
 		}
 		i++;
 	}
-	if (mlx_image_to_window(kissa->mlx, kissa->view->mlx_player, 
-		MMRAD * kissa->map->tile_size, MMRAD * kissa->map->tile_size) < 0)
+	if (mlx_image_to_window(kissa->mlx, kissa->view->mlx_player,
+			MMRAD * kissa->map->tile_size, MMRAD * kissa->map->tile_size) < 0)
 		quit_perror(kissa, NULL, "MLX42 failed");
 	mlx_set_instance_depth(kissa->view->mlx_player->instances, Z_MINIMAP);
 }

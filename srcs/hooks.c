@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hooks.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:35:39 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/29 12:18:10 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/29 12:28:54 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	quit_hook(void *param)
 void	update_hook(void *param)
 {
 	t_cub3d			*kissa;
-	static double		timer;
+	static double	timer;
 
 	kissa = (t_cub3d *) param;
 	if (kissa->paused)

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   map.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 04:12:10 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/29 10:01:58 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/29 12:48:04 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void fill_short_lines(t_cub3d *kissa, char **line)
+void	fill_short_lines(t_cub3d *kissa, char **line)
 {
 	char	*new_line;
 	int		i;
@@ -51,8 +51,6 @@ static void	fill_map(t_cub3d *kissa)
 	line = ft_get_next_line(kissa->fd);
 	while (line)
 	{
-		if (!line)
-			quit_perror(kissa, NULL, "error reading scene file");
 		if (i >= kissa->map->first_map_line)
 		{
 			if (line[ft_strlen(line) - 1] == '\n')

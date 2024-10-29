@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 13:43:44 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/29 12:14:06 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/29 12:34:59 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,16 @@ uint32_t	get_wall_pixel(t_cub3d *kissa, t_ray *ray, int x, int y)
 	float		scale_factor;
 
 	scale_factor = (float)ray->wall_tex->height / ray->scaled_height;
-	if (ray->wall_tex == kissa->view->mlx_no || ray->wall_tex == kissa->view->mlx_ea)
+	if (ray->wall_tex == kissa->view->mlx_no
+		|| ray->wall_tex == kissa->view->mlx_ea)
 		x = kissa->column_width - x -1;
 	x = ray->img_start->x + x;
 	x = x * scale_factor;
 	y = y * scale_factor;
 	if ((uint32_t)x >= ray->wall_tex->width)
 		x = x % ray->wall_tex->width;
-	if (ray->wall_tex == kissa->view->mlx_no || ray->wall_tex == kissa->view->mlx_ea)
+	if (ray->wall_tex == kissa->view->mlx_no
+		|| ray->wall_tex == kissa->view->mlx_ea)
 		x = ray->wall_tex->width - x - 1;
 	if (y >= (int)ray->wall_tex->height)
 		return (0);
@@ -42,25 +44,24 @@ void	draw_column(t_cub3d *kissa, t_ray *ray)
 	int			y;
 	int			x;
 	uint32_t	pixel;
-	uint32_t	floor;
-	uint32_t	ceiling;
-	
-	floor = rgb_to_pixel(kissa->c);
-	ceiling = rgb_to_pixel(kissa->f);
+
 	y = 0;
 	while (y < MLX_HEIGHT)
 	{
 		x = ray->screen_start->x;
 		while (x < ray->screen_start->x + kissa->column_width)
 		{
-			if (y < ray->screen_start->y)//(ray->img_start->y + y - ray->scaled_height < MLX_HEIGHT)
-				pixel = floor;
-			else if (y >= ray->screen_start->y && y < ray->screen_start->y + ray->scaled_height)
-				pixel = get_wall_pixel(kissa, ray, x - ray->screen_start->x, ray->img_start->y + y - ray->screen_start->y);
+			if (y < ray->screen_start->y)
+				pixel = rgb_to_pixel(kissa->c);
+			else if (y >= ray->screen_start->y
+				&& y < ray->screen_start->y + ray->scaled_height)
+				pixel = get_wall_pixel(kissa, ray, x - ray->screen_start->x,
+						ray->img_start->y + y - ray->screen_start->y);
 			else
-				pixel = ceiling;
+				pixel = rgb_to_pixel(kissa->f);
 			if (pixel)
-				mlx_put_pixel(kissa->view->mlx_scene, (uint32_t)x, (uint32_t)y, pixel);
+				mlx_put_pixel(kissa->view->mlx_scene, (uint32_t)x, (uint32_t)y,
+					pixel);
 			x++;
 		}
 		y++;
@@ -80,9 +81,11 @@ void	draw_cats(t_cub3d *kissa)
 		{
 			if (cat->view_dir >= M_PI * 0.25 && cat->view_dir < M_PI * 0.75)
 				cat->cat_i = 1;
-			else if (cat->view_dir >= M_PI * 0.75 && cat->view_dir < M_PI * 1.25)
+			else if (cat->view_dir >= M_PI * 0.75
+				&& cat->view_dir < M_PI * 1.25)
 				cat->cat_i = 0;
-			else if (cat->view_dir >= M_PI * 1.25 && cat->view_dir < M_PI * 1.75)
+			else if (cat->view_dir >= M_PI * 1.25
+				&& cat->view_dir < M_PI * 1.75)
 				cat->cat_i = 2;
 			else
 				cat->cat_i = 3;
@@ -96,7 +99,7 @@ void	draw_cats(t_cub3d *kissa)
 
 void	draw_scene(t_cub3d *kissa)
 {
-	int	i;
+	int		i;
 	t_ray	*ray;
 
 	i = 0;
