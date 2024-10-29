@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:35:39 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/29 13:40:09 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/29 13:54:24 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	anim_update_hook(void *param)
 	if (kissa->paused)
 		return ;
 	timer += kissa->mlx->delta_time;
-	if (timer < (double) DELAY)
+	if (timer < 1 / FPS)
 		return ;
 	timer = 0;
 	if (direction == 0)

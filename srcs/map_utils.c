@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 09:59:32 by jajuntti          #+#    #+#             */
-/*   Updated: 2024/10/29 13:48:10 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/29 13:54:00 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 		S: 270 degrees / 1.5 * M_PI
 		W: 180 degrees / M_PI
 */
-static void	set_rot(t_obj *obj, char rot_char)
+static void	set_rot(t_cub3d *kissa, t_obj *obj, char rot_char)
 {
 	if (rot_char == 'N')
 		obj->rot = kissa->south;
@@ -40,7 +40,7 @@ static void	set_rot(t_obj *obj, char rot_char)
 void	init_player_pos(t_cub3d *kissa, char this, int i, int j)
 {
 	kissa->player->start_dir = this;
-	set_rot(kissa->player, this);
+	set_rot(kissa, kissa->player, this);
 	kissa->player->x = (float)j + 0.5;
 	kissa->player->y = (float)i + 0.5;
 	kissa->player->dir->x = cos(kissa->player->rot);
@@ -103,7 +103,7 @@ void	init_cat_pos(t_cub3d *kissa, int cat, int x, int y)
 	kissa->cats[cat]->type = cat + 3;
 	kissa->cats[cat]->x = (float)x + 0.5;
 	kissa->cats[cat]->y = (float)y + 0.5;
-	set_rot(kissa->cats[cat], 'E');
+	set_rot(kissa, kissa->cats[cat], 'E');
 	kissa->cats[cat]->dir->x = cos(kissa->cats[cat]->rot);
 	kissa->cats[cat]->dir->y = sin(kissa->cats[cat]->rot);
 }
