@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 20:28:20 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/28 13:25:44 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/29 09:21:53 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,10 @@
 
 // FOV & distance to projection pane
 # define FOV M_PI * 0.3333
-# define PRO_DIST MLX_WIDTH / 2 / tan(FOV)
 
 // wall & object sizes
 # define WALL_HEIGHT MLX_HEIGHT
-# define CAT_SIZE WALL_HEIGHT / 4
+# define CAT_SIZE WALL_HEIGHT * 0.25
 # define CAT_TEX_SIZE 48
 
 // number of rays to be cast
@@ -193,7 +192,7 @@ t_map	*new_map(t_cub3d *kissa);
 t_view	*new_view(t_cub3d *kissa);
 t_vec	*new_vec(t_cub3d *kissa);
 t_ray	*new_ray(t_cub3d *kissa);
-t_obj	*init_obj(t_cub3d *kissa, float speed);
+t_obj	*new_obj(t_cub3d *kissa, float speed);
 void	init_kissa(t_cub3d *kissa);
 void	init_mlx(t_cub3d *kissa);
 
