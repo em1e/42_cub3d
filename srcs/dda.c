@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:49:02 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/29 10:22:08 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/29 12:54:30 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,15 @@ static void	check_for_cats(t_cub3d *kissa, t_ray *ray)
 	while (i < kissa->total_cats)
 	{
 		cat = kissa->cats[i];
-		if (!cat->seen_by && cat->x >= x && cat->x < x + 1 && cat->y >= y 
+		if (!cat->seen_by && cat->x >= x && cat->x < x + 1 && cat->y >= y
 			&& cat->y < y + 1)
 		{
 			cat->seen_by = ray;
-			cat->distance = calc_distance(cat->x, cat->y, kissa->player->x, kissa->player->y);
+			cat->distance = calc_distance(cat->x, cat->y,
+					kissa->player->x, kissa->player->y);
 			cat->scaled_size = cat->size / cat->distance;
-			cat->screen_start_x = ray->screen_start->x + (cat->x - floor(cat->x) / cat->distance); // needs to be fixed to use x/y depending on view direction
+			cat->screen_start_x = ray->screen_start->x
+				+ (cat->x - floor(cat->x) / cat->distance);
 			cat->view_dir = fix_rot(kissa->player->rot - cat->rot);
 		}
 		i++;
@@ -58,11 +60,7 @@ static void	check_for_cats(t_cub3d *kissa, t_ray *ray)
 
 static void	calculate_values(t_cub3d *kissa, t_ray *ray)
 {
-	if (ray->side)
-		ray->perp_dist = ray->ray_len->y - ray->step_len->y;
-	else
-		ray->perp_dist = ray->ray_len->x - ray->step_len->x;
-	ray->scaled_height = floor(kissa->wall_height / ray->line_len / ray->fishey_adjust); //ray->perp_dist / ray->fishey_adjust);
+	ray->scaled_height = kissa->wall_height / ray->line_len / ray->fisheye;
 	if (ray->scaled_height < MLX_HEIGHT)
 	{
 		ray->offset = 0;
@@ -76,9 +74,11 @@ static void	calculate_values(t_cub3d *kissa, t_ray *ray)
 		ray->img_start->y = ray->offset / 2;
 	}
 	if (ray->side)
-		ray->img_start->x = floor(ray->scaled_height * (ray->x - floor(ray->x)));
+		ray->img_start->x = floor(ray->scaled_height
+				* (ray->x - floor(ray->x)));
 	else
-		ray->img_start->x = floor(ray->scaled_height * (ray->y - floor(ray->y)));
+		ray->img_start->x = floor(ray->scaled_height
+				* (ray->y - floor(ray->y)));
 }
 
 /*
@@ -92,15 +92,13 @@ static void	init_dda(t_cub3d *kissa, t_ray *ray)
 	ray->dir->x = cos(ray->rot);
 	ray->dir->y = sin(ray->rot);
 	ray->line_len = 0;
-	ray->step_len->x = fabs(1/ray->dir->x);
-	ray->step_len->y = fabs(1/ray->dir->y);
+	ray->step_len->x = fabs(1 / ray->dir->x);
+	ray->step_len->y = fabs(1 / ray->dir->y);
 	ray->side = -1;
-
 	ray->step_dir->x = check_dir(ray->rot, 1);
 	ray->step_dir->y = check_dir(ray->rot, 0);
 	if (ray->step_dir->x == -10 || ray->step_dir->y == -10)
 		quit_error(kissa, NULL, "math failed in init_ray");
-
 	if (ray->rot > (float)WEST)
 		ray->ray_len->y = (ray->y - floor(ray->y)) * ray->step_len->y;
 	else
@@ -112,8 +110,9 @@ static void	init_dda(t_cub3d *kissa, t_ray *ray)
 }
 
 /*
-	Shoots a ray from the player object in the direction of the player object
-	using the DDA algo. While the ray is not hitting a wall, the ray is drawn on the screen.
+	Shoots a ray from the player object in the direction of the player object 
+	using the DDA algo. While the ray is not hitting a wall, the ray is drawn 
+	on the screen.
 
 	This code works, is more optimized, bur is not as readable as function above
 */

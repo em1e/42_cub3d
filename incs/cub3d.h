@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 20:28:20 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/29 12:03:27 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/29 12:53:00 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@
 # define DELAY 1 / FPS
 
 // FOV & distance to projection pane
-# define FOV M_PI * 0.3
+# define FOV M_PI * 0.5
 
 // wall & object sizes
 # define WALL_HEIGHT MLX_HEIGHT
@@ -128,7 +128,7 @@ typedef struct	s_ray
 	float	initial_step;
 	float	scaled_height;
 	float	rot_diff;
-	float	fishey_adjust;
+	float	fisheye;
 	float	perp_dist;
 	int		offset;
 	t_vec	*dir;
