@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 13:43:44 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/30 08:14:16 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/30 10:18:01 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,13 +53,13 @@ void	draw_column(t_cub3d *kissa, t_ray *ray)
 		while (x < ray->screen_start->x + kissa->column_width)
 		{
 			if (y < ray->screen_start->y)
-				pixel = rgb_to_pixel(kissa->c);
+				pixel = rgb_to_pixel(kissa->f);
 			else if (y >= ray->screen_start->y
 				&& y < ray->screen_start->y + ray->scaled_height)
 				pixel = get_wall_pixel(kissa, ray, x - ray->screen_start->x,
 						ray->img_start->y + y - ray->screen_start->y);
 			else
-				pixel = rgb_to_pixel(kissa->f);
+				pixel = rgb_to_pixel(kissa->c);
 			if (pixel)
 				mlx_put_pixel(kissa->view->mlx_scene, (uint32_t)x, (uint32_t)y,
 					pixel);
