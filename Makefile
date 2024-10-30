@@ -6,7 +6,7 @@
 #    By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/25 19:49:37 by vkettune          #+#    #+#              #
-#    Updated: 2024/10/30 10:07:37 by jajuntti         ###   ########.fr        #
+#    Updated: 2024/10/30 10:11:17 by jajuntti         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -70,7 +70,7 @@ $(NAME): folders libft mlx42 $(OBJECTS)
 	@echo "$(DARK_MAGENTA)- - ✨✨✨✨ $(NAME) compiled! ✨✨✨✨ - -$(X)"
 	@echo "$(GREEN)- - - - - - - - - - - - - - - - - - - - - - -$(X)"
 	@echo "$(GREEN)Run the program with ./$(NAME)$(X)"
-bonus: fclean bfolders libft mlx42 $(BOBJECTS)
+bonus: $(NAME) bfolders $(BOBJECTS)
 	@$(CC) $(BOBJECTS) $(LIBS) $(FLAGS) $(BONUS) -o $(NAME)
 	@echo "$(DARK_MAGENTA)- - ✨✨✨✨ $(NAME) SUPER COMPILED! ✨✨✨✨ - -$(X)"
 	@echo "$(GREEN)- - - - - - - - - - - - - - - - - - - - - - -$(X)"
