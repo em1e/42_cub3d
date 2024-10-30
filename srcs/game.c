@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:48:49 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/30 08:27:26 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/30 12:30:13 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,6 @@ void	play_game(t_cub3d *kissa)
 {
 	if (BONUS)
 	{
-		calcuate_tile_count(kissa);
 		place_cats(kissa, 0, 0, 0);
 		draw_game_state(kissa, kissa->view->mlx_start);
 	}

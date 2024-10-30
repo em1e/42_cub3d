@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 20:28:20 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/30 07:43:09 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/30 12:30:09 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,7 +182,6 @@ typedef struct s_cub3d
 	float		west;
 	int			f[3];
 	int			c[3];
-	int			tile_count;
 	int			total_cats;
 }	t_cub3d;
 
@@ -257,7 +256,6 @@ void			init_mlx(t_cub3d *kissa);
 void			init_cat_pos(t_cub3d *kissa, int cat, int x, int y);
 void			init_player_pos(t_cub3d *kissa, char this, int i, int j);
 void			replace_spaces(t_cub3d *kissa);
-void			calcuate_tile_count(t_cub3d *kissa);
 
 // clean.c
 void			clean_map(t_map *map);

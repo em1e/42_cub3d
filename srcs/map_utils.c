@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 09:59:32 by jajuntti          #+#    #+#             */
-/*   Updated: 2024/10/30 07:17:10 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/30 12:30:19 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,28 +71,6 @@ void	replace_spaces(t_cub3d *kissa)
 			}
 		}
 		i++;
-	}
-}
-
-/*
-	calculates how many tiles are in the map
-*/
-void	calcuate_tile_count(t_cub3d *kissa)
-{
-	int	y;
-	int	x;
-
-	y = 0;
-	while (y < kissa->map->height)
-	{
-		x = 0;
-		while (x < kissa->map->width)
-		{
-			if (!is_wall(kissa, x, y))
-				kissa->tile_count++;
-			x++;
-		}
-		y++;
 	}
 }
 
