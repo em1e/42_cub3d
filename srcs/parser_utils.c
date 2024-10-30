@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 18:13:48 by jajuntti          #+#    #+#             */
-/*   Updated: 2024/10/28 11:27:31 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/30 12:24:42 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,12 @@ void	get_texture(t_cub3d *kissa, char **texture, char *line)
 		quit_perror(kissa, NULL, "memory allocation failure");
 }
 
+void	clean_quit(t_cub3d *kissa, char **rgb_arr, char *msg)
+{
+	clean_array(rgb_arr);
+	quit_error(kissa, NULL, msg);
+}
+
 void	set_rgb(t_cub3d *kissa, int *rgb, char **rgb_arr, int rgb_i)
 {
 	char	*ptr;
@@ -51,16 +57,16 @@ void	set_rgb(t_cub3d *kissa, int *rgb, char **rgb_arr, int rgb_i)
 	ptr = rgb_arr[rgb_i];
 	skip_space(&ptr);
 	if (!*ptr)
-		quit_error(kissa, NULL, "wrong RGB format");
+		clean_quit(kissa, rgb_arr, "wrong RGB format");
 	while (ptr[i] && ptr[i] != ' ')
 	{
 		if (ptr[i] && !ft_isdigit(ptr[i]))
-			quit_error(kissa, NULL, "wrong RGB format");
+			clean_quit(kissa, rgb_arr, "wrong RGB format");
 		i++;
 	}
 	value = ft_atoi(ptr);
 	if (value < 0 || value > 255)
-		quit_error(kissa, NULL, "RGB value out of range");
+		clean_quit(kissa, rgb_arr, "RGB value out of range");
 	rgb[rgb_i] = value;
 }
 
@@ -85,9 +91,6 @@ void	get_rgb(t_cub3d *kissa, int *rgb, char *line)
 		i++;
 	}
 	if (i != 3)
-	{
-		clean_array(rgb_arr);
-		quit_error(kissa, NULL, "wrong values in RGB element");
-	}
+		clean_quit(kissa, rgb_arr, "wrong values in RGB element");
 	clean_array(rgb_arr);
 }
