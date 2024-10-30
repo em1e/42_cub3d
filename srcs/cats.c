@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cats.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 10:04:17 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/30 07:29:34 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/30 12:52:33 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	catch_cats(t_cub3d *kissa)
 		{
 			if (cat->view_dir <= M_PI * 0.25 || cat->view_dir > M_PI * 0.25 * 7)
 			{
-				printf("Oh no! You grabbed a cat from behind. GAME OVER!\n");
+				printf("Oh no! You grabbed %s from behind!\n", cat->name);
 				kissa->paused = true;
 				kissa->cats_caught++;
 				draw_game_state(kissa, kissa->view->mlx_dead);
@@ -49,7 +49,7 @@ void	catch_cats(t_cub3d *kissa)
 			cat->caught++;
 			kissa->cats_caught++;
 			kissa->map->array[(int)cat->y][(int)cat->x] = '0';
-			printf("Caught cat %d. %d cats left.\n", i,
+			printf("You caught %s. %d cat(s) left.\n", cat->name,
 				kissa->total_cats - kissa->cats_caught);
 		}
 		i++;

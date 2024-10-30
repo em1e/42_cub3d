@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 09:59:32 by jajuntti          #+#    #+#             */
-/*   Updated: 2024/10/30 12:30:19 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/30 12:51:28 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,29 @@ void	replace_spaces(t_cub3d *kissa)
 	}
 }
 
+char	*get_cat_name(int	name)
+{
+	char *names[16];
+
+	names[0] = "Purrlock Holmes";
+	names[1] = "Nacho Nibbles";
+	names[2] = "Snickers Napsalot";
+	names[3] = "Mittens McFluff";
+	names[4] = "Sir Pounce-a-Lot";
+	names[5] = "Waffles Whiskerface";
+	names[6] = "Pickles McSnuggle";
+	names[7] = "Marshmallow Puff";
+	names[8] = "Captain Snugglepants";
+	names[9] = "Churro Whiskers";
+	names[10] = "Tiny Toebeans";
+	names[11] = "Fuzzbert Meowington";
+	names[12] = "Sushi Roll";
+	names[13] = "Jellybean Paws";
+	names[14] = "Whisker Doodle";
+	names[15] = "Princess Purrfect";
+	return (names[name]);
+}
+
 void	init_cat_pos(t_cub3d *kissa, int cat, int x, int y)
 {
 	int	type;
@@ -87,6 +110,7 @@ void	init_cat_pos(t_cub3d *kissa, int cat, int x, int y)
 		type -= 8;
 		kissa->cats[cat]->type = type;
 	}
+	kissa->cats[cat]->name = get_cat_name(cat);
 	kissa->cats[cat]->x = (float)x + 0.5;
 	kissa->cats[cat]->y = (float)y + 0.5;
 	set_rot(kissa, kissa->cats[cat], 'E');

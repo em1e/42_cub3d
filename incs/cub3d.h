@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 20:28:20 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/30 12:30:09 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/30 12:34:10 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,7 @@ typedef struct s_ray
 
 typedef struct s_obj
 {
+	char	*name;
 	char	start_dir;
 	float	x;
 	float	y;
