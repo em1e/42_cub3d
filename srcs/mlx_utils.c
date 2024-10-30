@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mlx_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 04:40:55 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/29 13:17:25 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/30 07:00:00 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,10 @@ void	delete_views_mlx(t_cub3d *kissa, t_view *view)
 		mlx_delete_image(kissa->mlx, view->ray);
 	if (view->mlx_no)
 		mlx_delete_image(kissa->mlx, view->mlx_no);
-	if (view->mlx_so)
-		mlx_delete_image(kissa->mlx, view->mlx_so);
 	if (view->mlx_we)
 		mlx_delete_image(kissa->mlx, view->mlx_we);
+	if (view->mlx_so)
+		mlx_delete_image(kissa->mlx, view->mlx_so);
 	if (view->mlx_ea)
 		mlx_delete_image(kissa->mlx, view->mlx_ea);
 	if (view->mlx_wall)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   new.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 10:04:18 by jajuntti          #+#    #+#             */
-/*   Updated: 2024/10/29 14:57:25 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/30 06:34:55 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_map	*new_map(t_cub3d *kissa)
 {
 	t_map	*map;
 
-	map = malloc(sizeof(t_map));
+	map = ft_calloc(sizeof(t_map), 1);
 	if (!map)
 		quit_error(kissa, NULL, "memory allocation failure");
 	*map = (t_map){0};
@@ -33,7 +33,7 @@ t_vec	*new_vec(t_cub3d *kissa)
 {
 	t_vec	*vec;
 
-	vec = malloc(sizeof(t_vec));
+	vec = ft_calloc(sizeof(t_vec), 1);
 	if (!vec)
 		quit_error(kissa, NULL, "memory allocation failure");
 	*vec = (t_vec){0};
@@ -49,7 +49,7 @@ t_ray	*new_ray(t_cub3d *kissa)
 {
 	t_ray	*ray;
 
-	ray = malloc(sizeof(t_ray));
+	ray = ft_calloc(sizeof(t_ray), 1);
 	if (!ray)
 		quit_error(kissa, NULL, "memory allocation failure");
 	*ray = (t_ray){0};
@@ -70,7 +70,7 @@ t_view	*new_view(t_cub3d *kissa)
 {
 	t_view	*view;
 
-	view = malloc(sizeof(t_view));
+	view = ft_calloc(sizeof(t_view), 1);
 	if (!view)
 		quit_error(kissa, NULL, "memory allocation failure");
 	*view = (t_view){0};
@@ -84,7 +84,7 @@ t_obj	*new_obj(t_cub3d *kissa, float speed)
 {
 	t_obj	*obj;
 
-	obj = malloc(sizeof(t_obj));
+	obj = ft_calloc(sizeof(t_obj), 1);
 	if (!obj)
 		quit_error(kissa, NULL, "memory allocation failure");
 	*obj = (t_obj){0};

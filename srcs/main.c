@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 20:38:06 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/29 15:00:08 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/30 06:34:19 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	main(int argc, char **argv)
 	t_cub3d	*kissa;
 
 	check_args(argc);
-	kissa = malloc(sizeof(t_cub3d));
+	kissa = ft_calloc(sizeof(t_cub3d), 1);
 	if (!kissa)
 		quit_error(kissa, NULL, "memory allocation failure");
 	init_kissa(kissa);

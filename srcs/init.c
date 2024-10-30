@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:25:48 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/29 15:01:03 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/30 06:34:35 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	init_rays(t_cub3d *kissa)
 	int	i;
 
 	i = 0;
-	kissa->ray_array = malloc(sizeof(t_ray *) * RAYC);
+	kissa->ray_array = ft_calloc(sizeof(t_ray *), RAYC);
 	if (!kissa->ray_array)
 		quit_error(kissa, NULL, "memory allocation failure");
 	while (i < RAYC)

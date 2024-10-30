@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 09:59:32 by jajuntti          #+#    #+#             */
-/*   Updated: 2024/10/29 15:01:36 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/30 07:17:10 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,9 +98,17 @@ void	calcuate_tile_count(t_cub3d *kissa)
 
 void	init_cat_pos(t_cub3d *kissa, int cat, int x, int y)
 {
+	int	type;
+
+	type = cat;
 	kissa->cats[cat] = new_obj(kissa, CAT_SPEED);
 	kissa->cats[cat]->size = WALL_HEIGHT * CAT_SIZE_FACTOR;
-	kissa->cats[cat]->type = cat + 3;
+	kissa->cats[cat]->type = type;
+	while (kissa->cats[cat]->type >= 8)
+	{
+		type -= 8;
+		kissa->cats[cat]->type = type;
+	}
 	kissa->cats[cat]->x = (float)x + 0.5;
 	kissa->cats[cat]->y = (float)y + 0.5;
 	set_rot(kissa, kissa->cats[cat], 'E');

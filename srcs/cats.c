@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cats.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 10:04:17 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/29 13:47:13 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/30 07:29:34 by vkettune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ void	create_cat_objs(t_cub3d *kissa)
 
 	y = 0;
 	i = 0;
-	kissa->cats = malloc(sizeof(t_obj *) * kissa->total_cats);
+	kissa->cats = ft_calloc(sizeof(t_obj *), kissa->total_cats);
 	if (!kissa->cats)
 		quit_error(kissa, NULL, "memory allocation failure");
 	while (y < kissa->map->height)
@@ -116,11 +116,11 @@ void	place_cats(t_cub3d *kissa, int i, int y, int x)
 {
 	int	distance;
 
-	distance = kissa->tile_count / 3;
+	distance = rand() % 50;
 	while (y < kissa->map->height)
 	{
 		x = 0;
-		distance += 2;
+		distance += 3;
 		while (x < kissa->map->width)
 		{
 			if (!is_wall(kissa, x, y))
@@ -131,6 +131,8 @@ void	place_cats(t_cub3d *kissa, int i, int y, int x)
 				kissa->map->array[y][x] = 'C';
 				kissa->total_cats++;
 			}
+			if (kissa->total_cats == 16)
+				break ;
 			x++;
 		}
 		y++;
