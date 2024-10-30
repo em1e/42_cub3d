@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mlx_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 04:40:55 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/30 07:00:00 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/30 10:06:24 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 
 void	convert_textures(t_cub3d *kissa)
 {
-	kissa->view->mlx_start = convert_png(kissa, START_SCREEN);
-	kissa->view->mlx_victory = convert_png(kissa, VICTORY_SCREEN);
-	kissa->view->mlx_dead = convert_png(kissa, DEAD_SCREEN);
 	kissa->view->mlx_no = convert_png(kissa, kissa->no);
 	kissa->view->mlx_we = convert_png(kissa, kissa->we);
 	kissa->view->mlx_so = convert_png(kissa, kissa->so);
 	kissa->view->mlx_ea = convert_png(kissa, kissa->ea);
+	kissa->view->mlx_start = convert_png(kissa, START_SCREEN);
+	kissa->view->mlx_victory = convert_png(kissa, VICTORY_SCREEN);
+	kissa->view->mlx_dead = convert_png(kissa, DEAD_SCREEN);
 	kissa->view->mlx_wall = convert_png(kissa, WALL_TEXTURE);
 	kissa->view->mlx_floor = convert_png(kissa, FLOOR_TEXTURE);
 	kissa->view->mlx_player = convert_png(kissa, PLAYER_TEXTURE);

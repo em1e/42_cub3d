@@ -6,7 +6,7 @@
 #    By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/25 19:49:37 by vkettune          #+#    #+#              #
-#    Updated: 2024/10/29 14:07:17 by jajuntti         ###   ########.fr        #
+#    Updated: 2024/10/30 10:07:37 by jajuntti         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,8 +15,10 @@
 
 NAME = cub3D
 CC = cc
-FLAGS = -Wall -Wextra -Werror $(HEADERS) -g #-fsanitize=address 
+FLAGS = -Wall -Wextra -Werror $(HEADERS)
+# -g -fsanitize=address
 HEADERS = -I ./incs/ -I ./libs/MLX42/include/MLX42
+BONUS = -DBONUS=1
 
 LIBFT = ./libs/libft/libft.a
 MLX42 = ./libs/MLX42/build/libmlx42.a
@@ -48,36 +50,38 @@ FILES = main.c \
 		cats.c \
 		cat_draw.c
 
-#_FILES = put_images.c
-
-# RAY_FILES = ray_tracing.c
-
-# IMG = $(addprefix images/, $(IMAGES_FILES))
-# RAY = $(addprefix ray/, $(RAY_FILES))
-
 SOURCES = $(addprefix srcs/, $(FILES))
-# $(addprefix srcs/, $(IMG))
-# $(addprefix srcs/, $(RAY))
 
 OBJ = $(addprefix objs/, $(FILES:.c=.o))
-# IMG_OBJ = $(addprefix objs/, $(IMG:.c=.o))
-# RAY_OBJ = $(addprefix objs/, $(RAY:.c=.o))
+BOBJ = $(addprefix bobjs/, $(FILES:.c=.o))
 
-OBJECTS = $(OBJ) # $(IMG_OBJ) $(RAY_OBJ)
-
-all: folders libft mlx42 $(NAME)
-	@echo "$(GREEN)- - - - - - - - - - - - - - - - - - - - - - -$(X)"
-	@echo "$(GREEN)Run the program with ./$(NAME)$(X)"
+OBJECTS = $(OBJ)
+BOBJECTS = $(BOBJ)
+	
+all: $(NAME)
 
 objs/%.o: srcs/%.c
 	@$(CC) $(FLAGS) -c $< -o $@ && echo "$(DARK_GRAY)Compiled: $@ $(X)"
+bobjs/%.o: srcs/%.c
+	@$(CC) $(FLAGS) $(BONUS) -c $< -o $@ && echo "$(DARK_GRAY)SUPER COMPILED: $@ $(X)"
 
-$(NAME): $(OBJECTS)
+$(NAME): folders libft mlx42 $(OBJECTS)
 	@$(CC) $(OBJECTS) $(LIBS) $(FLAGS) -o $(NAME)
 	@echo "$(DARK_MAGENTA)- - ✨✨✨✨ $(NAME) compiled! ✨✨✨✨ - -$(X)"
+	@echo "$(GREEN)- - - - - - - - - - - - - - - - - - - - - - -$(X)"
+	@echo "$(GREEN)Run the program with ./$(NAME)$(X)"
+bonus: fclean bfolders libft mlx42 $(BOBJECTS)
+	@$(CC) $(BOBJECTS) $(LIBS) $(FLAGS) $(BONUS) -o $(NAME)
+	@echo "$(DARK_MAGENTA)- - ✨✨✨✨ $(NAME) SUPER COMPILED! ✨✨✨✨ - -$(X)"
+	@echo "$(GREEN)- - - - - - - - - - - - - - - - - - - - - - -$(X)"
+	@echo "$(GREEN)Run the program with ./$(NAME)$(X)"
 
-folders: # objs/images objs/ray
+folders:
 	@mkdir -p objs/
+	@mkdir -p libs/libft/objs/
+	@echo "$(DARK_MAGENTA)- - - - - 📁 Created all folders! 📁 - - - - -$(X)"
+bfolders:
+	@mkdir -p bobjs/
 	@mkdir -p libs/libft/objs/
 	@echo "$(DARK_MAGENTA)- - - - - 📁 Created all folders! 📁 - - - - -$(X)"
 
@@ -95,8 +99,7 @@ libft:
 	make -C ./libs/libft
 
 clean:
-	@clear
-	@rm -rf objs/
+	@rm -rf objs/ bobjs/
 	@rm -rf $(MLX42_DIR)build/
 	@make -C ./libs/libft/ clean
 	@echo "$(DARK_MAGENTA)- - - - -❗All object files cleaned❗- - - - -$(X)"
@@ -107,6 +110,8 @@ fclean: clean
 	@echo "$(DARK_MAGENTA)- - - -❗All executable files cleaned❗- - - -$(X)"
 
 re: fclean all
+
+.PHONY: all clean fclean re bonus
 
 X = \033[0;39m
 BLACK = \033[0;30m

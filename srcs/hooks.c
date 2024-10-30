@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:35:39 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/29 13:54:24 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/30 07:57:21 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,16 @@ void	update_hook(void *param)
 	kissa->time_adjust = timer;
 	timer = 0;
 	draw_scene(kissa);
-	move_cats(kissa);
-	refresh_minimap(kissa);
-	if (kissa->total_cats != 0 && kissa->cats_caught == kissa->total_cats)
+	if (BONUS)
 	{
-		printf("PURRFECT! You found all the cats!\n");
-		kissa->paused = true;
-		draw_game_state(kissa, kissa->view->mlx_victory);
+		move_cats(kissa);
+		refresh_minimap(kissa);
+		if (kissa->total_cats != 0 && kissa->cats_caught == kissa->total_cats)
+		{
+			printf("PURRFECT! You found all the cats!\n");
+			kissa->paused = true;
+			draw_game_state(kissa, kissa->view->mlx_victory);
+		}
 	}
 }
 

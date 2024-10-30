@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 20:28:20 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/29 13:50:06 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/30 07:43:09 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,11 @@
 # include "libft.h"
 # include "../libs/MLX42/include/MLX42/MLX42.h"
 # include <math.h>
+
+// bonus
+# ifndef BONUS
+#  define BONUS 0
+# endif
 
 // mlx window size
 # define MLX_WIDTH 1200

@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:49:02 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/29 15:02:00 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/30 07:55:23 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,8 @@ void	cast_ray(t_cub3d *kissa, t_ray *ray)
 			ray->ray_len->y += ray->step_len->y;
 			ray->side = 1;
 		}
-		check_for_cats(kissa, ray);
+		if (BONUS)
+			check_for_cats(kissa, ray);
 	}
 	ray->x = kissa->player->x + ray->dir->x * ray->line_len;
 	ray->y = kissa->player->y + ray->dir->y * ray->line_len;

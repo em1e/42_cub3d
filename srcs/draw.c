@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 13:43:44 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/29 14:30:22 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/30 08:14:16 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,8 @@ void	draw_scene(t_cub3d *kissa)
 	i = 0;
 	while (i < RAYC)
 		draw_column(kissa, kissa->ray_array[i++]);
-	draw_cats(kissa);
+	if (BONUS)
+		draw_cats(kissa);
 }
 
 void	draw_game_state(t_cub3d *kissa, mlx_image_t *img)

@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 10:25:06 by jajuntti          #+#    #+#             */
-/*   Updated: 2024/10/29 14:00:21 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/30 07:56:21 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	move_keyhook(mlx_key_data_t keydata, void *param)
 	}
 	if (kissa->paused)
 		return ;
-	if (keydata.action == MLX_PRESS && keydata.key == MLX_KEY_SPACE)
+	if (BONUS && keydata.action == MLX_PRESS && keydata.key == MLX_KEY_SPACE)
 	{
 		catch_cats(kissa);
 		return ;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 09:25:48 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/30 06:34:35 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/10/30 08:20:34 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,9 @@ void	init_kissa(t_cub3d *kissa)
 {
 	*kissa = (t_cub3d){0};
 	kissa->fd = -1;
-	kissa->paused = true;
+	kissa->paused = false;
+	if (BONUS)
+		kissa->paused = true;
 	kissa->column_width = MLX_WIDTH / RAYC;
 	kissa->wall_height = WALL_HEIGHT;
 	kissa->north = M_PI * 0.5;

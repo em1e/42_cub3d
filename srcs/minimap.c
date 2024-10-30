@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 16:33:57 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/29 15:10:12 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/10/30 10:05:04 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,8 @@ void	setup_minimap(t_cub3d *kissa, int i, int j)
 		}
 		i++;
 	}
+	if (!BONUS)
+		return ;
 	if (mlx_image_to_window(kissa->mlx, kissa->view->mlx_player,
 			MMRAD * kissa->map->tile_size, MMRAD * kissa->map->tile_size) < 0)
 		quit_perror(kissa, NULL, "MLX42 failed");
