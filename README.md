@@ -9,7 +9,7 @@ make a dynamic view inside a maze, in which you’ll have to find your way.
 ```
 
 ## Description
-Cub3D is all about bringing that classic raycasting game feeling to life. It’s a fun way to dive into the world of graphic design while figuring out how math fits into computer graphics. At least we did a lot of research beforehand, which helped us later on to make a 2D space feel like a 3D world more easily. That being said I'd argue cub3D isn’t just another project; it’s a creative playground where coding and math team up to create an awesome interactive experience!
+Cub3D is all about bringing that classic raycasting game feeling to life. It’s a fun way to dive into the world of graphic design while figuring out how math fits into computer graphics. At least we did a lot of research beforehand, which helped us later on to make a 2D space feel like a 3D world more easily. That being said I'd argue cub3D isn’t just any project; it’s a creative playground where coding and math team up to create an awesome interactive experience!
 
 ## Compile and Run
 
