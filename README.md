@@ -15,7 +15,7 @@ Cub3D is all about bringing that classic raycasting game feeling to life. It’s
 
 There are two versions of the program, the mandatory part and the bonus part. Bonus part adds a minimap, cats, start and end screens, as well as the ability to rotate the view by moving the mouse.
 
-`NOTE`: we cannot gurantee that it will work on windows devices, it should run on mac and linux just fine.
+`❗note` : we cannot gurantee that it will work on windows devices, it should run on mac and linux just fine.
 
 To compile the mandatory part, `cd` into the cloned directory and:
 
