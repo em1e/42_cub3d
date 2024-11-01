@@ -30,15 +30,15 @@ make bonus
 To run the program:
 
 ```shell
-./cub3d <path/to/map.cub>
+./cub3D <path/to/map.cub>
 ```
 
 The program takes a map file as an argument. Maps are available in the `maps` directory. There are good maps which the program should run smoothly with, and bad maps which the program should reject.
 For example:
 
-- `./cub3d maps/good/map_1.cub` should run.
+- `./cub3D maps/good/map_1.cub` should run.
 
-- `./cub3d maps/bad/empty.cub` should print an error and abort.
+- `./cub3D maps/bad/empty.cub` should print an error and abort.
 
 ## Controls
 
