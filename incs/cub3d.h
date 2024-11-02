@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 20:28:20 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/30 12:34:10 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/11/02 13:05:53 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@
 // speeds for moving and rotating
 # define ROT_SPEED 2 
 # define PLAYER_SPEED 5
-# define CAT_SPEED 3
+# define CAT_SPEED 2
 
 // minimap radius
 # define MMRAD 5
