@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 18:13:48 by jajuntti          #+#    #+#             */
-/*   Updated: 2024/10/30 12:24:42 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/11/02 11:46:59 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	set_rgb(t_cub3d *kissa, int *rgb, char **rgb_arr, int rgb_i)
 		i++;
 	}
 	value = ft_atoi(ptr);
-	if (value < 0 || value > 255)
+	if (i > 3 || value < 0 || value > 255)
 		clean_quit(kissa, rgb_arr, "RGB value out of range");
 	rgb[rgb_i] = value;
 }
