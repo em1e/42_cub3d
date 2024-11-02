@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 09:59:32 by jajuntti          #+#    #+#             */
-/*   Updated: 2024/10/30 12:51:28 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/11/02 12:13:43 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,9 +74,9 @@ void	replace_spaces(t_cub3d *kissa)
 	}
 }
 
-char	*get_cat_name(int	name)
+char	*get_cat_name(int name)
 {
-	char *names[16];
+	char	*names[16];
 
 	names[0] = "Purrlock Holmes";
 	names[1] = "Nacho Nibbles";
