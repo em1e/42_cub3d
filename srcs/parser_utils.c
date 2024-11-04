@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 18:13:48 by jajuntti          #+#    #+#             */
-/*   Updated: 2024/11/04 09:48:53 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/11/04 11:13:50 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,22 @@ void	get_texture(t_cub3d *kissa, char **texture, char *line)
 		quit_perror(kissa, NULL, "memory allocation failure");
 }
 
-void	clean_quit(t_cub3d *kissa, char **rgb_arr, char *msg)
+int	check_commas(char *rgb_line)
 {
-	clean_array(rgb_arr);
-	quit_error(kissa, NULL, msg);
+	int	commas;
+
+	commas = 0;
+	while(*rgb_line)
+	{
+		if (*rgb_line == ',')
+			commas++;
+		if (commas > 2)
+			return (1);
+		rgb_line++;
+	}
+	if (commas != 2)
+		return (1);
+	return (0);
 }
 
 void	set_rgb(t_cub3d *kissa, int *rgb, char **rgb_arr, int rgb_i)
@@ -52,20 +64,26 @@ void	set_rgb(t_cub3d *kissa, int *rgb, char **rgb_arr, int rgb_i)
 	char	*ptr;
 	int		i;
 	int		value;
+	int		flag;
 
 	i = 0;
+	flag = 0;
 	ptr = rgb_arr[rgb_i];
 	skip_space(&ptr);
 	if (!*ptr)
-		clean_quit(kissa, rgb_arr, "wrong RGB format");
-	while (ptr[i] && ptr[i] != ' ')
+		clean_quit(kissa, rgb_arr, "empty RGB value");
+	while (ptr[i])
 	{
-		if (ptr[i] && !ft_isdigit(ptr[i]))
+		if ((ptr[i] != ' ' && !ft_isdigit(ptr[i])) || (flag && ptr[i] != ' '))
 			clean_quit(kissa, rgb_arr, "wrong RGB format");
+		if (ptr[i] == ' ')
+			flag = i;
+		else if (i > 2)
+			clean_quit(kissa, rgb_arr, "too many digits in RGB value");
 		i++;
 	}
 	value = ft_atoi(ptr);
-	if (i > 3 || value < 0 || value > 255)
+	if (value < 0 || value > 255)
 		clean_quit(kissa, rgb_arr, "RGB value out of range");
 	rgb[rgb_i] = value;
 }
@@ -78,21 +96,19 @@ void	get_rgb(t_cub3d *kissa, int *rgb, char *line)
 	i = 0;
 	if (*rgb >= 0)
 		quit_error(kissa, NULL, "duplicate element in scene file");
-	if (line[ft_strlen(line) - 1] == ',')
-		quit_error(kissa, NULL, "wrong RGB format");
+	if (check_commas(line))
+		quit_error(kissa, NULL, "too many/few commas in RGB value");
 	line++;
 	skip_space(&line);
-	if (!ft_isdigit(*line))
-		quit_error(kissa, NULL, "wrong RGB format");
-	rgb_arr = ft_split(line, " ,");
+	rgb_arr = ft_split(line, ",");
 	if (!rgb_arr)
 		quit_perror(kissa, NULL, "memory allocation failure");
+	if (!rgb_arr[0] || !rgb_arr[1] || !rgb_arr[2] || rgb_arr[3])
+		quit_error(kissa, NULL, "wrong RGB format");
 	while (rgb_arr[i])
 	{
 		set_rgb(kissa, rgb, rgb_arr, i);
 		i++;
 	}
-	if (i != 3)
-		clean_quit(kissa, rgb_arr, "wrong values in RGB element");
 	clean_array(rgb_arr);
 }

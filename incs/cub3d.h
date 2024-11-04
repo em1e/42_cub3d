@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 20:28:20 by vkettune          #+#    #+#             */
-/*   Updated: 2024/11/02 13:05:53 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/11/04 10:57:35 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -270,6 +270,7 @@ void			clean_ray_array(t_cub3d *kissa, t_ray **ray_array);
 void			clean_cats(t_cub3d *kissa, t_obj **cats);
 
 // quit.c
+void			clean_quit(t_cub3d *kissa, char **arr, char *msg);
 void			quit_perror(t_cub3d *kissa, char *file, char *error_message);
 void			quit_error(t_cub3d *kissa, char *file, char *error_message);
 void			quit_success(t_cub3d *kissa, char *message);

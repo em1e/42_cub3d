@@ -3,14 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   quit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkettune <vkettune@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 12:20:47 by jajuntti          #+#    #+#             */
-/*   Updated: 2024/10/10 05:10:59 by vkettune         ###   ########.fr       */
+/*   Updated: 2024/11/04 10:57:12 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+
+/*
+	Cleans a char array and then quits with given error message.
+*/
+void	clean_quit(t_cub3d *kissa, char **arr, char *msg)
+{
+	clean_array(arr);
+	quit_error(kissa, NULL, msg);
+}
 
 /*
 	Cleans all allocated memory and quits with provided error message using perror.
