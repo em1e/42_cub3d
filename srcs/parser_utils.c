@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 18:13:48 by jajuntti          #+#    #+#             */
-/*   Updated: 2024/11/02 11:46:59 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/11/04 09:48:53 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,11 +78,13 @@ void	get_rgb(t_cub3d *kissa, int *rgb, char *line)
 	i = 0;
 	if (*rgb >= 0)
 		quit_error(kissa, NULL, "duplicate element in scene file");
+	if (line[ft_strlen(line) - 1] == ',')
+		quit_error(kissa, NULL, "wrong RGB format");
 	line++;
 	skip_space(&line);
 	if (!ft_isdigit(*line))
 		quit_error(kissa, NULL, "wrong RGB format");
-	rgb_arr = ft_split(line, ",");
+	rgb_arr = ft_split(line, " ,");
 	if (!rgb_arr)
 		quit_perror(kissa, NULL, "memory allocation failure");
 	while (rgb_arr[i])
