@@ -6,39 +6,24 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 04:12:10 by vkettune          #+#    #+#             */
-/*   Updated: 2024/10/29 14:57:43 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/11/04 12:46:20 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	fill_short_lines(t_cub3d *kissa, char **line)
+void	copy_short_line(t_cub3d *kissa, char **line)
 {
 	char	*new_line;
-	int		i;
 
-	i = ft_strlen(*line);
 	new_line = ft_calloc(kissa->map->width + 1, sizeof(char));
 	if (!new_line)
 		quit_perror(kissa, NULL, "memory allocation error");
-	ft_strlcpy(new_line, *line, i + 1);
-	while (i < kissa->map->width)
-	{
-		new_line[i] = '1';
-		i++;
-	}
+	ft_strlcpy(new_line, *line, ft_strlen(*line) + 1);
 	free(*line);
 	*line = new_line;
 }
 
-/*
-	Opens the map file, callocs for the map array, and stores each row from the 
-	file into the array using ft_get_next_line.
-
-	NOTE:
-	this code was used for when we flip the map in the array upside down.
-	// map->array[kissa->map->height - (i - kissa->map->first_map_line) - 1] = line;
-*/
 static void	fill_map(t_cub3d *kissa)
 {
 	int		i;
@@ -55,8 +40,8 @@ static void	fill_map(t_cub3d *kissa)
 		{
 			if (line[ft_strlen(line) - 1] == '\n')
 				line[ft_strlen(line) - 1] = 0;
-			if (ft_strlen(line) < (size_t)kissa->map->width)
-				fill_short_lines(kissa, &line);
+			if ((int)ft_strlen(line) < kissa->map->width)
+				copy_short_line(kissa, &line);
 			kissa->map->array[i - kissa->map->first_map_line] = line;
 		}
 		else
@@ -80,6 +65,8 @@ static void	check_tile(t_cub3d *kissa, int i, int j)
 
 	array = kissa->map->array;
 	this = array[i][j];
+	if (!this)
+		return ;
 	if (this != '0' && kissa->player->start_dir)
 		quit_error(kissa, NULL, "map element has more than one start");
 	if (this != '0')
@@ -89,6 +76,9 @@ static void	check_tile(t_cub3d *kissa, int i, int j)
 		quit_error(kissa, NULL, "map element is not surrounded by walls");
 	if (array[i - 1][j] == ' ' || array[i][j + 1] == ' '
 		|| array[i + 1][j] == ' ' || array[i][j - 1] == ' ')
+		quit_error(kissa, NULL, "map element is not surrounded by walls");
+	if (array[i - 1][j] == 0 || array[i][j + 1] == 0
+		|| array[i + 1][j] == 0 || array[i][j - 1] == 0)
 		quit_error(kissa, NULL, "map element is not surrounded by walls");
 }
 
@@ -109,7 +99,8 @@ static void	check_map(t_cub3d *kissa)
 		j = 0;
 		while (j < kissa->map->width)
 		{
-			if (ft_strchr("0NESW", kissa->map->array[i][j]))
+			if (kissa->map->array[i][j]
+				&& ft_strchr("0NESW", kissa->map->array[i][j]))
 				check_tile(kissa, i, j);
 			j++;
 		}

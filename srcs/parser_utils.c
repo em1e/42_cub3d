@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 18:13:48 by jajuntti          #+#    #+#             */
-/*   Updated: 2024/11/04 11:13:50 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/11/04 12:45:56 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	check_commas(char *rgb_line)
 	int	commas;
 
 	commas = 0;
-	while(*rgb_line)
+	while (*rgb_line)
 	{
 		if (*rgb_line == ',')
 			commas++;

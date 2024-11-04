@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 09:59:32 by jajuntti          #+#    #+#             */
-/*   Updated: 2024/11/02 12:13:43 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/11/04 11:19:33 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	replace_spaces(t_cub3d *kissa)
 		{
 			while (j < kissa->map->width)
 			{
-				if (kissa->map->array[i][j] == ' ')
+				if (!kissa->map->array[i][j] || kissa->map->array[i][j] == ' ')
 					kissa->map->array[i][j] = '1';
 				j++;
 			}
