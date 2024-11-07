@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 18:13:48 by jajuntti          #+#    #+#             */
-/*   Updated: 2024/11/04 12:45:56 by jajuntti         ###   ########.fr       */
+/*   Updated: 2024/11/07 10:03:09 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ void	get_rgb(t_cub3d *kissa, int *rgb, char *line)
 	if (!rgb_arr)
 		quit_perror(kissa, NULL, "memory allocation failure");
 	if (!rgb_arr[0] || !rgb_arr[1] || !rgb_arr[2] || rgb_arr[3])
-		quit_error(kissa, NULL, "wrong RGB format");
+		clean_quit(kissa, rgb_arr, "wrong RGB format");
 	while (rgb_arr[i])
 	{
 		set_rgb(kissa, rgb, rgb_arr, i);
