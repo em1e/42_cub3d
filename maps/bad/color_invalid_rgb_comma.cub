@@ -1,0 +1,21 @@
+NO ./textures/cat_1.png
+SO ./textures/cat_2.png
+WE ./textures/cat_3.png
+EA ./textures/cat_4.png
+
+F 20,20,20,
+C 200,200,200
+
+11111
+10001
+10S01
+10001
+10001
+10001
+11001
+10001
+10001
+10001
+10001
+10001
+11111

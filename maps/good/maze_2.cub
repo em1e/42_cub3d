@@ -1,7 +1,7 @@
-NO ./textures/cat_4.png
-SO ./textures/cat_5.png
-WE ./textures/pattern_1.png
-EA ./textures/duck.png
+NO ./textures/red.png
+SO ./textures/green.png
+WE ./textures/blue.png
+EA ./textures/pink.png
 
 F 164,169,20
 C 153,204,255

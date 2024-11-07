@@ -1,13 +1,10 @@
-NO ./textures/pattern_4.png
-SO ./textures/pattern_2.png
-WE ./textures/pattern_1.png
-EA ./textures/pattern_3.png
-
-
-
+NO ./textures/cat_2.png
+SO ./textures/cat_1.png
+WE ./textures/cat_6.png
+EA ./textures/cat_3.png
 
 F 0,0,0
-C 0,0,0
+C 150,50,150
 
 111111111111111111111
 101000001000000000001
